@@ -1,38 +1,24 @@
 <?php
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
-// Author: Hervé Thouzard, Instant Zero                                      //
-// URL: http://xoops.instant-zero.com                                        //
-// ------------------------------------------------------------------------- //
+/**
+* PDF class
+*
+* System tool that allow's you to generate PDF files from your news articles
+* Some parts of this file is based on the old "pdf.php" from news module.
+*
+* @copyright	The ImpressCMS Project http://www.impresscms.org/
+* @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+* @package		Modules (news)
+* @since		1.56
+* @author		Sina Asghari (AKA stranger) <stranger@impresscms.ir>
+* @author		Herv Thouzard (Instant Zero) <http://xoops.instant-zero.com>
+* @version		$Id$
+*/
 
 error_reporting(0);
 include_once '../../../mainfile.php';
 $myts =& MyTextSanitizer::getInstance();
 include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-//include_once 'html_entity_decode_php4.php';
 
 // Verifications on the article
 $storyid = isset($_GET['storyid']) ? intval($_GET['storyid']) : 0;
@@ -72,155 +58,6 @@ if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoop
 	exit();
 }
 
-/**
- *
- **********************************************************
- * NOTE : IF YOU USE THIS CODE, PLEASE KEEP ITS COPYRIGHT *
- **********************************************************
- * This function is in charge to convert all the html entities to their ASCII equivalent
- * @author Hervé Thouzard, Instant Zero (http://www.instant-zero.com)
- * @copyright (c) Instant Zero
- * @param string $chaine	The original string to convert
- * @return string	The string with its html entities converted to ASCII
- *
- */
-function news_unhtml($chaine)
-{
-	//return html_entity_decode_php4($chaine);
-	$search = $replace = array();
-	$chaine = html_entity_decode($chaine);
-
-	for($i=0; $i<=255; $i++) {
-		$search[] = '&#'.$i.';';
-		$replace[] = chr($i);
-	}
-	$replace[]='-';	$search[] ="&bull;";	// $replace[] = '•';
-	$replace[]='—'; $search[]='&mdash;';
-	$replace[]='–'; $search[]='&ndash;';
-	$replace[]='-'; $search[]='&shy;';
-	$replace[]='"'; $search[]='&quot;';
-	$replace[]='&'; $search[]='&amp;';
-	$replace[]='ˆ'; $search[]='&circ;';
-	$replace[]='¡'; $search[]='&iexcl;';
-	$replace[]='¦'; $search[]='&brvbar;';
-	$replace[]='¨'; $search[]='&uml;';
-	$replace[]='¯'; $search[]='&macr;';
-	$replace[]='´'; $search[]='&acute;';
-	$replace[]='¸'; $search[]='&cedil;';
-	$replace[]='¿'; $search[]='&iquest;';
-	$replace[]='˜'; $search[]='&tilde;';
-	$replace[]="'"; $search[]='&lsquo;';	// $replace[]='‘';
-	$replace[]="'"; $search[]='&rsquo;';	// $replace[]='’';
-	$replace[]='‚'; $search[]='&sbquo;';
-	$replace[]='“'; $search[]='&ldquo;';
-	$replace[]='”'; $search[]='&rdquo;';
-	$replace[]='„'; $search[]='&bdquo;';
-	$replace[]='‹'; $search[]='&lsaquo;';
-	$replace[]='›'; $search[]='&rsaquo;';
-	$replace[]='<'; $search[]='&lt;';
-	$replace[]='>'; $search[]='&gt;';
-	$replace[]='±'; $search[]='&plusmn;';
-	$replace[]='«'; $search[]='&laquo;';
-	$replace[]='»'; $search[]='&raquo;';
-	$replace[]='×'; $search[]='&times;';
-	$replace[]='÷'; $search[]='&divide;';
-	$replace[]='¢'; $search[]='&cent;';
-	$replace[]='£'; $search[]='&pound;';
-	$replace[]='¤'; $search[]='&curren;';
-	$replace[]='¥'; $search[]='&yen;';
-	$replace[]='§'; $search[]='&sect;';
-	$replace[]='©'; $search[]='&copy;';
-	$replace[]='¬'; $search[]='&not;';
-	$replace[]='®'; $search[]='&reg;';
-	$replace[]='°'; $search[]='&deg;';
-	$replace[]='µ'; $search[]='&micro;';
-	$replace[]='¶'; $search[]='&para;';
-	$replace[]='·'; $search[]='&middot;';
-	$replace[]='†'; $search[]='&dagger;';
-	$replace[]='‡'; $search[]='&Dagger;';
-	$replace[]='‰'; $search[]='&permil;';
-	$replace[]='Euro'; $search[]='&euro;';		// $replace[]='€'
-	$replace[]='¼'; $search[]='&frac14;';
-	$replace[]='½'; $search[]='&frac12;';
-	$replace[]='¾'; $search[]='&frac34;';
-	$replace[]='¹'; $search[]='&sup1;';
-	$replace[]='²'; $search[]='&sup2;';
-	$replace[]='³'; $search[]='&sup3;';
-	$replace[]='á'; $search[]='&aacute;';
-	$replace[]='Á'; $search[]='&Aacute;';
-	$replace[]='â'; $search[]='&acirc;';
-	$replace[]='Â'; $search[]='&Acirc;';
-	$replace[]='à'; $search[]='&agrave;';
-	$replace[]='À'; $search[]='&Agrave;';
-	$replace[]='å'; $search[]='&aring;';
-	$replace[]='Å'; $search[]='&Aring;';
-	$replace[]='ã'; $search[]='&atilde;';
-	$replace[]='Ã'; $search[]='&Atilde;';
-	$replace[]='ä'; $search[]='&auml;';
-	$replace[]='Ä'; $search[]='&Auml;';
-	$replace[]='ª'; $search[]='&ordf;';
-	$replace[]='æ'; $search[]='&aelig;';
-	$replace[]='Æ'; $search[]='&AElig;';
-	$replace[]='ç'; $search[]='&ccedil;';
-	$replace[]='Ç'; $search[]='&Ccedil;';
-	$replace[]='ð'; $search[]='&eth;';
-	$replace[]='Ð'; $search[]='&ETH;';
-	$replace[]='é'; $search[]='&eacute;';
-	$replace[]='É'; $search[]='&Eacute;';
-	$replace[]='ê'; $search[]='&ecirc;';
-	$replace[]='Ê'; $search[]='&Ecirc;';
-	$replace[]='è'; $search[]='&egrave;';
-	$replace[]='È'; $search[]='&Egrave;';
-	$replace[]='ë'; $search[]='&euml;';
-	$replace[]='Ë'; $search[]='&Euml;';
-	$replace[]='ƒ'; $search[]='&fnof;';
-	$replace[]='í'; $search[]='&iacute;';
-	$replace[]='Í'; $search[]='&Iacute;';
-	$replace[]='î'; $search[]='&icirc;';
-	$replace[]='Î'; $search[]='&Icirc;';
-	$replace[]='ì'; $search[]='&igrave;';
-	$replace[]='Ì'; $search[]='&Igrave;';
-	$replace[]='ï'; $search[]='&iuml;';
-	$replace[]='Ï'; $search[]='&Iuml;';
-	$replace[]='ñ'; $search[]='&ntilde;';
-	$replace[]='Ñ'; $search[]='&Ntilde;';
-	$replace[]='ó'; $search[]='&oacute;';
-	$replace[]='Ó'; $search[]='&Oacute;';
-	$replace[]='ô'; $search[]='&ocirc;';
-	$replace[]='Ô'; $search[]='&Ocirc;';
-	$replace[]='ò'; $search[]='&ograve;';
-	$replace[]='Ò'; $search[]='&Ograve;';
-	$replace[]='º'; $search[]='&ordm;';
-	$replace[]='ø'; $search[]='&oslash;';
-	$replace[]='Ø'; $search[]='&Oslash;';
-	$replace[]='õ'; $search[]='&otilde;';
-	$replace[]='Õ'; $search[]='&Otilde;';
-	$replace[]='ö'; $search[]='&ouml;';
-	$replace[]='Ö'; $search[]='&Ouml;';
-	$replace[]='œ'; $search[]='&oelig;';
-	$replace[]='Œ'; $search[]='&OElig;';
-	$replace[]='š'; $search[]='&scaron;';
-	$replace[]='Š'; $search[]='&Scaron;';
-	$replace[]='ß'; $search[]='&szlig;';
-	$replace[]='þ'; $search[]='&thorn;';
-	$replace[]='Þ'; $search[]='&THORN;';
-	$replace[]='ú'; $search[]='&uacute;';
-	$replace[]='Ú'; $search[]='&Uacute;';
-	$replace[]='û'; $search[]='&ucirc;';
-	$replace[]='Û'; $search[]='&Ucirc;';
-	$replace[]='ù'; $search[]='&ugrave;';
-	$replace[]='Ù'; $search[]='&Ugrave;';
-	$replace[]='ü'; $search[]='&uuml;';
-	$replace[]='Ü'; $search[]='&Uuml;';
-	$replace[]='ý'; $search[]='&yacute;';
-	$replace[]='Ý'; $search[]='&Yacute;';
-	$replace[]='ÿ'; $search[]='&yuml;';
-	$replace[]='Ÿ'; $search[]='&Yuml;';
-	$chaine = str_replace($search, $replace, $chaine);
-	return utf8_encode($chaine);
-}
-
-
 require_once XOOPS_ROOT_PATH.'/modules/news/pdf/tcpdf.php';
 $filename = XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 if (file_exists( $filename)) {
@@ -238,15 +75,14 @@ if(file_exists($filename)) {
 
 $dateformat = news_getmoduleoption('dateformat');
 $content = '';
-$content .= '<b><i><u>'.$myts->undoHtmlSpecialChars($article->title()).'</u></i></b><br /><b>'.$myts->undoHtmlSpecialChars($article->topic_title()).'</b><br />'._POSTEDBY.' : '.$myts->undoHtmlSpecialChars($article->uname()).'<br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
+$content .= '<b><i><u><a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid().'" title="'.$myts->undoHtmlSpecialChars($article->title()).'">'.$myts->undoHtmlSpecialChars($article->title()).'</a></u></i></b><br /><b><a href="'.XOOPS_URL.'/modules/news/index.php?storytopic='.$article->topicid().'" title="'.$myts->undoHtmlSpecialChars($article->topic_title()).'">'.$myts->undoHtmlSpecialChars($article->topic_title()).'</a></b><br />'._POSTEDBY.' : <a href="'.XOOPS_URL.'/userinfo.php?uid='.$article->uid().'" title="'.$myts->undoHtmlSpecialChars($article->uname()).'">'.$myts->undoHtmlSpecialChars($article->uname()).'</a><br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
 $content .= $myts->undoHtmlSpecialChars($article->hometext()) . '<br />' . $myts->undoHtmlSpecialChars($article->bodytext());
 $content = str_replace('[pagebreak]','<br />',$content);
-$content = news_unhtml($content);
 
 $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true);
 
 $doc_title = $myts->undoHtmlSpecialChars($article->title());
-$doc_keywords = 'XOOPS';
+$doc_keywords = 'ICMS';
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -255,9 +91,9 @@ $pdf->SetTitle($doc_title);
 $pdf->SetSubject($doc_title);
 $pdf->SetKeywords($doc_keywords);
 
-$firstLine = news_unhtml($article->title());
-$secondLine = news_unhtml(XOOPS_URL.'/modules/news/article.php?storyid=1'.$storyid);
-$pdf->SetHeaderData('', '', $firstLine, $secondLine);
+$firstLine = $xoopsConfig['sitename'];
+$secondLine =  $xoopsConfig['slogan'];
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);

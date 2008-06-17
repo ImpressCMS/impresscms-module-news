@@ -1,9 +1,19 @@
 Changelog
 
 *******
+v1.57 Alpha
+*******
+- Updated pdf library generetator (tcpdf) to version 3.0.015
+  It now supports all utf-8 languages with no problem, tested with Rusiian and Persian for instance.
+- Removed the old pdf generator as it was old and out of date
+  **************************************************************************
+  ** This version of the News module does not run with PHP4 **
+  **************************************************************************
+
+*******
 v1.56
 *******
-- In article.php and when you was using a site with multilinguals, there was a problem with the previous and next titles
+- In article.php and when you were using a site with multilinguals, there was a problem with the previous and next titles
 - It was possible to see the form used to post a comment even when anonymous users had not the right
 - Bug correction in the file /xoops/modules/news/include/notification.inc.php (thank you colossus)
 - A modification in /xoops/modules/news/templates/news_item.html (thank you colossus)

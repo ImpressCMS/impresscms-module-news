@@ -29,7 +29,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 }
 
 $modversion['name'] = _MI_NEWS_NAME;
-$modversion['version'] = 1.56;
+$modversion['version'] = 1.57;
 $modversion['description'] = _MI_NEWS_DESC;
 $modversion['credits'] = "The XOOPS Project, Christian, Pilou, Marco, ALL the members of the Newbb Team, GIJOE, Zoullou, Mithrandir, Setec Astronomy, Marcan, 5vision, Anne";
 $modversion['author'] = "The XOOPS Project Module Dev Team & Instant Zero";
@@ -38,6 +38,8 @@ $modversion['license'] = "GPL see LICENSE";
 $modversion['official'] = 1;
 $modversion['image'] = "images/news_slogo.png";
 $modversion['dirname'] = "news";
+$modversion['status_version'] = "ALPHA";
+$modversion['status'] = "Alpha";
 
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 
