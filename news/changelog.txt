@@ -6,6 +6,8 @@ v1.57 Alpha
 - Updated pdf library generetator (tcpdf) to version 3.0.015
   It now supports all utf-8 languages with no problem, tested with Rusiian and Persian for instance.
 - Removed the old pdf generator as it was old and out of date
+- Changed default category name to ICMS.
+- Added new shot for ICMS category.
   **************************************************************************
   ** This version of the News module does not run with PHP4 **
   **************************************************************************
