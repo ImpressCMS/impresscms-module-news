@@ -72,7 +72,7 @@ CREATE TABLE topics (
 
 
 
-INSERT INTO topics (topic_id, topic_pid, topic_imgurl, topic_title, menu, topic_frontpage, topic_rssurl, topic_description) VALUES (1,0,'xoops.gif','XOOPS',0,1,'','');
+INSERT INTO topics (topic_id, topic_pid, topic_imgurl, topic_title, menu, topic_frontpage, topic_rssurl, topic_description) VALUES (1,0,'icms.gif','ImpressCMS',0,1,'','');
 
 
 #
