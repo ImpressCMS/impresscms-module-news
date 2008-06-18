@@ -1,0 +1,50 @@
+<?php
+// $Id: blocks.php,v 1.16 2004/09/01 17:48:07 hthouzard Exp $
+define("_MB_NEWS_NOTYET","áÇ íæÌÏ Ãí ÎÈÑ áåÐÇ Çáíæã");
+define("_MB_NEWS_TMRSI","ÇáÃÎÈÇÑ :");
+define("_MB_NEWS_ORDER","ØÑíÞÉ ÇáÚÑÖ");
+define("_MB_NEWS_DATE","ßÊÈÊ ÈÊÇÑíÎ");
+define("_MB_NEWS_HITS","ÚÏÏ ãÑÇÊ ÇáÒíÇÑÉ");
+define("_MB_NEWS_DISP","ÇáÚÑÖ");
+define("_MB_NEWS_ARTCLS","ÃÎÈÇÑ");
+define("_MB_NEWS_CHARS","Øæá ÚäæÇä ÇáÎÈÑ");
+define("_MB_NEWS_LENGTH"," ÍÑæÝ");
+define("_MB_TITLE", "ÇáÚäæÇä");
+define("_MB_POSTED", "ÈæÇÓØÉ");
+define("_MB_POSTER", "ÇáäÇÔÑ");
+define("_MB_ACTION", "ÇáÊÍßã");
+define("_MB_TOPIC", "ÇáÞÓã");
+define("_MB_DELETE", "ãÓÍ");
+define("_MB_NEWS_RESTRICTTOPICS", "ÊÞíÏ ãÔÇåÏÉ ÇáÞÓã ÈæÇÓØÉ ÇáÚÖæ ¿");
+define("_MB_NEWS_TEASER", "ÚÑÖ ÚíäÉ ãä ÇáÎÈÑ (0 ãä ÇÌá ÚÏã ÇáÚÑÖ)");
+define("_MB_NEWS_SPOTLIGHT", "ÊÔÛíá ÇáãÞÊØÝÇÊ ÇáÅÎÈÇÑíÉ");
+define("_MB_NEWS_FIRST", "--Ãæá ÎÈÑ--");
+define("_MB_NEWS_IMAGE", "ÕæÑÉ ÇáãÞÊØÝÇÊ");
+define("_MB_SPOTLIGHT_TOPIC", "ÇÎÊÑ ÇáÇÞÓÇã");
+define("_MB_SPOTLIGHT_ALL_TOPICS", "ßá ÇáÃÞÓÇã");
+define("_MB_NEWS_SPOTLIGHT_ARTICLE", "ÇÎÊÑ ÎÈÑ:");
+define("_MB_READMORE","ÇÞÑÃ ÇáãÒíÏ...");
+define("_MB_NEWS_RATE","ÇáÊÞííã");
+define("_MB_NEWS_SHOW_NEWS_COUNT","ÚÑÖ ÚÏÏ ÇáÃÎÈÇÑ ¿");
+define("_MB_NEWS_SPOTLIGHT_TITLE", "ÚäæÇä ÇáãÞÊØÝÇÊ");
+define("_MB_NEWS_VIEW_TYPE1", "ÇáÅÚÊíÇÏí");
+define("_MB_NEWS_VIEW_TYPE2", "ÇáãÍÓä");
+define("_MB_NEWS_TAB_COLOR1", "áæä ÓØÑ ÇáÎáÇÕÉ ");
+define("_MB_NEWS_TAB_COLOR2", "áæä ÎáÝíÉ ÇáãÍÊæíÇÊ");
+define("_MB_NEWS_TAB_COLOR3", "áæä ÇáÔÑíØ ÇáÚáæí ÇáÍÇáí");
+define("_MB_NEWS_TAB_COLOR4", "áæä ÇáÔÑíØ ÇáÚáæí ááÃÒÑÇÑ ÇáÃÎÑì");
+define("_MB_NEWS_TAB_COLOR5", "áæä ÇáÔÑíØ ÇáÚáæí ÚäÏ ÅÎÊíÇÑå");
+define("_MB_NEWS_WHAT_PUBLISH", "ãÇÐÇ ÊÑíÏ Ãä ÊÚÑÖ<br />Ýí ÇáãÞÊØÝÇÊ ¿");
+define("_MB_NEWS_RECENT_NEWS", "ÂÎÑ ÇáÃÎÈÇÑ (áÇ ÊÍÊÇÌ áÊÚÏíá ÇáÎíÇÑÇÊ ÇáÓÝáì)");
+define("_MB_NEWS_RECENT_SPECIFIC", "ÃÎÈÇÑ ãÚíäÉ (ÇäÙÑ ÇáÃÓÝá)");
+define("_MB_NEWS_DEFAULT_COLORS", "ÇÊÑß ÇáÎÇäÇÊ ÝÇÑÛÉ áÅÓÊÎÏÇã ÇáÃáæÇä ÇáÅÝÊÑÇÖíÉ");
+
+// Added in version 1.50
+define("_MB_NEWS_CAL_YEAR", "ÇáÓäÉ");
+define("_MB_NEWS_CAL_MONTH", "ÇáÔåÑ");
+define("_MB_NEWS_STARTING_DATE", "ÊÇÑíÎ ÇáÈÏÁ ");
+define("_MB_NEWS_ENDING_DATE", "ÊÇÑíÎ ÇáÇäÊåÇÁ");
+define("_MB_NEWS_UNTIL_TODAY", "Ãæ ÍÊì Çáíæã ");
+define("_MB_NEWS_RECENT_FIRST", "ÇáÇÍÏÇË ÇáÌÏíÏ ÇæáÇð");
+define("_MB_NEWS_OLDER_FIRST", "ÇáÞÏíãÉÇæáÇð");
+?>

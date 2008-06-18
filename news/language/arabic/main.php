@@ -1,0 +1,116 @@
+<?php
+// $Id: main.php,v 1.9 2004/07/26 17:51:25 hthouzard Exp $
+//%%%%%%		File Name index.php 		%%%%%
+define("_NW_PRINTER","ÊÍÙíÑ ÇáÕÝÍÉ ááØÈÇÚÉ");
+define("_NW_SENDSTORY","ÃÑÓá åÐÇ ÇáÎÈÑ");
+define("_NW_READMORE","ÅÞÑÃ ÇáãÒíÏ ....");
+define("_NW_COMMENTS","ÊÚáíÞÇÊ");
+define("_NW_ONECOMMENT","ÊÚáíÞ æÇÍÏ");
+define("_NW_BYTESMORE","ÃßËÑ ãä %s ÈÇíÊ");
+define("_NW_NUMCOMMENTS","%s ÊÚáíÞ");
+define("_NW_MORERELEASES", "ÇáãÒíÏ ãä  ");
+
+
+//%%%%%%		File Name submit.php		%%%%%
+define("_NW_SUBMITNEWS","ÃÑÓá ÎÈÑ");
+define("_NW_TITLE","ÇáÚäæÇä");
+define("_NW_TOPIC","ÇáãæÖæÚ");
+define("_NW_THESCOOP","ÇáÅÎÊÕÇÑ");
+define("_NW_NOTIFYPUBLISH","ÊÈáíÛí ÚÈÑ ÇáÈÑíÏ Ýí ÍÇáÉ ÇáäÔÑ");
+define("_NW_POST","ÅÖÇÝÉ");
+define("_NW_GO","ÊäÝíÐ ÇáÚãáíÉ");
+define("_NW_THANKS","ÔßÑÇ áß"); //submission of news article
+
+define("_NW_NOTIFYSBJCT","ÎÈÑ ÌÏíÏ"); // Notification mail subject
+define("_NW_NOTIFYMSG","ÇáÓáÇã Úáíßã áÏíß ÎÈÑ ÌÏíÏ Ýí ÇáãæÞÚ"); // Notification mail message
+
+//%%%%%%		File Name archive.php		%%%%%
+define("_NW_NEWSARCHIVES","ÃÑÔíÝ ÇáÃÎÈÇÑ");
+define("_NW_ARTICLES","ÇáÃÎÈÇÑ");
+define("_NW_VIEWS","ãÑÇÊ ÇáÒíÇÑÉ");
+define("_NW_DATE","ÇáÊÇÑíÎ");
+define("_NW_ACTIONS","ÇáÎíÇÑÇÊ");
+define("_NW_PRINTERFRIENDLY","ÊÍÖíÑ ááØÈÇÚÉ");
+
+define("_NW_THEREAREINTOTAL","íæÌÏ %s ÎÈÑ ãä ÅÌãÇáí ÇáÃÎÈÇÑ");
+
+// %s is your site name
+define("_NW_INTARTICLE","åäÇß ÎÈÑ íÓÊÍÞ ÇáÅØáÇÚ Ýí %s");
+define("_NW_INTARTFOUND","æÌÏÊ ãÞÇáÉ ÌãíáÉ Ýí %s");
+
+define("_NW_TOPICC","ÇáÞÓã :");
+define("_NW_URL","ÇáÚäæÇä :");
+define("_NW_NOSTORY","ÚÝæÇ åÐÇ ÇáÎÈÑ áã íäÔÑ Ãæ ÛíÑ ãæÌæÏ Ýí ÞÇÚÏÉ ÇáÈíÇäÇÊ");
+
+//%%%%%%	File Name print.php 	%%%%%
+
+define("_NW_URLFORSTORY","ÚäæÇä åÐÇ ÇáÎÈÑ åæ :");
+
+// %s represents your site name
+define("_NW_THISCOMESFROM","åÐÇ ÇáÎÈÑ ãä ãæÞÚ %s");
+
+// Added by Hervé
+define("_NW_ATTACHEDFILES","ÇáãáÝÇÊ ÇáãÑÝÞÉ:");
+define("_NW_ATTACHEDLIB","åÐÇ ÇáÎÈÑ íÍæí äÝÓ ÇáãáÝÇÊ ÇáãÑÝÞÉ");
+define("_NW_NEWSSAMEAUTHORLINK","ÃÎÈÇÑ áäÝÓ ÇáßÇÊÈ");
+define("_NW_NEWS_NO_TOPICS","ÚÐÑÇð .. áÇ íæÌÏ ÞÓã áÅÖÇÝÉ ÇáÃÎÈÇÑ Åáíå¡ Þã ÈÅäÔÇÁ ÞÓã ÌÏíÏ ÃæáÇð");
+define("_NW_PREVIOUS_ARTICLE","ÇáÎÈÑ ÇáÓÇÈÞ");
+define("_NW_NEXT_ARTICLE","ÇáÎÈÑ ÇáÊÇáí");
+define("_NW_OTHER_ARTICLES","ÃÎÈÇÑ ÃÎÑì");
+
+// Added by Hervé in version 1.3 for rating
+define("_NW_RATETHISNEWS","Þíã åÐÇ ÇáÎÈÑ");
+define("_NW_RATEIT","ÊÞííã!");
+define("_NW_TOTALRATE","ÇáÊÞííã Çáßáí");
+define("_NW_RATINGLTOH","ÊÞííã (ÇáÏÑÌÉ ÇáÃÞá Åáì ÇáÏÑÌÉ ÇáÃÚáì)");
+define("_NW_RATINGHTOL","ÊÞííã (ÇáÏÑÌÉ ÇáÃÚáì Åáì ÇáÏÑÌÉ ÇáÃÞá)");
+define("_NW_RATINGC","ÊÞííã: ");
+define("_NW_RATINGSCALE","ÇáãÌÇá ãä 1 - 10, 1 Ãí ÖÚíÝÉ æ 10 Ãí ããÊÇÒÉ.");
+define("_NW_BEOBJECTIVE","íÑÌì ÇáÊÞííã ÈãæÖæÚíÉ , æÇÎÊíÇÑ ÞíãÉ ãäÇÓÈÉ ááÊÞííã.");
+define("_NW_DONOTVOTE","íÑÌì ÚÏã ÇáÊÕæíÊ Úáì ãÔÇÑßÇÊß ÇáÎÇÕÉ.");
+define("_NW_RATING","ÊÞííã");
+define("_NW_VOTE","ÕæÊ");
+define("_NW_NORATING","áã íÊã ÇÎÊíÇÑ ÊÞííã.");
+define("_NW_USERAVG","ãÊæÓØ ÇáÊÕæíÊÇÊ");
+define("_NW_DLRATINGS","ÊÞííã ÇáãÞÇáÇÊ (ÇáÃÕæÇÊ ÇáßáíÉ: %s)");
+define("_NW_ONEVOTE","1 ÕæÊ");
+define("_NW_NUMVOTES","%u ÃÕæÇÊ");		// Warning
+define("_NW_CANTVOTEOWN","áÇÊÓÊØíÚ ÇáÊÕæíÊ Úáì ãÔÇÑßÇÊß.<br />ÇáÊÕæíÊÇÊ ÊÎÒä æÊÑÇÞÈ.");
+define("_NW_VOTEDELETED","Êã ÍÐÝ ÈíÇäÇÊ ÇáÊÕæíÊ.");
+define("_NW_VOTEONCE","ÇáÑÌÇÁ ÚÏã ÇáÊÕæíÊ ÇßËÑ ãä ãÑÉ.");
+define("_NW_VOTEAPPRE","Êã ÇÚÊãÇÏ ÇáÊÕæíÊ.");
+define("_NW_THANKYOU","ÔßÑÇ ááÊÕæíÊ Úáì %s"); // %s is your site name
+define("_NW_RSSFEED","RSS ÊÛÐíÉ");	// Warning, this text is included insided an Alt attribut (for a picture), so take care to the quotes
+define("_NW_AUTHOR","ÇáßÇÊÈ");
+define("_NW_META_DESCRIPTION","æÕÝ ÇáãíÊÇ");
+define("_NW_META_KEYWORDS","ÇáßáãÇÊ ÇáãÝÊÇÍíÉ ááÈÍË");
+define("_NW_MAKEPDF","ÅäÔÇÁ ãáÝpdf ãä ÇáÎÈÑ");
+define('_MD_POSTEDON',"äÔÑ Ýí : ");
+define("_NW_AUTHOR_ID","ÑÞã ÇáäÇÔÑ :");
+define("_NW_POST_SORRY","ÚÐÑÇ , ÅãÇ Ãäå áÇíæÌÏ Ãí ÃÎÈÇÑ Ãæ Çäß áÇÊãáß ÇáÍÞ Ýí äÔÑ Ãí ÎÈÑ. ÅÐÇ ßäÊ ãÏíÑ ÇáãæÞÚ ÇáÑÌÇÁ ÇáÏÎæá Úáì ÈäÏ ÇáÕáÇÍíÇÊ æÖÈØ ÕáÇÍíÇÊ ÇáäÔÑ.");
+
+// Added in v 1.50
+define("_NW_LINKS","ÑæÇÈØ");
+define("_NW_PAGE","ÕÝÍÉ");
+define("_NW_BOOKMARK_ME","ÃÖÝ åÐÇ ÇáÎÈÑ Åáì ÇáãæÇÞÚ ÇáÊÇáíÉ");
+define('_AM_NEWS_TOTAL',"ÇáÅÌãÇáí %u ÎÈÑ");
+define('_AM_NEWS_WHOS_WHO',"Who's Who");
+define('_NW_NEWS_LIST_OF_AUTHORS',"åÐå ÞÇÆãÉ ÈÌãíÚ ßÊøÇÈ ÇáãæÞÚ¡ ÃäÞÑ Úáì ÇÓã ÇáßÇÊÈ áãÔÇåÏÉ ÇáÃÎÈÇÑ ÇáÊí äÔÑåÇ.");
+define('_AM_NEWS_TOPICS_DIRECTORY',"Ïáíá ÇáÃÞÓÇã");
+define("_NW_PAGE_AUTO_SUMMARY","ÕÝÍÉ %d : %s");
+
+// Added in version 1.51
+define("_NW_BOOKMARK_TO_BLINKLIST","ÅÖÇÝÉ Åáì Blinklist");
+define("_NW_BOOKMARK_TO_DELICIOUS","ÅÖÇÝÉ Åáì del.icio.us");
+define("_NW_BOOKMARK_TO_DIGG","ÅÖÇÝÉ Åáì Digg");
+define("_NW_BOOKMARK_TO_FARK","ÅÖÇÝÉ Åáì Fark");
+define("_NW_BOOKMARK_TO_FURL","ÅÖÇÝÉ Åáì Furl");
+define("_NW_BOOKMARK_TO_NEWSVINE","ÅÖÇÝÉ Åáì Newsvine");
+define("_NW_BOOKMARK_TO_REDDIT","ÅÖÇÝÉ Åáì Reddit");
+define("_NW_BOOKMARK_TO_SIMPY","ÅÖÇÝÉ Åáì Simpy");
+define("_NW_BOOKMARK_TO_SPURL","ÅÖÇÝÉ Åáì Spurl");
+define("_NW_BOOKMARK_TO_YAHOO","ÅÖÇÝÉ Åáì Yahoo");
+
+// Added in version 1.56
+define('_NW_NOTYETSTORY',"äÃÓÝ¡ ÇáÎÈÑ ÇáÐí ÞãÊ ÈÅÎÊíÇÑå áã íÊã äÔÑå ÈÚÏ. ÇáÑÌÇÁ ÇáÒíÇÑÉ áÇÍÞÇð");
+?>
