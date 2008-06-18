@@ -9,7 +9,7 @@ v1.57 Alpha
 - There was a bug when your selected topic was 0 you got a blank page.
 - There was a bug when you haven't selected any topic, you got a blank page.
 - Added new icon sets for print, pdf, mail icons
-- Added the compability of using th pdf generator from the core
+- PDF generator being optomised from the standard xoops install to take advantage of the pdf library in the core
   It now supports all utf-8 languages with no problem, tested with Russian and Persian for instance.
 - Removed pdf library generetator (tcpdf)
 - Removed the old pdf generator as it was old and out of date
