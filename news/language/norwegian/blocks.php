@@ -1,0 +1,41 @@
+<?php
+// $Id: blocks.php,v 1.1 2003/01/17 10:51:12 w4z004 Exp $
+define("_MB_NEWS_NOTYET","Dagens viktigste nyhet har ikke kommet ennå.");
+define("_MB_NEWS_TMRSI","Dagens mest leste nyhet er:");
+define("_MB_NEWS_ORDER","Bestill");
+define("_MB_NEWS_DATE","Utgivelsesdato");
+define("_MB_NEWS_HITS","Antall treff");
+define("_MB_NEWS_DISP","Vis");
+define("_MB_NEWS_ARTCLS","artikler");
+define("_MB_NEWS_CHARS","Lengden på tittelen");
+define("_MB_NEWS_LENGTH"," tegn");
+define("_MB_TITLE", "Tittel");
+define("_MB_POSTED", "Sendt");
+define("_MB_POSTER", "Forfatter");
+define("_MB_ACTION", "Handling");
+define("_MB_TOPIC", "Emne");
+define("_MB_DELETE", "Slett");
+define("_MB_NEWS_RESTRICTTOPICS", "Begrens emner til synlig for bruker?");
+define("_MB_NEWS_TEASER", "Vis ingresslengde (0 for ingen ingress)");
+define("_MB_NEWS_SPOTLIGHT", "Aktivèr høydepunktfunksjonen");
+define("_MB_NEWS_FIRST", "--Første sak--");
+define("_MB_NEWS_IMAGE", "Bilde for høydepunkt");
+define("_MB_SPOTLIGHT_TOPIC", "Velg emne(r) som skal brukes");
+define("_MB_SPOTLIGHT_ALL_TOPICS", "Alle emner");
+define("_MB_NEWS_SPOTLIGHT_ARTICLE", "Velg en artikkel:");
+define("_MB_READMORE","Les mer...");
+define("_MB_NEWS_RATE","Rangering");
+define("_MB_NEWS_SHOW_NEWS_COUNT","Vis antall nyheter ?");
+define("_MB_NEWS_SPOTLIGHT_TITLE", "Rampelys");
+define("_MB_NEWS_VIEW_TYPE1", "Klassisk");
+define("_MB_NEWS_VIEW_TYPE2", "Mappevisning");
+define("_MB_NEWS_TAB_COLOR1", "Farge på oppsummeringslinjen (dette er linjen rett under mappens navn)");
+define("_MB_NEWS_TAB_COLOR2", "Bakgrunnsfarge for mappens innhold");
+define("_MB_NEWS_TAB_COLOR3", "Gjeldende mappes navnefarge");
+define("_MB_NEWS_TAB_COLOR4", "Navnefarge for uvalgte mapper");
+define("_MB_NEWS_TAB_COLOR5", "Mappenavnets oversveipsfarge");
+define("_MB_NEWS_WHAT_PUBLISH", "Hva vil du gi ut<br />i rampelyset ?");
+define("_MB_NEWS_RECENT_NEWS", "Siste nyheter (ikke bruk listen under)");
+define("_MB_NEWS_RECENT_SPECIFIC", "En spesiell nyhet (se under)");
+define("_MB_NEWS_DEFAULT_COLORS", "La feltene stå tomme for å bruke de vanlige fargene");
+?>
