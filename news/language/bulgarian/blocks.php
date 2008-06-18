@@ -1,0 +1,41 @@
+<?php
+// $Id: blocks.php,v 1.16 2004/09/01 17:48:07 hthouzard Exp $
+define("_MB_NEWS_NOTYET","Няма новина на деня все още.");
+define("_MB_NEWS_TMRSI","Новината на деня е:");
+define("_MB_NEWS_ORDER","Подредени по");
+define("_MB_NEWS_DATE","Дата на публикуване");
+define("_MB_NEWS_HITS","Брой посещения");
+define("_MB_NEWS_DISP","Покажи");
+define("_MB_NEWS_ARTCLS","статии");
+define("_MB_NEWS_CHARS","дължина на заглавието");
+define("_MB_NEWS_LENGTH"," знака");
+define("_MB_TITLE", "Заглавие");
+define("_MB_POSTED", "Публикувана");
+define("_MB_POSTER", "Автор");
+define("_MB_ACTION", "Действие");
+define("_MB_TOPIC", "Тема");
+define("_MB_DELETE", "Изтрива");
+define("_MB_NEWS_RESTRICTTOPICS", "Да ограничи ли темите, до достъпни само за потребителя?");
+define("_MB_NEWS_TEASER", "Да показва част от водещият текст (0 да не показва)");
+define("_MB_NEWS_SPOTLIGHT", "Разрешава опцията *Водеща статия*");
+define("_MB_NEWS_FIRST", "--Първа статия--");
+define("_MB_NEWS_IMAGE", "Картинка за Водещатата статия");
+define("_MB_SPOTLIGHT_TOPIC", "Избери тема(и) които да ползва");
+define("_MB_SPOTLIGHT_ALL_TOPICS", "Всички теми");
+define("_MB_NEWS_SPOTLIGHT_ARTICLE", "Избор на статия:");
+define("_MB_READMORE","Чети още...");
+define("_MB_NEWS_RATE","Оценка");
+define("_MB_NEWS_SHOW_NEWS_COUNT","Да показва ли брояч за новинте ?");
+define("_MB_NEWS_SPOTLIGHT_TITLE", "Водеща новина");
+define("_MB_NEWS_VIEW_TYPE1", "Класически");
+define("_MB_NEWS_VIEW_TYPE2", "В табове");
+define("_MB_NEWS_TAB_COLOR1", "Color of the summary line (this is the line just below the tab's name)");
+define("_MB_NEWS_TAB_COLOR2", "Background color of the tab's content");
+define("_MB_NEWS_TAB_COLOR3", "Current tab header's color");
+define("_MB_NEWS_TAB_COLOR4", "Color of header for the non selected tabs");
+define("_MB_NEWS_TAB_COLOR5", "Header's hover color");
+define("_MB_NEWS_WHAT_PUBLISH", "Какво искате да публикувате<br />в Водещата новина ?");
+define("_MB_NEWS_RECENT_NEWS", "Последни новини (не ползва списъка)");
+define("_MB_NEWS_RECENT_SPECIFIC", "Специфична новина (виж долу)");
+define("_MB_NEWS_DEFAULT_COLORS", "Оставете зоните празни, за да са с цветовете по подразбиране");
+?>
