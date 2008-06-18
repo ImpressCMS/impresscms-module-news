@@ -1,0 +1,20 @@
+###:========================================================
+###:==| Credits: Team http://br.impresscms.org.
+###:========================================================
+###:==| Version.......: 1.56 
+###:==| Data Release..: 2007-10-04
+###:==| Module........: News - InstantZero
+###:==| Dev Site......: http://xoops.instant-zero.com/modules/pages/index.php?pagenum=2
+###:==| Status........: Final
+###:==| Translation: GibaPhp complements and revision.
+###:========================================================
+###:==| Credits: Team X-Trad.org - In Special ArtsGeral.
+###:========================================================
+###:==| at version 1.56 News.
+###:==| http://www.x-trad.org
+###:==|
+###:==|
+###:==|
+###:========================================================
+###:==| Histórico: Team X-Trad.org - Old versions...
+###:========================================================
