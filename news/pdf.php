@@ -58,7 +58,7 @@ if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoop
 	exit();
 }
 
-require_once XOOPS_ROOT_PATH.'/modules/news/pdf/tcpdf.php';
+require_once ICMS_PDF_LIB_PATH.'/tcpdf.php';
 $filename = XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 if (file_exists( $filename)) {
 	include_once $filename;
@@ -66,11 +66,11 @@ if (file_exists( $filename)) {
 	include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 }
 
-$filename = XOOPS_ROOT_PATH.'/modules/news/pdf/config/lang/'._LANGCODE.'.php';
+$filename = ICMS_PDF_LIB_PATH.'/config/lang/'._LANGCODE.'.php';
 if(file_exists($filename)) {
 	include_once $filename;
 } else {
-	include_once XOOPS_ROOT_PATH.'/modules/news/pdf/config/lang/en.php';
+	include_once ICMS_PDF_LIB_PATH.'/config/lang/en.php';
 }
 
 $dateformat = news_getmoduleoption('dateformat');
@@ -91,9 +91,7 @@ $pdf->SetTitle($doc_title);
 $pdf->SetSubject($doc_title);
 $pdf->SetKeywords($doc_keywords);
 
-$firstLine = $xoopsConfig['sitename'];
-$secondLine =  $xoopsConfig['slogan'];
-$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, $firstLine, $secondLine);
+$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE, PDF_HEADER_STRING);
 
 //set margins
 $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
