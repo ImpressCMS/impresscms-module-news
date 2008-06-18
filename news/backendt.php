@@ -46,12 +46,17 @@ if(!news_getmoduleoption('topicsrss')) {
 	exit();
 }
 
-$topicid = 0;
+//$topicid = 0;
 if(isset($_GET['topicid'])) {
 	$topicid = intval($_GET['topicid']);
 }
 if(empty($topicid)) {
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _AM_NEWS_NOTOPICSELEC);
 	exit();
+}
+if ( $topicid = 0 ) {
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _AM_NEWS_NOTOPIC);
+    exit();
 }
 
 if (function_exists('mb_http_output')) {

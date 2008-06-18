@@ -49,7 +49,7 @@ define("_NW_URLFORSTORY","The URL for this story is:");
 // %s represents your site name
 define("_NW_THISCOMESFROM","This article comes from %s");
 
-// Added by Hervé
+// Added by Herv
 define("_NW_ATTACHEDFILES","Attached Files:");
 define("_NW_ATTACHEDLIB","This article have some attached files");
 define("_NW_NEWSSAMEAUTHORLINK","News by the same author");
@@ -58,7 +58,7 @@ define("_NW_PREVIOUS_ARTICLE","Previous article");
 define("_NW_NEXT_ARTICLE","Next article");
 define("_NW_OTHER_ARTICLES","Other articles");
 
-// Added by Hervé in version 1.3 for rating
+// Added by Herv in version 1.3 for rating
 define("_NW_RATETHISNEWS","Rate this News");
 define("_NW_RATEIT","Rate It!");
 define("_NW_TOTALRATE","Total Ratings");
@@ -113,4 +113,7 @@ define("_NW_BOOKMARK_TO_YAHOO","Bookmark to Yahoo");
 
 // Added in version 1.56
 define('_NW_NOTYETSTORY',"Sorry, the selected story has not been published yet. Please come back later and try again.");
+// Added in version 1.57
+define('_AM_NEWS_NOTOPIC',"Sorry, the selected topic does not exist.");
+define('_AM_NEWS_NOTOPICSELEC',"Sorry, you have not selected any topic yet.");
 ?>

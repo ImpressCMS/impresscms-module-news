@@ -8,9 +8,9 @@
 * @copyright	The ImpressCMS Project http://www.impresscms.org/
 * @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
 * @package		Modules (news)
-* @since		1.56
+* @since		1.57
 * @author		Sina Asghari (AKA stranger) <stranger@impresscms.ir>
-* @author		Herv Thouzard (Instant Zero) <http://xoops.instant-zero.com>
+* @author		Herve Thouzard (Instant Zero) <http://xoops.instant-zero.com>
 * @version		$Id$
 */
 
