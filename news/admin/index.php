@@ -71,12 +71,12 @@ function newSubmissions()
             $class = ($class == 'even') ? 'odd' : 'even';
             echo "<tr class='".$class."'><td align='left'>\n";
             $title = $newstory->title();
-            if (!isset($title) || ($title == '' )) {
+            if (!isset($title) || (xoops_trim($title) == '' )) {
                 echo "<a href='".XOOPS_URL."/modules/news/admin/index.php?op=edit&amp;returnside=1&amp;storyid=" . $newstory -> storyid() . "'>" . _AD_NOSUBJECT . "</a>\n";
             } else {
                 echo "&nbsp;<a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $newstory -> storyid() . "'>" . $title . "</a>\n";
             }
-            echo "</td><td>" . $newstory->topic_title() . "</td><td align='center' class='nw'>" . formatTimestamp($newstory->created(),$dateformat) . "</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory->uid() . "'>" . $newstory->uname() . "</a></td><td align='right'><a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _AM_DELETE . "</a></td></tr>\n";
+            echo "</td><td>" . implode(', ', $newstory->topicsTitles). "</td><td align='center' class='nw'>" . formatTimestamp($newstory->created(),$dateformat) . "</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory->uid() . "'>" . $newstory->uname() . "</a></td><td align='right'><a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _AM_DELETE . "</a></td></tr>\n";
         }
         echo '</table></div>';
         echo "<div align='right'>".$pagenav->renderNav().'</div><br />';
@@ -110,13 +110,12 @@ function autoStories()
         echo "<div style='text-align: center;'>\n";
         echo "<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'><tr class='bg3'><td align='center'>" . _AM_STORYID . "</td><td align='center'>" . _AM_TITLE . "</td><td align='center'>" . _AM_TOPIC . "</td><td align='center'>" . _AM_POSTER . "</td><td align='center' class='nw'>" . _AM_PROGRAMMED . "</td><td align='center' class='nw'>" . _AM_EXPIRED . "</td><td align='center'>" . _AM_ACTION . "</td></tr>";
         foreach($storyarray as $autostory) {
-            $topic = $autostory -> topic();
             $expire = ( $autostory->expired() > 0 ) ? formatTimestamp($autostory->expired(),$dateformat) : '';
             $class = ($class == 'even') ? 'odd' : 'even';
             echo "<tr class='".$class."'>";
         	echo "<td align='center'><b>" . $autostory -> storyid() . "</b>
         		</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?storyid=" . $autostory->storyid() . "'>" . $autostory->title() . "</a>
-        		</td><td align='center'>" . $topic->topic_title() . "
+        		</td><td align='center'>" . implode(', ', $autostory->topicsTitles) . "
         		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $autostory->uid() . "'>" . $autostory->uname() . "</a></td><td align='center' class='nw'>" . formatTimestamp($autostory->published(),$dateformat) . "</td><td align='center'>" . $expire . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $autostory->storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $autostory->storyid() . "'>" . _AM_DELETE . "</a>";
             echo "</td></tr>\n";
         }
@@ -156,12 +155,11 @@ function lastStories()
     foreach( $storyarray as $eachstory ) {
         $published = formatTimestamp($eachstory->published(),$dateformat );
         // $expired = ( $eachstory -> expired() > 0 ) ? formatTimestamp($eachstory->expired(),$dateformat) : '---';
-        $topic = $eachstory -> topic();
         $class = ($class == 'even') ? 'odd' : 'even';
         echo "<tr class='".$class."'>";
         echo "<td align='center'><b>" . $eachstory -> storyid() . "</b>
         	</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
-        	</td><td align='center'>" . $topic -> topic_title() . "
+        	</td><td align='center'>" . implode(', ', $eachstory->topicsTitles) . "
         	</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $published . "</td><td align='center'>" . $eachstory -> counter() . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
         echo "</td></tr>\n";
     }
@@ -214,13 +212,12 @@ function expStories()
     	foreach( $storyarray as $eachstory ) {
 	        $created = formatTimestamp($eachstory->created(),$dateformat);
         	$expired = formatTimestamp($eachstory->expired(),$dateformat);
-        	$topic = $eachstory -> topic();
         	// added exired value field to table
         	$class = ($class == 'even') ? 'odd' : 'even';
         	echo "<tr class='".$class."'>";
         	echo "<td align='center'><b>" . $eachstory -> storyid() . "</b>
 	        	</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?returnside=1&amp;storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
-        		</td><td align='center'>" . $topic -> topic_title() . "
+        		</td><td align='center'>" . implode(', ', $eachstory->topicsTitles) . "
         		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $created . "</td><td align='center' class='nw'>" . $expired . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
         	echo "</td></tr>\n";
     	}
@@ -365,7 +362,7 @@ function Newsletter()
 	$topiclist=new XoopsFormSelect(_AM_NEWS_PRUNE_TOPICS, 'export_topics','',5,true);
 	$topics_arr=array();
 	$xt = new NewsTopic();
-	$allTopics = $xt->getAllTopics(false);				// The webmaster can see everything
+	$allTopics = $xt->getAllTopics(false);
 	$topic_tree = new XoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
 	$topics_arr = $topic_tree->getAllChild(0);
 	if(count($topics_arr)) {
@@ -432,7 +429,7 @@ function LaunchNewsletter()
 		foreach($exportedstories as $onestory) {
 			$content = $newslettertemplate;
 			$search_pattern = array('%title%','%uname%','%created%','%published%','%expired%','%hometext%','%bodytext%','%description%','%keywords%','%reads%','%topicid%','%topic_title%','%comments%','%rating%','%votes%','%publisher%','%publisher_id%','%link%');
-			$replace_pattern = array($onestory->title(),$onestory->uname(),formatTimestamp($onestory->created(),$dateformat),formatTimestamp($onestory->published(),$dateformat),formatTimestamp($onestory->expired(),$dateformat),$onestory->hometext(),$onestory->bodytext(),$onestory->description(),$onestory->keywords(),$onestory->counter(),$onestory->topicid(),$onestory->topic_title(),$onestory->comments(),$onestory->rating(),$onestory->votes(),$onestory->uname(),$onestory->uid(),XOOPS_URL.'/modules/news/article.php?storyid='.$onestory->storyid());
+			$replace_pattern = array($onestory->title(),$onestory->uname(),formatTimestamp($onestory->created(),$dateformat),formatTimestamp($onestory->published(),$dateformat),formatTimestamp($onestory->expired(),$dateformat),$onestory->hometext(),$onestory->bodytext(),$onestory->description(),$onestory->keywords(),$onestory->counter(),implode(', ', $onestory->topicsIds),implode(', ', $onestory->topicsTitles), $onestory->comments(),$onestory->rating(),$onestory->votes(),$onestory->uname(),$onestory->uid(),XOOPS_URL.'/modules/news/article.php?storyid='.$onestory->storyid());
 			$content = str_replace($search_pattern, $replace_pattern, $content);
 			if($removebr) {
 				$content = str_replace('<br />',"\r\n",$content);
@@ -569,7 +566,9 @@ function LaunchExport()
     		$content .= sprintf("\t<description>%s</description>\n",$onestory->description());
     		$content .= sprintf("\t<keywords>%s</keywords>\n",$onestory->keywords());
     		$content .= sprintf("\t<counter>%u</counter>\n",$onestory->counter());
-    		$content .= sprintf("\t<topicid>%u</topicid>\n",$onestory->topicid());
+
+    		$content .= sprintf("\t<topicid>%u</topicid>\n",implode(', ', $onestory->topicsIds));
+
     		$content .= sprintf("\t<ihome>%d</ihome>\n",$onestory->ihome());
     		$content .= sprintf("\t<notifypub>%d</notifypub>\n",$onestory->notifypub());
     		$content .= sprintf("\t<story_type>%s</story_type>\n",$onestory->type());
@@ -1396,11 +1395,11 @@ switch ($op) {
         break;
 
     case 'delete':
-       	$storyid=0;
+       	$storyid = 0;
        	if(isset($_GET['storyid'])) {
-			$storyid=intval($_GET['storyid']);
+			$storyid = intval($_GET['storyid']);
        	} elseif(isset($_POST['storyid'])) {
-   			$storyid=intval($_POST['storyid']);
+   			$storyid = intval($_POST['storyid']);
        	}
 
         if (!empty($_POST['ok'])) {
@@ -1418,6 +1417,11 @@ switch ($op) {
 					$onefile->delete();
 				}
 			}
+			// suppression des relations topics
+			$db =& Database::getInstance();
+			$sql = 'DELETE FROM '.$db->prefix('stories_newscateg').' WHERE nc_storyid ='.$storyid;
+			$result = $db->queryF($sql);
+
             xoops_comment_delete($xoopsModule->getVar('mid'),$storyid);
             xoops_notification_deletebyitem($xoopsModule->getVar('mid'), 'story', $storyid);
             news_updateCache();

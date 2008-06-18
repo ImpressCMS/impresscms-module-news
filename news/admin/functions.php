@@ -38,7 +38,7 @@
  */
 function adminmenu($currentoption = 0, $breadcrumb = '')
 {
- 	global $xoopsModule, $xoopsConfig;
+ 	global $xoopsModule, $xoopsConfig, $cfg;
 
 	include XOOPS_ROOT_PATH.'/modules/news/config.php';
 	if (file_exists(XOOPS_ROOT_PATH . '/modules/news/language/' . $xoopsConfig['language'] . '/modinfo.php')) {

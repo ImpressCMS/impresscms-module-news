@@ -72,22 +72,24 @@ if (is_object($xoopsUser)) {
 } else {
 	$groups = XOOPS_GROUP_ANONYMOUS;
 }
-if (!$gperm_handler->checkRight('news_view', $story->topicid(), $groups, $xoopsModule->getVar('mid'))) {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
-	exit();
+
+foreach($story->topicsIds as $topicId) {
+	if (!$gperm_handler->checkRight('news_view', $topicId, $groups, $xoopsModule->getVar('mid'))) {
+		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+		exit();
+	}
 }
 
-$xoops_meta_keywords='';
-$xoops_meta_description='';
+$xoops_meta_keywords = $xoops_meta_description = '';
 
 
-if(trim($story->keywords()) != '') {
+if(xoops_trim($story->keywords()) != '') {
 	$xoops_meta_keywords = $story->keywords();
 } else {
 	$xoops_meta_keywords = news_createmeta_keywords($story->hometext().' '.$story->bodytext());
 }
 
-if(trim($story->description())!='') {
+if(xoops_trim($story->description()) != '') {
 	$xoops_meta_description = $story->description();
 } else {
 	$xoops_meta_description=strip_tags($story->title());
@@ -98,13 +100,14 @@ function PrintPage()
 {
 	global $xoopsConfig, $xoopsModule, $story, $xoops_meta_keywords,$xoops_meta_description;
 	$myts =& MyTextSanitizer::getInstance();
-    $datetime = formatTimestamp($story->published(),news_getmoduleoption('dateformat'));
+    $datetime = formatTimestamp($story->published(), news_getmoduleoption('dateformat'));
 ?>
 	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo _LANGCODE; ?>" lang="<?php echo _LANGCODE; ?>">
 <?php
 	echo "<head>\n";
-	echo '<title>'.$myts->htmlSpecialChars($story->title()) . ' - ' . _NW_PRINTER . ' - ' . $myts->htmlSpecialChars($story->topic_title()) . ' - ' . $xoopsConfig['sitename'].'</title>';
+	$topicsTitles = implode(' - ', $story->topicsTitles);
+	echo '<title>'.$myts->htmlSpecialChars($story->title()) . ' - ' . _NW_PRINTER . ' - ' . $myts->htmlSpecialChars($topicsTitles) . ' - ' . $xoopsConfig['sitename'].'</title>';
 	echo '<meta http-equiv="Content-Type" content="text/html; charset='._CHARSET.'" />';
 	echo '<meta name="AUTHOR" content="'.$xoopsConfig['sitename'].'" />';
 	echo '<meta name="keywords" content="'.$xoops_meta_keywords.'" />';
@@ -263,7 +266,7 @@ function PrintPage()
     	<table border="0" width="100%" cellpadding="20" cellspacing="1" bgcolor="#ffffff"><tr><td align="center">
     	<img src="'.XOOPS_URL.'/images/logo.gif" border="0" alt="" /><br /><br />
     	<h3>'.$story->title().'</h3>
-    	<small><b>'._NW_DATE.'</b>&nbsp;'.$datetime.' | <b>'._NW_TOPICC.'</b>&nbsp;'.$myts->htmlSpecialChars($story->topic_title()).'</small><br /><br /></td></tr>';
+    	<small><b>'._NW_DATE.'</b>&nbsp;'.$datetime.' | <b>'._NW_TOPICC.'</b>&nbsp;'.$myts->htmlSpecialChars($topicsTitles).'</small><br /><br /></td></tr>';
 	echo '<tr valign="top" style="font:12px;"><td>'.$story->hometext().'<br />';
 	$bodytext = $story->bodytext();
 	$bodytext = str_replace('[pagebreak]',"<br style=\"page-break-after:always;\" />",$bodytext);

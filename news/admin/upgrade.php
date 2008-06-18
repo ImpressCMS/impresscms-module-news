@@ -33,8 +33,7 @@ include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
 	$errors=0;
 	// 1) Create, if it does not exists, the stories_files table
-	if(!news_TableExists($xoopsDB->prefix('stories_files')))
-	{
+	if(!news_TableExists($xoopsDB->prefix('stories_files'))) {
 		$sql = 'CREATE TABLE '.$xoopsDB->prefix('stories_files')." (
   			fileid int(8) unsigned NOT NULL auto_increment,
   			filerealname varchar(255) NOT NULL default '',
@@ -78,8 +77,7 @@ if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
 	}
 
 	// 3) If it does not exists, create the table stories_votedata
-	if(!news_TableExists($xoopsDB->prefix('stories_votedata')))
-	{
+	if(!news_TableExists($xoopsDB->prefix('stories_votedata'))) {
 		$sql = 'CREATE TABLE '.$xoopsDB->prefix('stories_votedata')." (
   			ratingid int(11) unsigned NOT NULL auto_increment,
   			storyid int(8) unsigned NOT NULL default '0',
@@ -117,6 +115,25 @@ if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
 	$result=$xoopsDB->queryF($sql);
 	$sql=sprintf('ALTER TABLE ' . $xoopsDB->prefix('topics') . " ADD INDEX ( `menu` );");
 	$result=$xoopsDB->queryF($sql);
+
+
+	// 6) Create the new table for multiple categories
+	if(!news_TableExists($xoopsDB->prefix('stories_newscateg'))) {
+		$sql = 'CREATE TABLE '.$xoopsDB->prefix('stories_newscateg')." (
+			nc_id int(10) unsigned NOT NULL auto_increment,
+			nc_storyid int(10) unsigned NOT NULL,
+			nc_topic_id mediumint(8) unsigned NOT NULL,
+			PRIMARY KEY  (nc_id),
+			KEY nc_storyid (nc_storyid),
+			KEY nc_topic_id (nc_topic_id)
+			) TYPE=MyISAM;";
+		if (!$xoopsDB->queryF($sql)) {
+	    	echo '<br />' . _AM_NEWS_UPGRADEFAILED.' '._AM_NEWS_UPGRADEFAILED5;
+	    	$errors++;
+		} else {	// Supply existing datas to the table
+			$xoopsDB->queryF('INSERT INTO '.$xoopsDB->prefix('stories_newscateg')." SELECT '0', storyid, topicid FROM ".$xoopsDB->prefix('stories'));
+		}
+	}
 
 
     // At the end, if there was errors, show them or redirect user to the module's upgrade page

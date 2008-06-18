@@ -58,8 +58,7 @@ function b_news_bigstory_show() {
             $block['story_votes'] = $story->votes();
             $block['story_author']= $story->uname();
             $block['story_text']= $story->hometext();
-            $block['story_topic_title']= $story->topic_title();
-            $block['story_topic_color']= '#'.$myts->displayTarea($story->topic_color);
+            $block['story_topic_title']= implode(', ', $story->topicsTitles);
 		}
 	}
 	return $block;

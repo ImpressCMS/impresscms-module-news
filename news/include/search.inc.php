@@ -47,18 +47,25 @@ function news_search($queryarray, $andor, $limit, $offset, $userid){
 		$groups = XOOPS_GROUP_ANONYMOUS;
 	}
 
-	$sql = "SELECT storyid, topicid, uid, title, created FROM ".$xoopsDB->prefix("stories")." WHERE (published>0 AND published<=".time().") AND (expired = 0 OR expired > ".time().') ';
+	$sql = 'SELECT s.storyid, s.uid, s.title, s.created FROM '.$xoopsDB->prefix('stories').' s LEFT JOIN '.$xoopsDB->prefix('stories_newscateg').' t ON s.storyid = t.nc_storyid WHERE (published>0 AND published<='.time().') AND (expired = 0 OR expired > '.time().') ';
+	if($restricted) {
+		$topics = array();
+		$topics = news_MygetItemIds('news_view');
+		if(count($topics)>0) {
+			$sql .= ' AND t.nc_topic_id IN ('.implode(',', $topics).')';
+		}
+	}
 
 	if ( $userid != 0 ) {
-		$sql .= " AND uid=".$userid." ";
+		$sql .= ' AND uid='.$userid.' ';
 	}
 	// because count() returns 1 even if a supplied variable
 	// is not an array, we must check if $querryarray is really an array
 	if ( is_array($queryarray) && $count = count($queryarray) ) {
-		$sql .= " AND ((hometext LIKE '%$queryarray[0]%' OR bodytext LIKE '%$queryarray[0]%' OR title LIKE '%$queryarray[0]%' OR keywords LIKE '%$queryarray[0]%' OR description LIKE '%$queryarray[0]%')";
+		$sql .= " AND ((s.hometext LIKE '%$queryarray[0]%' OR s.bodytext LIKE '%$queryarray[0]%' OR s.title LIKE '%$queryarray[0]%' OR s.keywords LIKE '%$queryarray[0]%' OR s.description LIKE '%$queryarray[0]%')";
 		for($i=1;$i<$count;$i++){
 			$sql .= " $andor ";
-			$sql .= "(hometext LIKE '%$queryarray[$i]%' OR bodytext LIKE '%$queryarray[$i]%' OR title LIKE '%$queryarray[$i]%' OR keywords LIKE '%$queryarray[$i]%' OR description LIKE '%$queryarray[$i]%')";
+			$sql .= "(s.hometext LIKE '%$queryarray[$i]%' OR s.bodytext LIKE '%$queryarray[$i]%' OR s.title LIKE '%$queryarray[$i]%' OR s.keywords LIKE '%$queryarray[$i]%' OR s.description LIKE '%$queryarray[$i]%')";
 		}
 		$sql .= ") ";
 		// keywords highlighting
@@ -67,26 +74,17 @@ function news_search($queryarray, $andor, $limit, $offset, $userid){
 		}
 	}
 
-	$sql .= "ORDER BY created DESC";
+	$sql .= "ORDER BY s.created DESC";
 	$result = $xoopsDB->query($sql,$limit,$offset);
 	$ret = array();
 	$i = 0;
  	while($myrow = $xoopsDB->fetchArray($result)){
-		$display=true;
-		if($modid && $gperm_handler) {
-			if ($restricted && !$gperm_handler->checkRight("news_view", $myrow['topicid'], $groups, $modid)) {
-				$display=false;
-			}
-		}
-
-		if ($display) {
-			$ret[$i]['image'] = "images/forum.gif";
-			$ret[$i]['link'] = "article.php?storyid=".$myrow['storyid']."".$searchparam;
-			$ret[$i]['title'] = $myrow['title'];
-			$ret[$i]['time'] = $myrow['created'];
-			$ret[$i]['uid'] = $myrow['uid'];
-			$i++;
-		}
+		$ret[$i]['image'] = 'images/forum.gif';
+		$ret[$i]['link'] = "article.php?storyid=".$myrow['storyid']."".$searchparam;
+		$ret[$i]['title'] = $myrow['title'];
+		$ret[$i]['time'] = $myrow['created'];
+		$ret[$i]['uid'] = $myrow['uid'];
+		$i++;
 	}
 
 	include_once XOOPS_ROOT_PATH.'/modules/news/config.php';

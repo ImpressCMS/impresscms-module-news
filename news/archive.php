@@ -91,13 +91,13 @@ $frommonth = (isset($_GET['month'])) ? intval($_GET['month']) : 0;
 
 $pgtitle='';
 if($fromyear && $frommonth) {
-	$pgtitle=sprintf(" - %d - %d",$fromyear,$frommonth);
+	$pgtitle = sprintf(" - %d - %d",$fromyear,$frommonth);
 }
-$infotips=news_getmoduleoption('infotips');
-$restricted=news_getmoduleoption('restrictindex');
-$dateformat=news_getmoduleoption('dateformat');
+$infotips = news_getmoduleoption('infotips');
+$restricted = news_getmoduleoption('restrictindex');
+$dateformat = news_getmoduleoption('dateformat');
 if($dateformat == '') {
-	$dateformat='m';
+	$dateformat = 'm';
 }
 $myts =& MyTextSanitizer::getInstance();
 $xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_NW_NEWSARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($xoopsModule->name()));
@@ -170,7 +170,7 @@ if ($fromyear != 0 && $frommonth != 0) {
 	$count=0;
 	$news = new NewsStory();
 	$storyarray = $news->getArchive($monthstart, $monthend, $restricted);
-	$count=count($storyarray);
+	$count = count($storyarray);
 	if(is_array($storyarray) && $count>0) {
 		foreach ($storyarray as $article) {
 	    	$story = array();
@@ -179,7 +179,13 @@ if ($fromyear != 0 && $frommonth != 0) {
 				$story['infotips'] = news_make_infotips($article->hometext());
 				$htmltitle=' title="'.$story['infotips'].'"';
 			}
-	    	$story['title'] = "<a href='".XOOPS_URL.'/modules/news/index.php?storytopic='.$article->topicid()."'>".$article->topic_title()."</a>: <a href='".XOOPS_URL."/modules/news/article.php?storyid=".$article->storyid()."'".$htmltitle.">".$article->title()."</a>";
+			$returns = array();
+			foreach($article->topicsIdsTitles as $topicId => $topicTitle) {
+				$returns[] = "<a href='".XOOPS_URL."/modules/news/index.php?storytopic=".$topicId."'>".$topicTitle."</a>";
+			}
+			$ret = implode(', ', $returns);
+
+	    	$story['title'] = $ret.": <a href='".XOOPS_URL."/modules/news/article.php?storyid=".$article->storyid()."'".$htmltitle.">".$article->title()."</a>";
 	    	$story['counter'] = $article->counter();
 	    	$story['date'] = formatTimestamp($article->published(),$dateformat,$useroffset);
 	    	$story['print_link'] = XOOPS_URL.'/modules/news/print.php?storyid='.$article->storyid();

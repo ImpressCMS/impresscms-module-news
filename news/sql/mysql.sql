@@ -17,7 +17,6 @@ CREATE TABLE stories (
   keywords varchar(255) NOT NULL,
   description varchar(255) NOT NULL,
   counter int(8) unsigned NOT NULL default '0',
-  topicid smallint(4) unsigned NOT NULL default '1',
   ihome tinyint(1) NOT NULL default '0',
   notifypub tinyint(1) NOT NULL default '0',
   story_type varchar(5) NOT NULL default '',
@@ -27,7 +26,6 @@ CREATE TABLE stories (
   rating double(6,4) NOT NULL default '0.0000',
   votes int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (storyid),
-  KEY idxstoriestopic (topicid),
   KEY ihome (ihome),
   KEY uid (uid),
   KEY published_ihome (published,ihome),
@@ -74,7 +72,7 @@ CREATE TABLE topics (
 
 
 
-INSERT INTO topics (topic_id, topic_pid, topic_imgurl, topic_title, menu, topic_frontpage, topic_rssurl, topic_description) VALUES (1,0,'icms.gif','ICMS',0,1,'','');
+INSERT INTO topics (topic_id, topic_pid, topic_imgurl, topic_title, menu, topic_frontpage, topic_rssurl, topic_description) VALUES (1,0,'xoops.gif','XOOPS',0,1,'','');
 
 
 #
@@ -92,4 +90,14 @@ CREATE TABLE stories_votedata (
   KEY ratinguser (ratinguser),
   KEY ratinghostname (ratinghostname),
   KEY storyid (storyid)
+) TYPE=MyISAM;
+
+
+CREATE TABLE stories_newscateg (
+  nc_id int(10) unsigned NOT NULL auto_increment,
+  nc_storyid int(10) unsigned NOT NULL,
+  nc_topic_id mediumint(8) unsigned NOT NULL,
+  PRIMARY KEY  (nc_id),
+  KEY nc_storyid (nc_storyid),
+  KEY nc_topic_id (nc_topic_id)
 ) TYPE=MyISAM;

@@ -76,9 +76,9 @@ if (isset($_POST['preview'])) {
 elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
 	// Verify that the user can edit or delete an article
 	if( $_GET['op'] == 'edit' || $_GET['op'] == 'delete' ) {
-		if($xoopsModuleConfig['authoredit']==1) {
+		if($xoopsModuleConfig['authoredit'] == 1) {
 			$tmpstory = new NewsStory(intval($_GET['storyid']));
-			if(is_object($xoopsUser) && $xoopsUser->getVar('uid')!=$tmpstory->uid() && !news_is_admin_group()) {
+			if(is_object($xoopsUser) && $xoopsUser->getVar('uid') != $tmpstory->uid() && !news_is_admin_group()) {
 			    redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
 	    		exit();
 			}
@@ -100,14 +100,14 @@ elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
     }
     else {
     	if(news_getmoduleoption('authoredit') && is_object($xoopsUser) && isset($_GET['storyid']) && ($_GET['op']=='edit' || $_POST['op']=='preview' || $_POST['op']=='post')) {
-    		$storyid=0;
+    		$storyid = 0;
     		$storyid = isset($_GET['storyid']) ? intval($_GET['storyid']) : intval($_POST['storyid']);
     		if(!empty($storyid)) {
     			$tmpstory = new NewsStory($storyid);
-    			if($tmpstory->uid()==$xoopsUser->getVar('uid')) {
-	    			$op= isset($_GET['op']) ? $_GET['op'] : $_POST['post'];
+    			if($tmpstory->uid() == $xoopsUser->getVar('uid')) {
+	    			$op = isset($_GET['op']) ? $_GET['op'] : $_POST['post'];
     				unset($tmpstory);
-    				$approveprivilege=1;
+    				$approveprivilege = 1;
     			} else {
 	    			unset($tmpstory);
 	    			if(!news_is_admin_group()) {
@@ -124,10 +124,14 @@ elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
         		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
         		exit();
         	} else {
-        		$approveprivilege=1;
+        		$approveprivilege = 1;
         	}
         }
     }
+}
+
+if($op == 'post' && !isset($_POST['topic_id'])) {
+	$op = 'preview';
 }
 
 switch ($op) {
@@ -141,9 +145,12 @@ switch ($op) {
      	//	$storyid=intval($_POST['storyid']);
        	//}
         $story = new NewsStory($storyid);
-        if (!$gperm_handler->checkRight('news_view', $story->topicid(), $groups, $module_id)) {
-            redirect_header(XOOPS_URL.'/modules/news/index.php', 0, _NOPERM);
-            exit();
+        foreach($story->topicsIds as $topicId) {
+        	if (!$gperm_handler->checkRight('news_view', $topicId, $groups, $module_id)) {
+	            redirect_header(XOOPS_URL.'/modules/news/index.php', 0, _NOPERM);
+            	exit();
+            	break;
+        	}
         }
         echo"<table width='100%' border='0' cellspacing='1' class='outer'><tr><td class=\"odd\">";
         echo '<h4>' . _AM_EDITARTICLE . '</h4>';
@@ -156,7 +163,8 @@ switch ($op) {
         $keywords = $story->keywords();
         $ihome = $story->ihome();
         $newsauthor=$story->uid();
-        $topicid = $story->topicid();
+        $topicid = $story->topicsIds;
+
         $notifypub=$story->notifypub();
         $approve = 0;
         $published = $story->published();
@@ -179,7 +187,8 @@ switch ($op) {
         break;
 
 	case 'preview':
-		$topic_id = intval($_POST['topic_id']);
+		$topic_id = $_POST['topic_id'];
+
 		$xt = new NewsTopic($topic_id);
 		if(isset($_GET['storyid'])) {
 			$storyid=intval($_GET['storyid']);
@@ -210,6 +219,7 @@ switch ($op) {
 				$expired=0;
 			}
 		}
+		$topicid = $story->topicsIds;
 		$topicid = $topic_id;
 		if(isset($_POST['topicdisplay'])) {
 			$topicdisplay=intval($_POST['topicdisplay']);
@@ -300,6 +310,10 @@ switch ($op) {
 		} else {
 		    $uid = 0;
 		}
+		if(!isset($_POST['topic_id'])) {
+		    redirect_header(XOOPS_URL.'/modules/news/index.php', 5, "Please select a topic for your article");
+    		exit();
+		}
 
 		if(isset($_GET['storyid'])) {
 			$storyid=intval($_GET['storyid']);
@@ -321,7 +335,7 @@ switch ($op) {
 		$story->setUid($uid);
 		$story->setTitle($_POST['title']);
 		$story->setHometext($_POST['hometext']);
-		$story->setTopicId(intval($_POST['topic_id']));
+
 		$story->setHostname(xoops_getenv('REMOTE_ADDR'));
 		$story->setNohtml($nohtml_db);
 		$nosmiley = isset($_POST['nosmiley']) ? intval($_POST['nosmiley']) : 0;
@@ -331,7 +345,7 @@ switch ($op) {
 		$story->setType($_POST['type']);
 
 		if (!empty( $_POST['autodate'] ) && $approveprivilege) {
-		    $publish_date=$_POST['publish_date'];
+		    $publish_date = $_POST['publish_date'];
 	    	$pubdate = strtotime($publish_date['date']) + $publish_date['time'];
 	    	//$offset = $xoopsUser -> timezone() - $xoopsConfig['server_TZ'];
 	    	//$pubdate = $pubdate - ( $offset * 3600 );
@@ -415,9 +429,9 @@ switch ($op) {
 
 		$result = $story->store();
 		if ($result) {
-			if(!$editmode) {
+			$db =& Database::getInstance();
+			if(!$editmode) {	// Ajout
 				// 	Notification
-				// TODO: modifier afin qu'en cas de prépublication, la notification ne se fasse pas
 				$notification_handler =& xoops_gethandler('notification');
 				$tags = array();
 				$tags['STORY_NAME'] = $story->title();
@@ -429,14 +443,23 @@ switch ($op) {
 				}
 
 				if ($approve == 1) {
-					$notification_handler->triggerEvent('global', 0, 'new_story', $tags);
-					$notification_handler->triggerEvent('story', $story->storyid(), 'approve', $tags);
+						$notification_handler->triggerEvent('global', 0, 'new_story', $tags);
+						$notification_handler->triggerEvent('story', $story->storyid(), 'approve', $tags);
 					// Added by Lankford on 2007/3/23
-					$notification_handler->triggerEvent('category', $story->topicid(), 'new_story', $tags);
+						$notification_handler->triggerEvent('category', $story->topicid(), 'new_story', $tags);
 				} else {
 					$tags['WAITINGSTORIES_URL'] = XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/admin/index.php?op=newarticle';
 					$notification_handler->triggerEvent('global', 0, 'story_submit', $tags);
 				}
+			} else {	// Edition
+				$sql = 'DELETE FROM '.$db->prefix('stories_newscateg').' WHERE nc_storyid ='.$story->storyid();
+				$result = $db->queryF($sql);
+			}
+			// Enregistrement des topics
+			$tblTopics = $_POST['topic_id'];
+			foreach($tblTopics as $item) {
+				$sql = 'INSERT INTO '.$db->prefix('stories_newscateg').' (nc_storyid, nc_topic_id) VALUES ('.$story->storyid().','.intval($item).')';
+				$result = $db->queryF($sql);
 			}
 
 			$allowupload = false;
@@ -513,7 +536,7 @@ switch ($op) {
 		$nohtml = 0;
 		$nosmiley = 0;
 		$notifypub = 1;
-		$topicid = 0;
+		$topicid = array();
 		if ($approveprivilege) {
 			$description='';
 			$keywords='';

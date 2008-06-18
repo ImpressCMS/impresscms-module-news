@@ -343,7 +343,7 @@ function news_CreateMetaDatas($story = null)
 		$content .= '<meta name="DC.Identifier" content="'.XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid()."\" />\n";
 		$content .= '<meta name="DC.Source" content="'.XOOPS_URL."\" />\n";
 		$content .= '<meta name="DC.Language" content="'._LANGCODE."\" />\n";
-		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/news/index.php?storytopic='.$story->topicid()."\" />\n";
+		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/news/index.php?storytopic='.implode(', ', $story->topicsIds)."\" />\n";
 		if(isset($xoopsConfigMetaFooter['meta_copyright'])) {
 			$content .= '<meta name="DC.Rights" content="'.DublinQuotes($xoopsConfigMetaFooter['meta_copyright'])."\" />\n";
 		}
@@ -493,7 +493,7 @@ function news_updateCache() {
 function news_TableExists($tablename)
 {
 	global $xoopsDB;
-	$result=$xoopsDB->queryF("SHOW TABLES LIKE '$tablename'");
+	$result = $xoopsDB->queryF("SHOW TABLES LIKE '$tablename'");
 	return($xoopsDB->getRowsNum($result) > 0);
 }
 
@@ -596,4 +596,5 @@ function news_make_infotips($text)
 		return $myts->htmlSpecialChars(xoops_substr(strip_tags($text),0,$infotips));
 	}
 }
+
 ?>

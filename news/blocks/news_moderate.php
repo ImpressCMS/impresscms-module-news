@@ -30,7 +30,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 
 /**
- * Dispay a block where news moderators can show news that need to be moderated.
+ * Dispay a block where News moderators can see News that need to be moderated.
  */
 function b_news_topics_moderate() {
 	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
@@ -57,7 +57,7 @@ function b_news_topics_moderate() {
 				$htmltitle=' title="'.$story['infotips'].'"';
 			}
 
-            if (!isset( $title ) || ($title == '')) {
+            if (!isset( $title ) || (xoops_trim($title) == '')) {
                 $linktitle = "<a href='" . XOOPS_URL . "/modules/news/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . _AD_NOSUBJECT . "</a>";
             } else {
                 $linktitle = "<a href='" . XOOPS_URL . "/modules/news/submit.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . $title . "</a>";
@@ -67,8 +67,7 @@ function b_news_topics_moderate() {
             $story['date'] = formatTimestamp($newstory->created(),$dateformat);
             $story['author'] = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory -> uid() . "'>" . $newstory->uname() . "</a>";
             $story['action'] = "<a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _MB_DELETE . "</a>";
-            $story['topic_title'] = $newstory->topic_title();
-            $story['topic_color']= '#'.$myts->displayTarea($newstory->topic_color);
+            $story['topic_title'] = implode(', ', $newstory->topicsTitles);
             $block['stories'][] =& $story;
             unset($story);
         }

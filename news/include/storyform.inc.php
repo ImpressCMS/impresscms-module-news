@@ -35,9 +35,10 @@ if (file_exists(XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar
 }
 include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/tree.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
 
-$sform = new XoopsThemeForm(_NW_SUBMITNEWS, "storyform", XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/submit.php');
+$sform = new XoopsThemeForm(_NW_SUBMITNEWS, 'storyform', XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/submit.php');
 $sform->setExtra('enctype="multipart/form-data"');
 $sform->addElement(new XoopsFormText(_NW_TITLE, 'title', 50, 255, $title), true);
 
@@ -45,16 +46,27 @@ $sform->addElement(new XoopsFormText(_NW_TITLE, 'title', 50, 255, $title), true)
 if (!isset($xt)) {
 	$xt = new NewsTopic();
 }
-if($xt->getAllTopicsCount()==0) {
-   	redirect_header("index.php",4,_NW_POST_SORRY);
+if($xt->getAllTopicsCount() == 0) {
+   	redirect_header('index.php',4,_NW_POST_SORRY);
    	exit();
 }
 
-include_once XOOPS_ROOT_PATH."/class/tree.php";
+
+include_once XOOPS_ROOT_PATH.'/class/tree.php';
+/*
 $allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex'],'news_submit');
 $topic_tree = new XoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
 $topic_select = $topic_tree->makeSelBox('topic_id', 'topic_title', '-- ', $topicid, false);
 $sform->addElement(new XoopsFormLabel(_NW_TOPIC, $topic_select));
+*/
+$allTopics = array();
+$allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex'],'news_submit', true);
+$topic_tree = new MyXoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
+$topicArray = array();
+$topicArray = $topic_tree->giveElements('topic_title');
+$topicSelect = new XoopsFormSelect(_NW_TOPIC, 'topic_id', $topicid, 15, true);
+$topicSelect->addOptionArray($topicArray);
+$sform->addElement($topicSelect, true);
 
 //If admin - show admin form
 //TODO: Change to "If submit privilege"

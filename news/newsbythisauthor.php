@@ -85,8 +85,8 @@ if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language
 	include_once XOOPS_ROOT_PATH.'/modules/news/language/english/modinfo.php';
 }
 
-$uid= (isset($_GET['uid'])) ? intval($_GET['uid']) : 0;
-if (empty($uid)) {
+$uid = (isset($_GET['uid'])) ? intval($_GET['uid']) : 0;
+if ($uid == 0) {
     redirect_header('index.php',2,_ERRORS);
     exit();
 }
@@ -101,8 +101,8 @@ $articles = new NewsStory();
 $xoopsOption['template_main'] = 'news_by_this_author.html';
 include_once XOOPS_ROOT_PATH.'/header.php';
 
-$dateformat=news_getmoduleoption('dateformat');
-$infotips=news_getmoduleoption('infotips');
+$dateformat = news_getmoduleoption('dateformat');
+$infotips = news_getmoduleoption('infotips');
 $thisuser = new XoopsUser($uid);
 
 switch($xoopsModuleConfig['displayname']) {
@@ -134,31 +134,29 @@ $xoopsTpl->assign('news_rating',news_getmoduleoption('ratenews'));
 $xoopsTpl->assign('lang_rating',_NW_RATING);
 $xoopsTpl->assign('author_name_with_link',sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/userinfo.php?uid='.$uid,$authname));
 
-$oldtopic=-1;
-$oldtopictitle='';
-$oldtopiccolor='';
-$articlelist=array();
-$articlestpl=array();
-$articlelist=$articles->getAllPublishedByAuthor($uid,$xoopsModuleConfig['restrictindex'],false);
-$articlescount=count($articlelist);
-$xoopsTpl->assign('articles_count',$articlescount);
+$oldtopic = -1;
+$oldtopictitle = $oldtopiccolor = '';
+$articlelist = $articlestpl=array();
+$articlelist = $articles->getAllPublishedByAuthor($uid, $xoopsModuleConfig['restrictindex'], false);
+$articlescount = count($articlelist);
+$xoopsTpl->assign('articles_count', $articlescount);
 $count_articles = $count_reads = 0;
 
-if($articlescount>0) {
+if( $articlescount > 0 ) {
 	foreach ($articlelist as $article) {
-		if($oldtopic!=$article['topicid']) {
-			if(count($articlestpl)>0) {
+		if($oldtopic != $article['topicid']) {
+			if(count($articlestpl) > 0) {
 				$topic_link=sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/modules/news/index.php?storytopic='.$oldtopic,$oldtopictitle);
 				$xoopsTpl->append('topics',array('topic_id'=>$oldtopic, 'topic_count_articles' => sprintf(_AM_NEWS_TOTAL, $count_articles), 'topic_count_reads' => $count_reads, 'topic_color'=>$oldtopiccolor, 'topic_title'=>$oldtopictitle, 'topic_link'=> $topic_link, 'news'=>$articlestpl));
 			}
-			$oldtopic=$article['topicid'];
-			$oldtopictitle=$article['topic_title'];
-			$oldtopiccolor='#'.$myts->displayTarea($article['topic_color']);
+			$oldtopic = $article['topicid'];
+			$oldtopictitle = $article['topic_title'];
+			$oldtopiccolor = '#'.$myts->displayTarea($article['topic_color']);
 			$articlestpl = array();
 			$count_articles = $count_reads = 0;
 		}
-		$htmltitle='';
-		if($infotips>0) {
+		$htmltitle = '';
+		if($infotips > 0) {
 			$htmltitle = ' title="'.news_make_infotips($article['hometext']).'"';
 		}
 		$count_articles++;

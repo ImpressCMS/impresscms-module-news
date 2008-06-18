@@ -224,5 +224,31 @@ class MyXoopsObjectTree {
         $this->_makeSelBoxOptions($fieldName, $selected, $key, $ret, $prefix);
         return $ret.'</select>';
     }
+
+
+
+
+	function _makeElements($fieldName, $key, &$ret, $prefix_orig, $prefix_curr = '')
+	{
+        if ($key > 0) {
+            $value = $this->_tree[$key]['obj']->getVar($this->_myId);
+			//$ret[] = array('key' => $value, 'value' => $prefix_curr.$this->_tree[$key]['obj']->getVar($fieldName));
+			$ret[$value] =  $prefix_curr.$this->_tree[$key]['obj']->getVar($fieldName);
+            $prefix_curr .= $prefix_orig;
+        }
+        if (isset($this->_tree[$key]['child']) && !empty($this->_tree[$key]['child'])) {
+            foreach ($this->_tree[$key]['child'] as $childkey) {
+                $this->_makeElements($fieldName, $childkey, $ret, $prefix_orig, $prefix_curr);
+            }
+        }
+	}
+
+
+    function giveElements($fieldName, $prefix='-', $key=0)
+    {
+    	$ret = array();
+        $this->_makeElements($fieldName, $key, $ret, $prefix);
+        return $ret;
+    }
 }
 ?>

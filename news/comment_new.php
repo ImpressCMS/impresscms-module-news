@@ -45,7 +45,7 @@ if($xoopsModuleConfig['com_anonpost'] == 0 && !is_object($xoopsUser)) {	// Anony
 $com_itemid = isset($_GET['com_itemid']) ? intval($_GET['com_itemid']) : 0;
 if ($com_itemid > 0) {
 	$article = new NewsStory($com_itemid);
-	if($article->storyid>0) {
+	if($article->storyid > 0) {
 		$com_replytext = _POSTEDBY.'&nbsp;<b>'.$article->uname().'</b>&nbsp;'._DATE.'&nbsp;<b>'.formatTimestamp($article->published(),news_getmoduleoption('dateformat')).'</b><br /><br />'.$article->hometext();
 		$bodytext = $article->bodytext();
 		if ($bodytext != '') {

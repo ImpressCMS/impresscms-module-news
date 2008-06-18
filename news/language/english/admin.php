@@ -127,6 +127,7 @@ define('_AM_NEWS_UPGRADEFAILED2', "Impossible to change the topic title's length
 define('_AM_NEWS_UPGRADEFAILED21', "Impossible to add the new fields to the topics table");
 define('_AM_NEWS_UPGRADEFAILED3', 'Impossible to create the table stories_votedata');
 define('_AM_NEWS_UPGRADEFAILED4', "Impossible to create the two fields 'rating' and 'votes' for the 'story' table");
+define("_AM_NEWS_UPGRADEFAILED5", "Impossible to create the stories_newscateg table");
 define('_AM_NEWS_UPGRADEFAILED0', "Please note the messages and try to correct the problems with phpMyadmin and the sql definition's file available in the 'sql' folder of the news module");
 define('_AM_NEWS_UPGR_ACCESS_ERROR',"Error, to use the upgrade script, you must be an admin on this module");
 define('_AM_NEWS_PRUNE_BEFORE',"Prune stories that were published before");

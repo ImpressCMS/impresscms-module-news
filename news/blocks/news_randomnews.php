@@ -66,8 +66,7 @@ function b_news_randomnews_show($options) {
         $news['rating'] = $story->rating();
         $news['votes'] = $story->votes();
         $news['author']= sprintf("%s %s",_POSTEDBY,$story->uname());
-        $news['topic_title'] = $story->topic_title();
-        $news['topic_color']= '#'.$myts->displayTarea($story->topic_color);
+        $news['topic_title'] = implode(', ', $story->topicsTitles);
 
         if ($options[3] > 0) {
         	$news['teaser'] = xoops_substr($myts->displayTarea(strip_tags($story->hometext)), 0, $options[3]+3);

@@ -85,16 +85,14 @@ include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 include_once XOOPS_ROOT_PATH.'/class/tree.php';
 
-$storytopic=0;
+$storytopic = 0;
 if(isset($_GET['storytopic'])) {
-	$storytopic=intval($_GET['storytopic']);
-} else {
-	if(isset($_GET['topic_id'])) {
-		$storytopic=intval($_GET['topic_id']);
-	}
+	$storytopic = intval($_GET['storytopic']);
+} elseif(isset($_GET['topic_id'])) {
+	$storytopic = intval($_GET['topic_id']);
 }
 
-if ($storytopic) {
+if ($storytopic > 0) {
     $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler =& xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('news_view', $storytopic, $groups, $xoopsModule->getVar('mid'))) {
@@ -105,6 +103,7 @@ if ($storytopic) {
 } else {
 	$xoopsOption['storytopic'] = 0;
 }
+
 if (isset($_GET['storynum'])) {
 	$xoopsOption['storynum'] = intval($_GET['storynum']);
 	if ($xoopsOption['storynum'] > 30) {
@@ -146,14 +145,14 @@ if ($showclassic) {
 		$xoopsTpl->assign('rates', false);
 	}
 
-	if($xoopsOption['storytopic']) {
+	if($xoopsOption['storytopic'] > 0) {
 		$xt->getTopic($xoopsOption['storytopic']);
 		$xoopsTpl->assign('topic_description', $xt->topic_description('S'));
 		$xoopsTpl->assign('topic_color', '#'.$xt->topic_color('S'));
 		$topictitle=$xt->topic_title();
 	}
 
-	if ($xoopsModuleConfig['displaynav'] == 1 ) {
+	if ($xoopsModuleConfig['displaynav'] == 1 ) {	
         $xoopsTpl->assign('displaynav', true);
 
 		$allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex']);
@@ -173,36 +172,33 @@ if ($showclassic) {
     } else {
         $xoopsTpl->assign('displaynav', false);
     }
-	if($xoopsOption['storytopic']==0) {
-		$topic_frontpage=true;
+	if($xoopsOption['storytopic']==0) {	
+		$topic_frontpage = true;
 	} else {
-		$topic_frontpage=false;
+		$topic_frontpage = false;
 	}
+	$sarray = array();
 	$sarray = NewsStory::getAllPublished($xoopsOption['storynum'], $start, $xoopsModuleConfig['restrictindex'], $xoopsOption['storytopic'], 0, true, 'published', $topic_frontpage);
 
     $scount = count($sarray);
     $xoopsTpl->assign('story_count', $scount);
     $k = 0;
     $columns = array();
-    if($scount>0)
-    {
-    	$storieslist=array();
+    if($scount > 0) {
+    	$storieslist = array();
     	foreach ($sarray as $storyid => $thisstory) {
-    		$storieslist[]=$thisstory->storyid();
+    		$storieslist[] = $thisstory->storyid();
     	}
 		$filesperstory = $sfiles->getCountbyStories($storieslist);
 
 	    foreach ($sarray as $storyid => $thisstory) {
 	    	$filescount = array_key_exists($thisstory->storyid(),$filesperstory) ? $filesperstory[$thisstory->storyid()] : 0;
         	$story = $thisstory->prepare2show($filescount);
-        	// The line below can be used to display a Permanent Link image
-        	// $story['title'] .= "&nbsp;&nbsp;<a href='".XOOPS_URL."/modules/news/article.php?storyid=".$sarray[$i]->storyid()."'><img src='".XOOPS_URL."/modules/news/images/x.gif' alt='Permanent Link' /></a>";
         	$story['news_title'] = $story['title'];
         	$story['title'] = $thisstory->textlink().'&nbsp;:&nbsp;'.$story['title'];
         	$story['topic_title'] = $thisstory->textlink();
-        	$story['topic_color'] = '#'.$myts->displayTarea($thisstory->topic_color);
-	       	if($firsttitle=='') {
-       			$firsttitle=$myts->htmlSpecialChars($thisstory->topic_title()) . ' - ' .  $myts->htmlSpecialChars($thisstory->title());
+	       	if($firsttitle == '') {
+       			$firsttitle = $myts->htmlSpecialChars($thisstory->title());
        		}
         	$columns[$k][] = $story;
         	$k++;

@@ -242,7 +242,7 @@ function b_news_top_show($options) {
        		$spotlight['topic_title'] = $tmpstory->topic_title();
 			// Added, topic's image and description
    			$spotlight['topic_image']=XOOPS_URL.'/modules/news/images/topics/'.$tmpstory->topic_imgurl();
-   			$spotlight['topic_description']=$myts->displayTarea($tmpstory->topic_description,1);
+   			$spotlight['topic_description']=$myts->displayTarea(implode(', ', $tmpstory->topicsTitles));
 
            	if($displayname!=3) {
         		$spotlight['author'] = sprintf("%s %s",_POSTEDBY,$tmpstory->uname());
@@ -275,7 +275,6 @@ function b_news_top_show($options) {
            			$news['votes'] = $story->votes();
            			$news['topicid'] = $story->topicid();
            			$news['topic_title'] = $story->topic_title();
-           			$news['topic_color'] = '#'.$myts->displayTarea($story->topic_color);
            			if($displayname!=3) {
 	            		$news['author']= sprintf("%s %s",_POSTEDBY,$story->uname());
            			} else {
@@ -307,10 +306,15 @@ function b_news_top_show($options) {
        			$topic->getTopic($thetopic);
        			// Added, topic's image and description
        			$block['topic_image']=XOOPS_URL.'/modules/news/images/topics/'.$topic->topic_imgurl();
-       			$block['topic_description']=$topic->topic_description();
+       			$block['topic_description'] = $topic->topic_description();
 
     			$smallheader=array();
-    			$stats=$topic->getTopicMiniStats($thetopic);
+    			if($thetopic != 0) {
+    				$stats = $topic->getTopicMiniStats($thetopic);
+    			} else {
+    				$stats = array('count' => 0, 'reads' => 0);
+    			}
+
     			$smallheader[]=sprintf("<a href='%s'>%s</a>", XOOPS_URL.'/modules/news/index.php?storytopic='.$thetopic,_MB_READMORE);
     			$smallheader[]=sprintf("%u %s",$stats['count'],_NW_ARTICLES);
     			$smallheader[]=sprintf("%u %s",$stats['reads'],_READS);
@@ -348,7 +352,6 @@ function b_news_top_show($options) {
             			$news['votes'] = $story->votes();
             			$news['topicid'] = $story->topicid();
             			$news['topic_title'] = $story->topic_title();
-            			$news['topic_color'] = '#'.$myts->displayTarea($story->topic_color);
 
 						if($displayname!=3) {
 	            			$news['author'] = sprintf("%s %s",_POSTEDBY,$story->uname());
@@ -438,10 +441,9 @@ function b_news_top_show($options) {
             		$spotlight['votes'] = $story->votes();
             		$spotlight['topicid'] = $story->topicid();
             		$spotlight['topic_title'] = $story->topic_title();
-            		$spotlight['topic_color'] = '#'.$myts->displayTarea($story->topic_color);
             		// Added, topic's image and description
 		   			$spotlight['topic_image']=XOOPS_URL.'/modules/news/images/topics/'.$story->topic_imgurl();
-   					$spotlight['topic_description']=$myts->displayTarea($story->topic_description,1);
+   					$spotlight['topic_description'] = $myts->displayTarea(implode(', ', $story->topicsTitles),1);
    					if(strlen(xoops_trim($story->bodytext()))>0) {
    						$spotlight['read_more']=true;
    					} else {
@@ -464,7 +466,6 @@ function b_news_top_show($options) {
             	$news['votes'] = $story->votes();
             	$news['topicid'] = $story->topicid();
             	$news['topic_title'] = $story->topic_title();
-            	$news['topic_color'] = '#'.$myts->displayTarea($story->topic_color);
             	if($displayname!=3) {
             		$news['author']= sprintf("%s %s",_POSTEDBY,$story->uname());
             	} else {
@@ -529,7 +530,6 @@ function b_news_top_show($options) {
 				// ****************************************************************
 				$spotlight['topicid'] = $spotlightArticle->topicid();
         		$spotlight['topic_title'] = $spotlightArticle->topic_title();
-        		$spotlight['topic_color'] = '#'.$myts->displayTarea($spotlightArticle->topic_color);
         		$spotlight['text'] = $spotlightArticle->hometext();
         		$spotlight['id'] = $spotlightArticle->storyid();
         		$spotlight['date'] = formatTimestamp($spotlightArticle->published(), $dateformat);
@@ -538,7 +538,7 @@ function b_news_top_show($options) {
 				$spotlight['votes'] = $spotlightArticle->votes();
 				// Added, topic's image and description
 	   			$spotlight['topic_image']=XOOPS_URL.'/modules/news/images/topics/'.$spotlightArticle->topic_imgurl();
-				$spotlight['topic_description']=$myts->displayTarea($spotlightArticle->topic_description,1);
+				$spotlight['topic_description']=$myts->displayTarea(implode(', ', $spotlightArticle->topicsTitles),1);
 				if($displayname!=3) {
 	        		$spotlight['author'] = sprintf("%s %s",_POSTEDBY,$spotlightArticle->uname());
         		} else {

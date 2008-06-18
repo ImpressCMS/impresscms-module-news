@@ -180,7 +180,7 @@ class NewsTopic extends XoopsTopic
 		return($array['cpt']);
 	}
 
-	function getAllTopics($checkRight = true, $permission = "news_view")
+	function getAllTopics($checkRight = true, $permission = 'news_view', $idAsKey=true)
 	{
 	    $topics_arr = array();
 	    $db =& Database::getInstance();
@@ -192,14 +192,17 @@ class NewsTopic extends XoopsTopic
 				return array();
 			}
 			$topics = implode(',', $topics);
-			$sql .= " WHERE topic_id IN (".$topics.")";
+			$sql .= ' WHERE topic_id IN ('.$topics.')';
 		}
-		$sql .= " ORDER BY topic_title";
+		$sql .= ' ORDER BY topic_title';
 		$result = $db->query($sql);
 		while ($array = $db->fetchArray($result)) {
-			$topic = new NewsTopic();
-			$topic->makeTopic($array);
-			$topics_arr[$array['topic_id']] = $topic;
+			$topic = new NewsTopic($array);
+			if($idAsKey) {
+				$topics_arr[$array['topic_id']] = $topic;
+			} else {
+				$topics_arr[] = $topic;
+			}
 			unset($topic);
 		}
 		return $topics_arr;
@@ -212,10 +215,10 @@ class NewsTopic extends XoopsTopic
 	function getNewsCountByTopic()
 	{
 		$ret=array();
-		$sql="SELECT count(storyid) as cpt, topicid FROM ".$this->db->prefix('stories')." WHERE (published > 0 AND published <= ".time().") AND (expired = 0 OR expired > ".time().") GROUP BY topicid";
+		$sql = 'SELECT Count(*) as cpt, t.nc_topic_id FROM '.$this->db->prefix('stories_newscateg').' t LEFT JOIN '.$this->db->prefix('stories').' s ON t.nc_storyid = s.storyid WHERE (s.published >0 AND s.published <= '.time().') AND (s.expired = 0 OR s.expired > '.time().') GROUP BY t.nc_topic_id';
 		$result = $this->db->query($sql);
 		while ($row = $this->db->fetchArray($result)) {
-			$ret[$row["topicid"]]=$row["cpt"];
+			$ret[$row['nc_topic_id']]=$row['cpt'];
 		}
 		return $ret;
 	}
@@ -226,7 +229,7 @@ class NewsTopic extends XoopsTopic
 	function getTopicMiniStats($topicid)
 	{
 		$ret=array();
-		$sql="SELECT count(storyid) as cpt1, sum(counter) as cpt2 FROM ".$this->db->prefix('stories')." WHERE (topicid=" . $topicid.") AND (published>0 AND published <= ".time().") AND (expired = 0 OR expired > ".time().")";
+		$sql = 'SELECT Count(nc_storyid) as cpt1, sum(s.counter) as cpt2  FROM '.$this->db->prefix('stories_newscateg').' t LEFT JOIN '.$this->db->prefix('stories').' s ON t.nc_storyid = s.storyid WHERE (t.nc_topic_id = '.$topicid.") AND (s.published>0 AND s.published <= ".time().") AND (s.expired = 0 OR s.expired > ".time().")";
 		$result = $this->db->query($sql);
 		$row = $this->db->fetchArray($result);
 		$ret['count']=$row["cpt1"];
