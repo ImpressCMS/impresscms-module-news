@@ -1,6 +1,6 @@
 Hallo {X_UNAME},
 
-Ein neuer Artikel "{STORY_NAME}" wurde bei {X_SITENAME} hinzugefügt.
+Ein neuer Artikel "{STORY_NAME}" wurde bei {X_SITENAME} hinzugefÃ¼gt.
 
 Der neue Artikel kann hier gelesen werden:
 {STORY_URL}
@@ -9,7 +9,7 @@ Der neue Artikel kann hier gelesen werden:
 
 Diese Email wurde gesendet, weil die Benachrichtigungsmethoe so eingestellt wurde.
 
-Wenn es sich hierbei um eine Störung handel sollte, oder in Zukunft keine Benachrichtigungen mehr versendet werden sollen, dann kann diese hier in den Benachrichtigungsoptionen eingestellt werden:
+Wenn es sich hierbei um eine StÃ¶rung handel sollte, oder in Zukunft keine Benachrichtigungen mehr versendet werden sollen, dann kann diese hier in den Benachrichtigungsoptionen eingestellt werden:
 {X_UNSUBSCRIBE_URL}
 
 Bitte nicht auf diese Email antworten.

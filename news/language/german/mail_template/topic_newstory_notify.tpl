@@ -1,6 +1,6 @@
 Hallo {X_UNAME},
 
-Ein neuer Artikel "{STORY_NAME}" wurde auf {X_SITENAME} zu {TOPIC_NAME} hinzugefügt.
+Ein neuer Artikel "{STORY_NAME}" wurde auf {X_SITENAME} zu {TOPIC_NAME} hinzugefÃ¼gt.
 
 Sie finden diesen Artikel unter folgender URL:
 {STORY_URL}

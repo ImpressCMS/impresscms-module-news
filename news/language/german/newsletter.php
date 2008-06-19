@@ -3,7 +3,7 @@ $newslettertemplate=<<<contentend
 Titel: %title%
 Thema: %topic_title%
 Geschrieben von: %publisher%
-Veröffentlicht am: %published%
+VerÃ¶ffentlicht am: %published%
 Bewertung: %rating%
 Gelesen: %reads%
 
