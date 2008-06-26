@@ -1,16 +1,16 @@
 <?php
 $newslettertemplate=<<<contentend
-Título : %title%
+TÃ­tulo : %title%
 Tema : %topic_title%
 Redactor : %publisher%
-Fecha de publicación : %published%
-Valoración : %rating%
+Fecha de publicaciÃ³n : %published%
+ValoraciÃ³n : %rating%
 Lecturas : %reads%
 
 Contenido :
 %hometext%
 
-Leer más : %link%
+Leer mÃ¡s : %link%
  ----------------------------------------------------------------------------
 
 contentend;
