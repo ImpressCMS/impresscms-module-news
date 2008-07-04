@@ -29,7 +29,7 @@ define("_MB_NEWS_RATE","Valoración");
 define("_MB_NEWS_SHOW_NEWS_COUNT","Mostrar contador de artículos");
 define("_MB_NEWS_SPOTLIGHT_TITLE", "Reciente");
 define("_MB_NEWS_VIEW_TYPE1", "Modo clásico");
-define("_MB_NEWS_VIEW_TYPE2", "Con pestañas");
+define("_MB_NEWS_VIEW_TYPE2", "Con solapas");
 define("_MB_NEWS_TAB_COLOR1", "Color de la cabecera del sumario, es la línea debajo de las pestañas.");
 define("_MB_NEWS_TAB_COLOR2", "Color de fondo del sumario");
 define("_MB_NEWS_TAB_COLOR3", "Color de la pestaña activa");

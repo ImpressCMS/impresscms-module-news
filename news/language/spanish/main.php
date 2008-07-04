@@ -33,7 +33,7 @@ define("_NW_DATE","Fecha");
 define("_NW_ACTIONS","Acciones");
 define("_NW_PRINTERFRIENDLY","Versión imprimible");
 
-define("_NW_THEREAREINTOTAL","Hay un total de %s artítulo(s) disponibles");
+define("_NW_THEREAREINTOTAL","Hay un total de %s artículo(s) disponibles");
 
 // %s is your site name
 define("_NW_INTARTICLE","Artículo interesante en %s");
@@ -54,7 +54,7 @@ define("_NW_THISCOMESFROM","Documento disponible en %s");
 define("_NW_ATTACHEDFILES","Archivo adjunto:");
 define("_NW_ATTACHEDLIB","Este artículo contiene archivos adjuntos");
 define("_NW_NEWSSAMEAUTHORLINK","Artículos del mismo redactor");
-define("_NW_NEWS_NO_TOPICS","Lo siento pero actualmente no hay ningún tema, necesita crear un tema antes de enviar un artículo.");
+define("_NW_NEWS_NO_TOPICS","Lo siento pero actualmente no hay ningún tema creado; necesita crear uno antes de enviar un artículo.");
 define("_NW_PREVIOUS_ARTICLE","Artículo anterior");
 define("_NW_NEXT_ARTICLE","Artículo siguiente");
 define("_NW_OTHER_ARTICLES","Otros artículos");
@@ -67,7 +67,7 @@ define("_NW_RATINGLTOH","Valoración de menor a mayor");
 define("_NW_RATINGHTOL","Valoración de mayor a menor");
 define("_NW_RATINGC","Valoración: ");
 define("_NW_RATINGSCALE","La escala es de 1 a 10, siendo 1 muy pobre y 10 excelente.");
-define("_NW_BEOBJECTIVE","Por favor sea objetivo, si todos los artículos reciben 1 o 10, la valoración no servirá de mucho.");
+define("_NW_BEOBJECTIVE","Por favor sea objetivo: si todos los artículos reciben 1 o 10, la valoración no servirá de mucho.");
 define("_NW_DONOTVOTE","Sea honesto, por favor no valore sus propios artículos.");
 define("_NW_RATING","Valoración");
 define("_NW_VOTE","Valorar");
@@ -83,8 +83,8 @@ define("_NW_VOTEAPPRE","Su valoración es apreciada.");
 define("_NW_THANKYOU","Gracias por tomarse el tiempo necesario para valorar este artículo en %s"); // %s is your site name
 define("_NW_RSSFEED","RSS de los artículos");	// Warning, this text is included insided an Alt attribut (for a picture), so take care to the quotes
 define("_NW_AUTHOR","Redactor");
-define("_NW_META_DESCRIPTION","Descripción de Meta description");
-define("_NW_META_KEYWORDS","Palabras de Meta keywords");
+define("_NW_META_DESCRIPTION","Descripción de 'Meta description'");
+define("_NW_META_KEYWORDS","Palabras clave");
 define("_NW_MAKEPDF","Crea un documento PDF con el artículo");
 define('_MD_POSTEDON',"Publicado el : ");
 define("_NW_AUTHOR_ID","ID del redactor");
@@ -113,5 +113,5 @@ define("_NW_BOOKMARK_TO_SPURL","Guardar en Spurl");
 define("_NW_BOOKMARK_TO_YAHOO","Guardar en Yahoo");
 
 // Added in version 1.56
-define('_NW_NOTYETSTORY',"Lo sentimos, la historia seleccionada no ha sido publicada todavía. Por favor, vuelva más tarde e inténtelo de nuevo.");
+define('_NW_NOTYETSTORY',"Lo sentimos: la historia seleccionada no ha sido publicada todavía. Por favor, vuelva más tarde e inténtelo de nuevo.");
 ?>

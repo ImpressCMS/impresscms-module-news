@@ -115,7 +115,7 @@ define('_MI_NEWS_TOPICS_RSS_DESC',"Si es activada esta opción, los contenidos d
 define('_MI_NEWS_DATEFORMAT', "Formato de la fecha");
 define('_MI_NEWS_DATEFORMAT_DESC',"Por favor consulte la <a href='http://fr.php.net/manual/es/function.date.php' target='_blank'>documentación Php</a>, para obtener más información sobre como configurar el formato de fecha y hora.<br /> Nota: Si no define ningún formato, se usará el formato por defecto.");
 define('_MI_NEWS_META_DATA', "Habilitar inclusión de meta datos");
-define('_MI_NEWS_META_DATA_DESC', "Si es activada esta opción, los usuarios con permisos para enviar artículos podrán incluir datos en la etiqueta Meta, estos son: metakeywords y metadescription");
+define('_MI_NEWS_META_DATA_DESC', "Si es activada esta opción, los usuarios con permisos para enviar artículos podrán incluir datos en la etiqueta 'Meta', estos son: metakeywords y metadescription");
 define('_MI_NEWS_BNAME8','Artículos aleatorios');
 define('_MI_NEWS_NEWSLETTER','Boletín de artículos');
 define('_MI_NEWS_STATS','Estadísticas');
@@ -149,8 +149,8 @@ define("_MI_NEWS_SKIN_8","Estilo ZDnet");
 // Added in version 1.50
 define('_MI_NEWS_BNAME9','Archivos');
 define("_MI_NEWS_FORM_TINYEDITOR","TinyEditor");
-define("_MI_NEWS_FOOTNOTES","¿ Mostrar enlaces en la página de impresión de los artículos ?");
-define("_MI_NEWS_DUBLINCORE","¿ Activar Dublin Core Metadata ?");
+define("_MI_NEWS_FOOTNOTES","¿Mostrar enlaces en la página de impresión de los artículos?");
+define("_MI_NEWS_DUBLINCORE","¿Activar Dublin Core Metadata?");
 define("_MI_NEWS_DUBLINCORE_DSC","Para más información, <a hreh='http://dublincore.org/'>visite este enlace</a>");
 define("_MI_NEWS_BOOKMARK_ME","¿ Mostrar el bloque 'Agregue este artículo a favoritos' ?");
 define("_MI_NEWS_BOOKMARK_ME_DSC","Este bloque se mantendrá visible en la página del artículo");
@@ -161,7 +161,7 @@ define("_MI_NEWS_METAGEN","Metagen");
 define("_MI_NEWS_TOPICS_DIRECTORY","Directorio de temas");
 define("_MI_NEWS_ADVERTISEMENT","Publicidad");
 define("_MI_NEWS_ADV_DESCR","Inserte el texto o código javascript a mostrar en sus artículos");
-define("_MI_NEWS_MIME_TYPES","Introduzca los Mime Types permitidos para subir/upload (separados por líneas)");
+define("_MI_NEWS_MIME_TYPES","Introduzca los 'Mime Types' permitidos para subir/upload (separados por líneas)");
 define("_MI_NEWS_ENHANCED_PAGENAV","¿ Utilizar el navegador mejorado de páginas ?");
 define("_MI_NEWS_ENHANCED_PAGENAV_DSC","Con esta opción podrá separar las páginas con algo así como : [pagrebreak:Page Title], los enlaces a las páginas son reemplazados por un menú desplegalbe. También podrá usar [sumary] para crear un sumario automático de las páginas");
 

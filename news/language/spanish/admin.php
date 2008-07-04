@@ -20,7 +20,7 @@ define("_AM_EDITARTICLE","Modificar artículo");
 define("_AM_POSTNEWARTICLE","Enviar artículo");
 define("_AM_ARTPUBLISHED","Su artículo ha sido publicado");
 define("_AM_HELLO","Hola %s,");
-define("_AM_YOURARTPUB","El artículo que redactó en nuestro sitio fué publicado.");
+define("_AM_YOURARTPUB","El artículo que redactó en nuestro sitio fue publicado.");
 define("_AM_TITLEC","Título: ");
 define("_AM_URLC","URL: ");
 define("_AM_PUBLISHEDC","Publicado: ");
@@ -64,7 +64,7 @@ define("_AM_PARENTTOPIC","Tema raiz");
 define("_AM_SAVECHANGE","Guardar cambios");
 define("_AM_DEL","Borrar");
 define("_AM_CANCEL","Cancelar");
-define("_AM_WAYSYWTDTTAL","Advertencia: ¿Está seguro que quiere borrar este tema y todas sus historias y comentarios?");
+define("_AM_WAYSYWTDTTAL","Advertencia: ¿está seguro que quiere borrar este tema y todas sus historias y comentarios?");
 
 
 // Added in Beta6
@@ -106,7 +106,7 @@ define('_AM_SUBMITFORM_DESC', 'Seleccione cuales grupos podrán enviar artículo
 define('_AM_VIEWFORM_DESC', 'Seleccione cuales grupos podrán ver artículos.');
 define('_AM_DELETE_SELFILES', 'Eliminar el archivo seleccionado');
 define('_AM_TOPIC_PICTURE', 'Subir imagen');
-define('_AM_UPLOAD_WARNING', '<b>Atención, no olvide aplicar permiso de escritura al directorio : %s</b>');
+define('_AM_UPLOAD_WARNING', '<b>Atención: no olvide aplicar permiso de escritura al directorio : %s</b>');
 
 define('_AM_NEWS_UPGRADECOMPLETE', 'Actualización completada.');
 define('_AM_NEWS_UPDATEMODULE', 'Actualizar plantillas del módulo y bloques.');
@@ -129,10 +129,10 @@ define('_AM_NEWS_UPGRADEFAILED21', "Imposible agregar los nuevos campos a la tab
 define('_AM_NEWS_UPGRADEFAILED3', 'Imposible crear la tabla stories_votedata.');
 define('_AM_NEWS_UPGRADEFAILED4', "Imposible crear los campos 'rating' y 'votes' para la tabla 'story'.");
 define('_AM_NEWS_UPGRADEFAILED0', "Por favor anote los mensajes y trate de corregir los errores con phpMyadmin y las definiciones sql disponibles en el directorio 'sql' del módulo news.");
-define('_AM_NEWS_UPGR_ACCESS_ERROR',"Error, para lanzar el script de actualización, debe tener permisos de administrador en este módulo.");
-define('_AM_NEWS_PRUNE_BEFORE',"Purgar artículos publicados antes de");
+define('_AM_NEWS_UPGR_ACCESS_ERROR',"Error, para proceder con el script de actualización debe tener permisos de administrador en este módulo.");
+define('_AM_NEWS_PRUNE_BEFORE',"Eliminar artículos publicados antes de");
 define('_AM_NEWS_PRUNE_EXPIREDONLY',"Remover solo los artículos expirados");
-define('_AM_NEWS_PRUNE_CONFIRM',"Peligro, se dispone a eliminar permanentemente los artículos publicados antes del %s .<br />Esta acción es irreversible y serán eliminados %s artículos.<br />¿Está seguro de querer continuar?");
+define('_AM_NEWS_PRUNE_CONFIRM',"Peligro: se dispone a eliminar permanentemente los artículos publicados antes del %s .<br />Esta acción es irreversible y serán eliminados %s artículos.<br />¿Está seguro de querer continuar?");
 define('_AM_NEWS_PRUNE_TOPICS',"Limitar a los siguientes temas");
 define('_AM_NEWS_PRUNENEWS', 'Purgar artículos');
 define('_AM_NEWS_EXPORT_NEWS', 'Exportar artículos');
@@ -145,12 +145,12 @@ define('_AM_NEWS_EXPORT_PRUNE_DSC', "Si no selecciona ninguno serán utilizados 
 define('_AM_NEWS_EXPORT_INCTOPICS', 'Incluir definiciones de temas');
 define('_AM_NEWS_EXPORT_ERROR', 'Error al intentar crear el archivo %s. Operación detenida.');
 define('_AM_NEWS_EXPORT_READY', "Su archivo de exportación xml está listo para ser descargado. <br /><a href='%s'>Haga clic en este enlace para descargarlo</a>.<br />No olvide <a href='%s'>eliminarlo</a> una vez descargado.");
-define('_AM_NEWS_RSS_URL', "URL de la alimentación RSS");
+define('_AM_NEWS_RSS_URL', "URL de la fuente RSS");
 define('_AM_NEWS_NEWSLETTER', "Boletín de artículos");
 define('_AM_NEWS_NEWSLETTER_BETWEEN', 'Seleccionar artículos publicados entre');
 define('_AM_NEWS_NEWSLETTER_READY', "Su boletín de artículos está listo para ser descargado. <br /><a href='%s'>Haga clic en este enlace para descargarlo</a>.<br />No olvide <a href='%s'>eliminarlo</a> una vez descargado.");
 define('_AM_NEWS_DELETED_OK',"Archivo eliminado satisfactoriamente.");
-define('_AM_NEWS_DELETED_PB',"Un error ha ocurrido al intentar eliminar el archivo.");
+define('_AM_NEWS_DELETED_PB',"Un error tuvo lugar al intentar eliminar el archivo.");
 define('_AM_NEWS_STATS0','Estadísticas de los artículos');
 define('_AM_NEWS_STATS','Estadísticas');
 define('_AM_NEWS_STATS1','Redactores únicos');
@@ -178,11 +178,11 @@ define('_AM_NEWS_PLEASE_UPGRADE',"<a href='upgrade.php'><font color='#FF0000'>Po
 
 // Added in verisn 1.50
 define('_AM_NEWS_NEWSLETTER_HEADER', "Cabecera");
-define('_AM_NEWS_NEWSLETTER_FOOTER', "Pie de Página");
-define('_AM_NEWS_NEWSLETTER_HTML_TAGS', "¿Eliminar etiquetas html?");
+define('_AM_NEWS_NEWSLETTER_FOOTER', "Pie de página");
+define('_AM_NEWS_NEWSLETTER_HTML_TAGS', "¿Eliminar etiquetas HTML?");
 define('_AM_NEWS_VERIFY_TABLES','Mantenimiento de tablas');
 define('_AM_NEWS_METAGEN',"Metagen");
-define('_AM_NEWS_METAGEN_DESC',"Metagen es un sistema que le ayudará a indexar su página mejor en los buscadores.<br />Si no indica ninguno de los campos (palabras clave y descripción) el módulo los añadirá automáticamente.");
+define('_AM_NEWS_METAGEN_DESC',"'Metagen' es un sistema que le ayudará a indexar su página mejor en los buscadores.<br />Si no indica ninguno de los campos (palabras clave y descripción) el módulo los añadirá automáticamente.");
 define('_AM_NEWS_BLACKLIST',"Lista negra");
 define('_AM_NEWS_BLACKLIST_DESC',"Las palabras que aparezcan en la lista no podrán ser usadas como palabras clave (keywords)");
 define('_AM_NEWS_BLACKLIST_ADD',"Añadir");
