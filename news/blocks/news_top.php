@@ -281,7 +281,8 @@ function b_news_top_show($options) {
 	            		$news['author']= '';
            			}
             		if ($options[3] > 0) {
-		        		$news['teaser'] = xoops_substr(strip_tags($story->hometext()), 0, $options[3]+3);
+		        		$html = $story->nohtml() == 1 ? 0 : 1;
+		        		       $news['teaser'] = news_truncate_tagsafe($myts->displayTarea($story->hometext(), $html), $options[3]+3);
            			} else {
 			        	$news['teaser'] = '';
            			}
@@ -323,13 +324,14 @@ function b_news_top_show($options) {
 				        $news = array();
 		        		$title = $story->title();
 						if (strlen($title) > $options[2]) {
-							$title = xoops_substr(strip_tags($title),0,$options[2]+3);
+							$title = news_truncate_tagsafe($title, $options[2]+3);
 						}
             			if ($options[7] != '') {
 			                $news['image'] = sprintf("<a href='%s'>%s</a>", XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid(),$myts->displayTarea($options[7], $story->nohtml));
             			}
                 		if($options[3]>0) {
-		                	$news['text'] = xoops_substr(strip_tags($story->hometext()), 0, $options[3]+3);
+		                	$html = $story->nohtml() == 1 ? 0 : 1;
+		                	$news['text'] = news_truncate_tagsafe($myts->displayTarea($story->hometext(), $html), $options[3]+3);
                 		} else {
 							$news['text'] = '';
                 		}
@@ -472,7 +474,8 @@ function b_news_top_show($options) {
             		$news['author']= '';
             	}
             	if ($options[3] > 0) {
-	                $news['teaser'] = xoops_substr(strip_tags($story->hometext()), 0, $options[3]+3);
+	                $html = $story->nohtml() == 1 ? 0 : 1;
+	                $news['teaser'] = news_truncate_tagsafe($myts->displayTarea($story->hometext(), $html), $options[3]+3);
                 	$news['infotips'] = '';
             	} else {
 	                $news['teaser'] = '';

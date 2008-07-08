@@ -60,8 +60,8 @@ class NewsStory extends XoopsStory
 	var $db;
 	var $topicstable;
 	var $comments;
-	var $topicsIds;		// Tableau des ID des topics auxquel est rattaché l'article
-	var $topicsTitles;	// Tableau des titres des sujets auxquel l'article est rattaché
+	var $topicsIds;		// Tableau des ID des topics auxquel est rattach l'article
+	var $topicsTitles;	// Tableau des titres des sujets auxquel l'article est rattach
 	var $topicsIdsTitles;
 
 	var $newstopic;   	// XoopsTopic object
@@ -127,7 +127,7 @@ class NewsStory extends XoopsStory
 		foreach ( $array as $key=>$value ){
 			$this->$key = $value;
 		}
-		// Récupération des ID des sujets auxquel l'article est rattaché
+		// Rcupration des ID des sujets auxquel l'article est rattach
 		$sql = 'SELECT nc_topic_id FROM '.$db->prefix('stories_newscateg').'  WHERE nc_storyid = '.intval($this->storyid);
 		$this->topicsIds = array();
 
@@ -135,7 +135,7 @@ class NewsStory extends XoopsStory
 		while ($myrow = $db->fetchArray($result)) {
 			$this->topicsIds[] = $myrow['nc_topic_id'];
 		}
-		// Récupération des titres des sujets
+		// Rcupration des titres des sujets
 		if( count($this->topicsIds) > 0) {
 			$sql = 'SELECT topic_id, topic_title FROM '.$db->prefix('topics').' WHERE topic_id IN ('.implode(',', $this->topicsIds).')';
 		}
@@ -250,7 +250,46 @@ class NewsStory extends XoopsStory
 		return $title;
 	}
 
+	function _searchPreviousOrNextArticle($storyid, $next = true, $checkRight = false)
+	{
+		$db =& Database::getInstance();
+		$ret = array();	
+		$storyid = intval($storyid);
+		if($next) {
+			$sql = 'SELECT storyid, title FROM '.$db->prefix('stories').' WHERE (published > 0 AND published <= '.time().') AND (expired = 0 OR expired > '.time().') AND storyid > '.$storyid;
+		} else {
+			$sql = 'SELECT storyid, title FROM '.$db->prefix('stories').' WHERE (published > 0 AND published <= '.time().') AND (expired = 0 OR expired > '.time().') AND storyid < '.$storyid;		
+		}
+		if($checkRight) {
+			$topics = news_MygetItemIds('news_view');
+	    	if(count($topics) > 0) {
+	        	$sql .= ' AND topicid IN ('.implode(',', $topics).')';
+	    	} else {
+	    		return null;
+	    	}
+		}
+		
+		$db =& Database::getInstance();
+		$result = $db->query($sql, 1);
+		if($result) {
+			$myts =& MyTextSanitizer::getInstance();
+			while ( $row = $db->fetchArray($result) ) {
+				$ret = array('storyid' => $row['storyid'], 'title' => $myts->htmlSpecialChars($row['title']));
+			} 
+		}
+		return $ret;
+	}
 
+	function getNextArticle($storyid, $checkRight=false)
+	{
+		return $this->_searchPreviousOrNextArticle($storyid, true, $checkRight);
+	}
+	
+	function getPreviousArticle($storyid, $checkRight=false)
+	{
+		return $this->_searchPreviousOrNextArticle($storyid, false, $checkRight);
+	}
+	
 
 	/**
  	* Returns published stories according to some options
@@ -313,7 +352,7 @@ class NewsStory extends XoopsStory
 			$sql = 'SELECT * FROM '.$db->prefix('stories').' WHERE storyid IN ('.implode(',', $storiesList).') ORDER BY '.$order.' DESC';
 			$result = $db->query($sql);
 			while ( $myrow = $db->fetchArray($result) ) {
-				// Récupération des topics
+				// Rcupration des topics
 				$sql2 = 'SELECT * FROM '.$db->prefix('stories_newscateg').' t LEFT JOIN '.$db->prefix('topics').' o ON t.nc_topic_id = o.topic_id WHERE nc_storyid = '.$myrow['storyid'];
 				$result2 = $db->query($sql2);
 				$topicTitles = $topicIds = array();

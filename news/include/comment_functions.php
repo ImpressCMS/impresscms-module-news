@@ -32,6 +32,8 @@ if (!defined('XOOPS_ROOT_PATH')) {
 
 include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 function news_com_update($story_id, $total_num){
+	$story_id = intval($story_id);
+	$total_num = intval($total_num);
 	$article = new NewsStory($story_id);
 	if (!$article->updateComments($total_num)) {
 		return false;

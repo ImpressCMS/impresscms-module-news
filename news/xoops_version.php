@@ -48,6 +48,7 @@ $modversion['tables'][0] = "stories";
 $modversion['tables'][1] = "topics";
 $modversion['tables'][2] = "stories_files";
 $modversion['tables'][3] = "stories_votedata";
+$modversion['tables'][4] = "stories_newscateg";
 
 // Admin things
 $modversion['hasAdmin'] = 1;

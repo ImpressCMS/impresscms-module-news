@@ -46,17 +46,9 @@ if(!news_getmoduleoption('topicsrss')) {
 	exit();
 }
 
-//$topicid = 0;
-if(isset($_GET['topicid'])) {
-	$topicid = intval($_GET['topicid']);
-}
-if(empty($topicid)) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _AM_NEWS_NOTOPICSELEC);
+$topicid = isset($_GET['topicid']) ? intval($_GET['topicid']) : 0;
+if($topicid == 0) {
 	exit();
-}
-if ( $topicid = 0 ) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _AM_NEWS_NOTOPIC);
-    exit();
 }
 
 if (function_exists('mb_http_output')) {
@@ -71,9 +63,9 @@ $charset = 'utf-8';
 header ('Content-Type:text/xml; charset='.$charset);
 $story = new NewsStory();
 $tpl = new XoopsTpl();
-$tpl->xoops_setCaching(0);
-$tpl->xoops_setCacheTime(0);
-if (!$tpl->is_cached('db:news_rss.html')) {
+$tpl->xoops_setCaching(2);
+$tpl->xoops_setCacheTime(3600);								// Change this to the value you want
+if (!$tpl->is_cached('db:news_rss.html', $topicid)) {
 	$xt = new NewsTopic($topicid);
 	$sarray = $story->getAllPublished($newsnumber, 0, $restricted, $topicid);
 	if (is_array($sarray) && count($sarray)>0) {
@@ -110,5 +102,5 @@ if (!$tpl->is_cached('db:news_rss.html')) {
 		}
 	}
 }
-$tpl->display('db:news_rss.html');
+$tpl->display('db:news_rss.html', $topicid);
 ?>

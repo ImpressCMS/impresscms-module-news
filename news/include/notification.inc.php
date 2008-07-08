@@ -59,7 +59,7 @@ function news_notify_iteminfo($category, $item_id)
 		if($result) {
 			$result_array = $xoopsDB->fetchArray($result);
 			$item['name'] = $result_array['topic_id'];
-			$item['url'] = XOOPS_URL . '/modules/news/index.php?storytopic=' . $item_id;
+			$item['url'] = XOOPS_URL . '/modules/news/index.php?storytopic=' . intval($item_id);
 			return $item;
 		} else {
 			return null;

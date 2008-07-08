@@ -66,7 +66,7 @@ function b_news_topics_moderate() {
             $story['title'] = $linktitle;
             $story['date'] = formatTimestamp($newstory->created(),$dateformat);
             $story['author'] = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory -> uid() . "'>" . $newstory->uname() . "</a>";
-            $story['action'] = "<a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _MB_DELETE . "</a>";
+            $story['action'] = "<a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "'>" . _EDIT. "</a> - <a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _MB_DELETE . "</a>";
             $story['topic_title'] = implode(', ', $newstory->topicsTitles);
             $block['stories'][] =& $story;
             unset($story);

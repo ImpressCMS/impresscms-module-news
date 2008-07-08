@@ -14,8 +14,8 @@
 * @version		$Id$
 */
 
-error_reporting(0);
-include_once '../../../mainfile.php';
+error_reporting(1);
+include_once '../../mainfile.php';
 $myts =& MyTextSanitizer::getInstance();
 include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
@@ -66,16 +66,16 @@ if (file_exists( $filename)) {
 	include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 }
 
-$filename = ICMS_PDF_LIB_PATH.'/config/lang/'._LANGCODE.'.php';
+$filename = ICMS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/pdf.php';
 if(file_exists($filename)) {
 	include_once $filename;
 } else {
-	include_once ICMS_PDF_LIB_PATH.'/config/lang/en.php';
+	include_once ICMS_ROOT_PATH.'/language/english/pdf.php';
 }
 
 $dateformat = news_getmoduleoption('dateformat');
 $content = '';
-$content .= '<b><i><u><a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid().'" title="'.$myts->undoHtmlSpecialChars($article->title()).'">'.$myts->undoHtmlSpecialChars($article->title()).'</a></u></i></b><br /><b><a href="'.XOOPS_URL.'/modules/news/index.php?storytopic='.$article->topicid().'" title="'.$myts->undoHtmlSpecialChars($article->topic_title()).'">'.$myts->undoHtmlSpecialChars($article->topic_title()).'</a></b><br />'._POSTEDBY.' : <a href="'.XOOPS_URL.'/userinfo.php?uid='.$article->uid().'" title="'.$myts->undoHtmlSpecialChars($article->uname()).'">'.$myts->undoHtmlSpecialChars($article->uname()).'</a><br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
+$content .= '<b><i><u><a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid().'" title="'.$myts->undoHtmlSpecialChars($article->title()).'">'.$myts->undoHtmlSpecialChars($article->title()).'</a></u></i></b><br />'._POSTEDBY.' : <a href="'.XOOPS_URL.'/userinfo.php?uid='.$article->uid().'" title="'.$myts->undoHtmlSpecialChars($article->uname()).'">'.$myts->undoHtmlSpecialChars($article->uname()).'</a><br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
 $content .= $myts->undoHtmlSpecialChars($article->hometext()) . '<br />' . $myts->undoHtmlSpecialChars($article->bodytext());
 $content = str_replace('[pagebreak]','<br />',$content);
 

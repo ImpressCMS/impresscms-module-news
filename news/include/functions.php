@@ -412,12 +412,12 @@ function news_createmeta_keywords($content)
 		case 0:	// Ordre d'apparition dans le texte
 			$keywords = array_unique($keywords);
 			break;
-		case 1:	// Ordre de fréquence des mots
+		case 1:	// Ordre de frquence des mots
 			$keywords = array_count_values($keywords);
 			asort($keywords);
 			$keywords = array_keys($keywords);
 			break;
-		case 2:	// Ordre inverse de la fréquence des mots
+		case 2:	// Ordre inverse de la frquence des mots
 			$keywords = array_count_values($keywords);
 			arsort($keywords);
 			$keywords = array_keys($keywords);
@@ -597,4 +597,72 @@ function news_make_infotips($text)
 	}
 }
 
+/**
+ * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
+ *           <amos dot robinson at gmail dot com>
+ */
+function news_close_tags($string)
+{
+	// match opened tags
+	if(preg_match_all('/<([a-z\:\-]+)[^\/]>/', $string, $start_tags)) {
+		$start_tags = $start_tags[1];
+		// match closed tags
+		if(preg_match_all('/<\/([a-z]+)>/', $string, $end_tags)) {
+			$complete_tags = array();
+   			$end_tags = $end_tags[1];
+    
+   			foreach($start_tags as $key => $val) {   
+        		$posb = array_search($val, $end_tags);
+       			if(is_integer($posb)) {
+          			unset($end_tags[$posb]);
+       			} else {
+					$complete_tags[] = $val;
+				}
+			}
+		} else {
+			$complete_tags = $start_tags;
+		}
+	    
+		$complete_tags = array_reverse($complete_tags);
+		for($i = 0; $i < count($complete_tags); $i++) {
+			$string .= '</' . $complete_tags[$i] . '>';
+		}
+	}
+	return $string;
+}
+
+/**
+ * Smarty truncate_tagsafe modifier plugin
+ *
+ * Type:     modifier<br>
+ * Name:     truncate_tagsafe<br>
+ * Purpose:  Truncate a string to a certain length if necessary,
+ *           optionally splitting in the middle of a word, and
+ *           appending the $etc string or inserting $etc into the middle.
+ *           Makes sure no tags are left half-open or half-closed
+ *           (e.g. "Banana in a <a...")
+ * @author   Monte Ohrt <monte at ohrt dot com>, modified by Amos Robinson
+ *           <amos dot robinson at gmail dot com>
+ * @param string
+ * @param integer
+ * @param string
+ * @param boolean
+ * @param boolean
+ * @return string
+ */
+function news_truncate_tagsafe($string, $length = 80, $etc = '...', $break_words = false)
+{
+	if ($length == 0) return '';
+	if (strlen($string) > $length) {
+		$length -= strlen($etc);
+		if (!$break_words) {
+			$string = preg_replace('/\s+?(\S+)?$/', '', substr($string, 0, $length+1));
+			$string = preg_replace('/<[^>]*$/', '', $string);
+			$string = news_close_tags($string);
+		}
+		return $string . $etc;
+	} else {
+		return $string;
+	}
+}
 ?>

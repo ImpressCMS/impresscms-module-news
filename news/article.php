@@ -228,7 +228,7 @@ if (xoops_trim($bodytext) != '') {
         $story['text'] = $story['text'].'<br />'.news_getmoduleoption('advertisement').'<br />'.$bodytext;
     }
 }
-// Publicité
+// Publicit
 $xoopsTpl->assign('advertisement', news_getmoduleoption('advertisement'));
 
 // ****************************************************************************************************************
@@ -335,7 +335,9 @@ if(news_getmoduleoption('newsbythisauthor')) {
 //$mytree = new XoopsTree($xoopsDB->prefix('topics'),'topic_id','topic_pid');
 //$topicpath = $mytree->getNicePathFromId($article->topicid(), 'topic_title', 'index.php?op=1');
 //$xoopsTpl->assign('topic_path', $topicpath);
+if($cfg['create_clickable_path']) {
 $xoopsTpl->assign('topic_path', '' );
+ }
 //unset($mytree);
 
 
@@ -386,44 +388,33 @@ if (news_getmoduleoption('showsummarytable')) {
  * restricted stories
  */
 if (news_getmoduleoption('showprevnextlink')) {
-	$previous = $next = $lastread = -1;
-	$warning = false;
-	$previoustitle = '';
-	$nexttitle = '';
-	$lasttitle = '';
 	$xoopsTpl->assign('nav_links', true);
 	$tmparticle = new NewsStory();
 	$sarray = $tmparticle->getAllPublished(0, 0, $xoopsModuleConfig['restrictindex'],0,0,false);
-	if(is_array($sarray)) {
-		while(list($storyid, $storytitle) = each($sarray)) {
-	   		if($warning) {
-   				$next = $storyid;
-   				$nexttitle = $storytitle;
-   				$warning = false;
-   			}
-
-   			if($storyid == $article->storyid()) {
-				if($previous == -1) {
-					$previous = $lastread;
-					$previoustitle = $lasttitle;
-				}
-				$warning = true;
-   			}
-   			$lastread = $storyid;
-   			$lasttitle = $storytitle;
+	   $nextId = $previousId = -1;
+       $next = $previous = array();
+       $previousTitle = $nextTitle = '';
+		$next = $tmparticle->getNextArticle($storyid, $xoopsModuleConfig['restrictindex']);
+				if(count($next) > 0) {
+				       $nextId = $next['storyid'];
+				       $nextTitle = $next['title'];
 		}
-	}
+	         $previous = $tmparticle->getPreviousArticle($storyid, $xoopsModuleConfig['restrictindex']);
+	         if(count($previous) > 0) {
+	                $previousId = $previous['storyid'];
+	                       $previousTitle = $previous['title'];
+	         	}
 
-   	$xoopsTpl->assign('previous_story_id', $previous);
-   	$xoopsTpl->assign('next_story_id', $next);
-   	if($previous != -1) {
-   		$xoopsTpl->assign('previous_story_title',$previoustitle);
-   		$hcontent.=sprintf("<link rel=\"Prev\" title=\"%s\" href=\"%s/\" />\n",$previoustitle,XOOPS_URL.'/modules/news/article.php?storyid='.$previous);
+   	$xoopsTpl->assign('previous_story_id',$previousId);
+   	$xoopsTpl->assign('next_story_id',$nextId);
+   	if($previousId > 0) {
+   		$xoopsTpl->assign('previous_story_title',$previousTitle);
+   		$hcontent.=sprintf("<link rel=\"Prev\" title=\"%s\" href=\"%s/\" />\n", $previousTitle,XOOPS_URL.'/modules/news/article.php?storyid='.$previousId);
    	}
 
-   	if($next!=-1) {
-   		$xoopsTpl->assign('next_story_title',$nexttitle);
-   		$hcontent.=sprintf("<link rel=\"Next\" title=\"%s\" href=\"%s/\" />\n",$nexttitle,XOOPS_URL.'/modules/news/article.php?storyid='.$next);
+   	 if($nextId > 0) {
+   		 $xoopsTpl->assign('next_story_title',$nextTitle);
+   		$hcontent.=sprintf("<link rel=\"Next\" title=\"%s\" href=\"%s/\" />\n", $nextTitle,XOOPS_URL.'/modules/news/article.php?storyid='.$nextId);
    	}
    	$xoopsTpl->assign('lang_previous_story',_NW_PREVIOUS_ARTICLE);
    	$xoopsTpl->assign('lang_next_story',_NW_NEXT_ARTICLE);

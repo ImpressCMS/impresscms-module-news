@@ -15,9 +15,15 @@ v1.57 Alpha
 - Removed the old pdf generator as it was old and out of date
 - Changed default category name to ICMS.
 - Added new shot for ICMS category.
-  **************************************************************************
-  ** This version of the News module does not run with PHP4 **
-  **************************************************************************
+- It was possible to give any ranking to an article
+- After you have vote for an article, you are redirected to the article (and not to the module's index page)
+- The RSS feed per subject now runs with cache (correctly)
+- I have corrected a bug in the "Archives" block (the block was displaying _NW_NEWSARCHIVES)
+- In the moderation block you now have a link to edit the story
+- I have corrected a bug in news_item.html
+- In the article page, the script should use less ressources to create the link to the previous and next article
+- Now you can display html in the blocks
+
 
 *******
 v1.56

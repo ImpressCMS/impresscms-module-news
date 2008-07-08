@@ -69,7 +69,8 @@ function b_news_randomnews_show($options) {
         $news['topic_title'] = implode(', ', $story->topicsTitles);
 
         if ($options[3] > 0) {
-        	$news['teaser'] = xoops_substr($myts->displayTarea(strip_tags($story->hometext)), 0, $options[3]+3);
+        	$html = $story->nohtml() == 1 ? 0 : 1;
+        	$news['teaser'] = news_truncate_tagsafe($myts->displayTarea($story->hometext, $html), $options[3]+3);
         	$news['infotips'] = '';
         }
         else {
