@@ -294,7 +294,7 @@ if($xoopsOption['storytopic']) {
  * Create a link for the RSS feed (if the module's option is activated)
  */
 if($xoopsModuleConfig['topicsrss'] && $xoopsOption['storytopic']) {
-	$link=sprintf("<a href='%s' title='%s'><img src='%s' border=0 alt='%s'></a>",XOOPS_URL.'/modules/news/backendt.php?topicid='.$xoopsOption['storytopic'], _NW_RSSFEED, XOOPS_URL.'/modules/news/images/rss.gif',_NW_RSSFEED);
+	$link=sprintf("<a href='%s' title='%s'><img src='%s' border='0' alt='%s'></a>",XOOPS_URL.'/modules/news/backendt.php?topicid='.$xoopsOption['storytopic'], _NW_RSSFEED, XOOPS_URL.'/modules/news/images/rss.gif',_NW_RSSFEED);
 	$xoopsTpl->assign('topic_rssfeed_link',$link);
 }
 

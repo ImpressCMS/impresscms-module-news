@@ -257,9 +257,11 @@ class NewsStory extends XoopsStory
 		$storyid = intval($storyid);
 		if($next) {
 			$sql = 'SELECT storyid, title FROM '.$db->prefix('stories').' WHERE (published > 0 AND published <= '.time().') AND (expired = 0 OR expired > '.time().') AND storyid > '.$storyid;
+	                         $orderBy = ' ORDER BY storyid ASC';
 		} else {
 			$sql = 'SELECT storyid, title FROM '.$db->prefix('stories').' WHERE (published > 0 AND published <= '.time().') AND (expired = 0 OR expired > '.time().') AND storyid < '.$storyid;		
-		}
+	                         $orderBy = ' ORDER BY storyid DESC';
+	                         }
 		if($checkRight) {
 			$topics = news_MygetItemIds('news_view');
 	    	if(count($topics) > 0) {
@@ -268,7 +270,7 @@ class NewsStory extends XoopsStory
 	    		return null;
 	    	}
 		}
-		
+		$sql .= $orderBy;
 		$db =& Database::getInstance();
 		$result = $db->query($sql, 1);
 		if($result) {

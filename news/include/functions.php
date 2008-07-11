@@ -314,9 +314,9 @@ function news_CreateMetaDatas($story = null)
 			$meta_keywords = news_createmeta_keywords($story->hometext().' '.$story->bodytext());
 		}
 		if(xoops_trim($story->description())!='') {
-			$meta_description = $story->description();
+			$meta_description = strip_tags($story->description);
 		} else {
-			$meta_description = strip_tags($story->title());
+			$meta_description = strip_tags($story->title);
 		}
 		if(isset($xoTheme) && is_object($xoTheme)) {
 			$xoTheme->addMeta( 'meta', 'keywords', $meta_keywords);
