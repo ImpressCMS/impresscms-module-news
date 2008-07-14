@@ -25,15 +25,18 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
+
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 include_once XOOPS_ROOT_PATH.'/class/xoopstopic.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopsuser.php';
 
 include_once XOOPS_ROOT_PATH.'/class/xoopsstory.php';
 include_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 
 class NewsStory extends XoopsStory
 {
@@ -709,7 +712,9 @@ class NewsStory extends XoopsStory
 
 	function adminlink()
 	{
-		$ret = "&nbsp;[ <a href='".XOOPS_URL."/modules/news/submit.php?op=edit&amp;storyid=".$this->storyid()."'>"._EDIT."</a> | <a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=".$this->storyid()."'>"._DELETE."</a> ]&nbsp;";
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+		$ret = "&nbsp;[ <a href='".XOOPS_URL."/modules/".$mydirname."/submit.php?op=edit&amp;storyid=".$this->storyid()."'>"._EDIT."</a> | <a href='".XOOPS_URL."/modules/'.$mydirname.'/admin/index.php?op=delete&amp;storyid=".$this->storyid()."'>"._DELETE."</a> ]&nbsp;";
 		return $ret;
 	}
 
@@ -759,18 +764,22 @@ class NewsStory extends XoopsStory
 
 	function imglink()
 	{
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$ret = '';
-		if ($this->topic_imgurl() != '' && file_exists(XOOPS_ROOT_PATH.'/modules/news/images/topics/'.$this->topic_imgurl())) {
-			$ret = "<a href='".XOOPS_URL."/modules/news/index.php?storytopic=".$this->topicid()."'><img src='".XOOPS_URL."/modules/news/images/topics/".$this->topic_imgurl()."' alt='".$this->topic_title()."' hspace='10' vspace='10' align='".$this->topicalign()."' /></a>";
+		if ($this->topic_imgurl() != '' && file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/images/topics/'.$this->topic_imgurl())) {
+			$ret = "<a href='".XOOPS_URL."/modules/".$mydirname."/index.php?storytopic=".$this->topicid()."'><img src='".XOOPS_URL."/modules/".$mydirname."/images/topics/".$this->topic_imgurl()."' alt='".$this->topic_title()."' hspace='10' vspace='10' align='".$this->topicalign()."' /></a>";
 		}
 		return $ret;
 	}
 
 	function textlink()
 	{
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$cpt = count($this->topicsIds);
 		for($i=0; $i<$cpt; $i++) {
-			$returns[] = "<a href='".XOOPS_URL."/modules/news/index.php?storytopic=".$this->topicsIds[$i]."'>".$this->topicsTitles[$i]."</a>";
+			$returns[] = "<a href='".XOOPS_URL."/modules/".$mydirname."/index.php?storytopic=".$this->topicsIds[$i]."'>".$this->topicsTitles[$i]."</a>";
 		}
 		$ret = implode(', ', $returns);
 		return $ret;
@@ -779,7 +788,9 @@ class NewsStory extends XoopsStory
 
 	function prepare2show($filescount)
 	{
-	    include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+	    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 	    global $xoopsUser, $xoopsConfig, $xoopsModuleConfig;
 	    $myts =& MyTextSanitizer::getInstance();
 	    $infotips = news_getmoduleoption('infotips');
@@ -819,7 +830,7 @@ class NewsStory extends XoopsStory
 
 	    $morelink = '';
 	    if ( $fullcount > 1 ) {
-	        $morelink .= '<a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid().'';
+	        $morelink .= '<a href="'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid().'';
 	        $morelink .= '">'._NW_READMORE.'</a>';
         	$morelink .= ' | '.sprintf(_NW_BYTESMORE,$totalcount);
 	        if (XOOPS_COMMENT_APPROVENONE != $xoopsModuleConfig['com_rule']) {
@@ -828,8 +839,8 @@ class NewsStory extends XoopsStory
 	    }
 	    if (XOOPS_COMMENT_APPROVENONE != $xoopsModuleConfig['com_rule']) {
 	        $ccount = $this->comments();
-	        $morelink .= '<a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid().'';
-	        $morelink2 = '<a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid().'';
+	        $morelink .= '<a href="'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid().'';
+	        $morelink2 = '<a href="'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid().'';
 	        if ( $ccount == 0 ) {
 	            $morelink .= '">'._NW_COMMENTS.'</a>';
 	        } else {
@@ -866,7 +877,7 @@ class NewsStory extends XoopsStory
 	    if ($approveprivilege) {
 	        $story['adminlink'] = $this->adminlink();
 	    }
-	    $story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid();
+	    $story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid();
 	    $story['imglink'] = '';
 	    $story['align'] = '';
 	    if ( $this->topicdisplay() ) {
@@ -878,12 +889,12 @@ class NewsStory extends XoopsStory
 		} else {
 			$story['infotips'] = '';
 		}
-	    $story['title'] = "<a href='".XOOPS_URL."/modules/news/article.php?storyid=".$this->storyid()."'".$story['infotips'].">".$this->title()."</a>";
+	    $story['title'] = "<a href='".XOOPS_URL."/modules/".$mydirname."/article.php?storyid=".$this->storyid()."'".$story['infotips'].">".$this->title()."</a>";
 
 	    $story['hits'] = $this->counter();
 		if($filescount>0) {
 			$story['files_attached']= true;
-			$story['attached_link']="<a href='".XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid()."' title='"._NW_ATTACHEDLIB."'><img src='".XOOPS_URL.'/modules/news/images/attach.gif'."' title='"._NW_ATTACHEDLIB."'></a>";
+			$story['attached_link']="<a href='".XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid()."' title='"._NW_ATTACHEDLIB."'><img src='".XOOPS_URL.'/modules/'.$mydirname.'/images/attach.gif'."' title='"._NW_ATTACHEDLIB."'></a>";
 		} else {
 			$story['files_attached']= false;
 			$story['attached_link']='';
@@ -896,8 +907,10 @@ class NewsStory extends XoopsStory
  	*/
 	function uname($uid=0)
 	{
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 		global $xoopsConfig;
-		include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 		static $tblusers = array();
 		$option=-1;
 		if(empty($uid)) {
@@ -1328,6 +1341,8 @@ class NewsStory extends XoopsStory
 	 */
 	function auto_summary($text, &$titles)
 	{
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$auto_summary = '';
 		if(news_getmoduleoption('enhanced_pagenav')) {
 	    	$expr_matches = array();
@@ -1340,7 +1355,7 @@ class NewsStory extends XoopsStory
 				if(isset($titles) && is_array($titles)) {
 					$titles[] = strip_tags(sprintf(_NW_PAGE_AUTO_SUMMARY,1, $this->title()));
 				}
-				$item = "<a href='".XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid()."&page=0'>".sprintf(_NW_PAGE_AUTO_SUMMARY,1, $this->title()).'</a><br />';
+				$item = "<a href='".XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid()."&page=0'>".sprintf(_NW_PAGE_AUTO_SUMMARY,1, $this->title()).'</a><br />';
 				$auto_summary .= $item;
 
 				foreach($delimiters as $item) {
@@ -1350,7 +1365,7 @@ class NewsStory extends XoopsStory
 						$item = $cpt;
 					}
 					$titles[] = strip_tags(sprintf(_NW_PAGE_AUTO_SUMMARY,$cpt, $item));
-					$item = "<a href='".XOOPS_URL.'/modules/news/article.php?storyid='.$this->storyid().'&page='.($cpt-1)."'>".sprintf(_NW_PAGE_AUTO_SUMMARY,$cpt, $item).'</a><br />';
+					$item = "<a href='".XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$this->storyid().'&page='.($cpt-1)."'>".sprintf(_NW_PAGE_AUTO_SUMMARY,$cpt, $item).'</a><br />';
 					$auto_summary .= $item;
 				}
     		}

@@ -3,13 +3,16 @@ Changelog
 *******
 v1.57 Alpha
 *******
+- Added renaming possibility, ehich means you van give whatever name to your 
+  module, but this is not the same as cloning
 - A modification in /icms/modules/news/templates/news_item.html
 - Added a new language define in main.php => _AM_NEWS_NOTOPIC
 - Added a new language define in main.php => _AM_NEWS_NOTOPICSELEC
 - There was a bug when your selected topic was 0 you got a blank page.
 - There was a bug when you haven't selected any topic, you got a blank page.
 - Added new icon sets for print, pdf, mail icons
-- PDF generator being optomised from the standard xoops install to take advantage of the pdf library in the core
+- PDF generator being optomised from the standard xoops install to take 
+  advantage of the pdf library in the core
   It now supports all utf-8 languages with no problem, tested with Russian and Persian for instance.
 - Removed pdf library generetator (tcpdf)
 - Removed the old pdf generator as it was old and out of date

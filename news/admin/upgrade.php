@@ -25,9 +25,11 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 include_once '../../../include/cp_header.php';
 xoops_cp_header();
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 
 
 if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {

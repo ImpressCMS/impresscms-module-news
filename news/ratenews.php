@@ -62,25 +62,27 @@
  * @template_var					int		storyid		Story's ID
  * @template_var					string	title		story's title
  */
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
 include_once 'header.php';
 include_once XOOPS_ROOT_PATH.'/class/module.errorhandler.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
 $myts =& MyTextSanitizer::getInstance();
 
 // Verify the perms
 // 1) Is the vote activated in the module ?
 $ratenews=news_getmoduleoption('ratenews');
 if(!$ratenews) {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	exit();
 }
 
 // Limit rating by registred users
 if($cfg['config_rating_registred_only']) {
 	if(!isset($xoopsUser) || !is_object($xoopsUser)) {
-		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	exit();
 	}
 }
@@ -98,17 +100,17 @@ if(isset($_GET['storyid'])) {
 if(!empty($storyid)) {
 	$article = new NewsStory($storyid);
 	if ( $article->published() == 0 || $article->published() > time() ) {
-	    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
+	    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
 	    exit();
 	}
 
 	// Expired
 	if ( $article->expired() != 0 && $article->expired() < time() ) {
-	    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
+	    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
 	    exit();
 	}
 } else {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
+	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
 	exit();
 }
 
@@ -120,7 +122,7 @@ if (is_object($xoopsUser)) {
 	$groups = XOOPS_GROUP_ANONYMOUS;
 }
 if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoopsModule->getVar('mid'))) {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	exit();
 }
 
@@ -140,7 +142,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
 
 	// Check if Rating is Null
 	if ($rating=='--') {
-		redirect_header(XOOPS_URL.'/modules/news/ratenews.php?storyid='.$storyid,4,_NW_NORATING);
+		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/ratenews.php?storyid='.$storyid,4,_NW_NORATING);
 		exit();
 	}
 
@@ -153,7 +155,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
 		$result=$xoopsDB->query('SELECT uid FROM '.$xoopsDB->prefix('stories')." WHERE storyid=$storyid");
 		while(list($ratinguserDB)=$xoopsDB->fetchRow($result)) {
 			if ($ratinguserDB==$ratinguser) {
-				redirect_header(XOOPS_URL.'/modules/news/article.php?storyid='.$storyid,4,_NW_CANTVOTEOWN);
+				redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$storyid,4,_NW_CANTVOTEOWN);
 				exit();
 			}
 		}
@@ -162,7 +164,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
 		$result=$xoopsDB->query('SELECT ratinguser FROM '.$xoopsDB->prefix('stories_votedata')." WHERE storyid=$storyid");
 		while(list($ratinguserDB)=$xoopsDB->fetchRow($result)) {
 			if ($ratinguserDB==$ratinguser) {
-				redirect_header(XOOPS_URL.'/modules/news/article.php?storyid='.$storyid,4,_NW_VOTEONCE);
+				redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$storyid,4,_NW_VOTEONCE);
 				exit();
 			}
 		}
@@ -173,7 +175,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
 		$result=$xoopsDB->query('SELECT COUNT(*) FROM '.$xoopsDB->prefix('stories_votedata')." WHERE storyid=$storyid AND ratinguser=0 AND ratinghostname = '$ip'  AND ratingtimestamp > $yesterday");
 		list($anonvotecount) = $xoopsDB->fetchRow($result);
 		if ($anonvotecount >= 1) {
-			redirect_header(XOOPS_URL.'/modules/news/article.php?storyid='.$storyid,4,_NW_VOTEONCE);
+			redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$storyid,4,_NW_VOTEONCE);
 			exit();
 		}
 	}
@@ -187,7 +189,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
 	//All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
 	news_updaterating($storyid);
 	$ratemessage = _NW_VOTEAPPRE.'<br />'.sprintf(_NW_THANKYOU,$xoopsConfig['sitename']);
-	redirect_header(XOOPS_URL.'/modules/news/article.php?storyid='.$storyid, 4, $ratemessage);
+	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$storyid, 4, $ratemessage);
 	exit();
 } else {		// Display the form to vote
 	$xoopsOption['template_main'] = 'news_ratenews.html';
@@ -197,7 +199,7 @@ if(!empty($_POST['submit'])) {			// The form was submited
     if(is_object($news)) {
     	$title = $news->title('Show');
     } else {
-		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _ERRORS);
+		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _ERRORS);
 		exit();
     }
 	$xoopsTpl->assign('advertisement', news_getmoduleoption('advertisement'));

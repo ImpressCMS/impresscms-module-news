@@ -25,9 +25,11 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
 
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
 $modversion['name'] = _MI_NEWS_NAME;
 $modversion['version'] = 1.57;
 $modversion['description'] = _MI_NEWS_DESC;
@@ -37,7 +39,7 @@ $modversion['help'] = "";
 $modversion['license'] = "GPL see LICENSE";
 $modversion['official'] = 1;
 $modversion['image'] = "images/news_slogo.png";
-$modversion['dirname'] = "news";
+$modversion['dirname'] = $mydirname;
 $modversion['status_version'] = "ALPHA";
 $modversion['status'] = "Alpha";
 
@@ -177,8 +179,8 @@ if (is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $modversion['d
 	}
 	if($count>0) {
 		include_once XOOPS_ROOT_PATH.'/class/tree.php';
-		include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
-		include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 		$xt = new NewsTopic();
 		$allTopics = $xt->getAllTopics(news_getmoduleoption('restrictindex'));
 		$topic_tree = new XoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
@@ -205,7 +207,7 @@ if ($cansubmit) {
 }
 unset($cansubmit);
 
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 if(news_getmoduleoption('newsbythisauthor')) {
 	$i++;
 	$modversion['sub'][$i]['name'] = _MI_NEWS_WHOS_WHO;

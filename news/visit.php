@@ -24,13 +24,15 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
 
 $fileid = (isset($_GET['fileid'])) ? intval($_GET['fileid']) : 0;
 if (empty($fileid)) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php',2,_ERRORS);
+    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php',2,_ERRORS);
     exit();
 }
 $myts =& MyTextSanitizer::getInstance(); // MyTextSanitizer object
@@ -40,12 +42,12 @@ $sfiles = new sFiles($fileid);
 $article = new NewsStory($sfiles->getStoryid());
 // and the news, can we see it ?
 if ( $article->published() == 0 || $article->published() > time() ) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
     exit();
 }
 // Expired
 if ( $article->expired() != 0 && $article->expired() < time() ) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
@@ -57,7 +59,7 @@ if (is_object($xoopsUser)) {
 	$groups = XOOPS_GROUP_ANONYMOUS;
 }
 if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoopsModule->getVar('mid'))) {
-	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	exit();
 }
 

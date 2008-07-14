@@ -25,13 +25,17 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
 
 function b_news_randomnews_show($options) {
-    include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
     $myts =& MyTextSanitizer::getInstance();
     $block = array();
 	$block['sort']=$options[0];

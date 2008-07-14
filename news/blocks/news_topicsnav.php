@@ -25,12 +25,17 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
 
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+
 function b_news_topicsnav_show($options) {
-    include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-    include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
    	$myts =& MyTextSanitizer::getInstance();
 	$block = array();
 	$newscountbytopic=array();
@@ -40,7 +45,7 @@ function b_news_topicsnav_show($options) {
     if ($restricted) {
         global $xoopsUser;
         $module_handler =& xoops_gethandler('module');
-        $newsModule =& $module_handler->getByDirname('news');
+        $newsModule =& $module_handler->getByDirname($mydirname);
         $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $gperm_handler =& xoops_gethandler('groupperm');
         $topics = $gperm_handler->getItemIds('news_view', $groups, $newsModule->getVar('mid'));

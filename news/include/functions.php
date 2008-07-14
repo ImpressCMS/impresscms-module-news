@@ -25,8 +25,11 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
+
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 /**
  * Returns a module's option
@@ -274,31 +277,33 @@ function DublinQuotes($text) {
  */
 function news_CreateMetaDatas($story = null)
 {
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsConfig, $xoTheme, $xoopsTpl;
 	$content = '';
 	$myts =& MyTextSanitizer::getInstance();
-	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
 
 	/**
 	 * Firefox and Opera Navigation's Bar
 	 */
 	if(news_getmoduleoption('sitenavbar')) {
 		$content .= sprintf("<link rel=\"Home\" title=\"%s\" href=\"%s/\" />\n",$xoopsConfig['sitename'],XOOPS_URL);
-		$content .= sprintf("<link rel=\"Contents\" href=\"%s\" />\n",XOOPS_URL.'/modules/news/index.php');
+		$content .= sprintf("<link rel=\"Contents\" href=\"%s\" />\n",XOOPS_URL.'/modules/'.$mydirname.'/index.php');
 		$content .= sprintf("<link rel=\"Search\" href=\"%s\" />\n",XOOPS_URL.'/search.php');
-		$content .= sprintf("<link rel=\"Glossary\" href=\"%s\" />\n",XOOPS_URL.'/modules/news/archive.php');
-		$content .= sprintf("<link rel=\"%s\" href=\"%s\" />\n",$myts->htmlSpecialChars(_NW_SUBMITNEWS),XOOPS_URL.'/modules/news/submit.php');
+		$content .= sprintf("<link rel=\"Glossary\" href=\"%s\" />\n",XOOPS_URL.'/modules/'.$mydirname.'/archive.php');
+		$content .= sprintf("<link rel=\"%s\" href=\"%s\" />\n",$myts->htmlSpecialChars(_NW_SUBMITNEWS),XOOPS_URL.'/modules/'.$mydirname.'/submit.php');
 		$content .= sprintf("<link rel=\"alternate\" type=\"application/rss+xml\" title=\"%s\" href=\"%s/\" />\n",$xoopsConfig['sitename'],XOOPS_URL.'/backend.php');
 
 		// Create chapters
 		include_once XOOPS_ROOT_PATH.'/class/tree.php';
-		include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
 		$xt = new NewsTopic();
 		$allTopics = $xt->getAllTopics(news_getmoduleoption('restrictindex'));
 		$topic_tree = new XoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
 		$topics_arr = $topic_tree->getAllChild(0);
 		foreach ($topics_arr as $onetopic) {
-			$content .= sprintf("<link rel=\"Chapter\" title=\"%s\" href=\"%s\" />\n",$onetopic->topic_title(),XOOPS_URL.'/modules/news/index.php?storytopic='.$onetopic->topic_id());
+			$content .= sprintf("<link rel=\"Chapter\" title=\"%s\" href=\"%s\" />\n",$onetopic->topic_title(),XOOPS_URL.'/modules/'.$mydirname.'/index.php?storytopic='.$onetopic->topic_id());
 		}
 	}
 
@@ -340,10 +345,10 @@ function news_CreateMetaDatas($story = null)
 		$content .= '<meta name="DC.Publisher" content="'.DublinQuotes($xoopsConfig['sitename'])."\" />\n";
 		$content .= '<meta name="DC.Date.created" scheme="W3CDTF" content="'.date('Y-m-d',$story->created)."\" />\n";
 		$content .= '<meta name="DC.Date.issued" scheme="W3CDTF" content="'.date('Y-m-d',$story->published)."\" />\n";
-		$content .= '<meta name="DC.Identifier" content="'.XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid()."\" />\n";
+		$content .= '<meta name="DC.Identifier" content="'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$story->storyid()."\" />\n";
 		$content .= '<meta name="DC.Source" content="'.XOOPS_URL."\" />\n";
 		$content .= '<meta name="DC.Language" content="'._LANGCODE."\" />\n";
-		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/news/index.php?storytopic='.implode(', ', $story->topicsIds)."\" />\n";
+		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/'.$mydirname.'/index.php?storytopic='.implode(', ', $story->topicsIds)."\" />\n";
 		if(isset($xoopsConfigMetaFooter['meta_copyright'])) {
 			$content .= '<meta name="DC.Rights" content="'.DublinQuotes($xoopsConfigMetaFooter['meta_copyright'])."\" />\n";
 		}
@@ -353,7 +358,7 @@ function news_CreateMetaDatas($story = null)
 	 * Firefox 2 micro summaries
 	 */
 	if(news_getmoduleoption('firefox_microsummaries')) {
-		$content .= sprintf("<link rel=\"microsummary\" href=\"%s\" />\n",XOOPS_URL.'/modules/news/micro_summary.php');
+		$content .= sprintf("<link rel=\"microsummary\" href=\"%s\" />\n",XOOPS_URL.'/modules/'.$mydirname.'/micro_summary.php');
 	}
 
 	if(isset($xoopsTpl) && is_object($xoopsTpl)) {
@@ -372,9 +377,11 @@ function news_CreateMetaDatas($story = null)
  */
 function news_createmeta_keywords($content)
 {
-	include XOOPS_ROOT_PATH.'/modules/news/config.php';
-	include_once XOOPS_ROOT_PATH.'/modules/news/class/blacklist.php';
-	include_once XOOPS_ROOT_PATH.'/modules/news/class/registryfile.php';
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+	include XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/blacklist.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/registryfile.php';
 
 	if(!$cfg['meta_keywords_auto_generate']) {
 		return '';
@@ -458,6 +465,8 @@ function news_createmeta_keywords($content)
  * @copyright (c) Instant Zero
 */
 function news_updateCache() {
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsModule;
 	$folder = $xoopsModule->getVar('dirname');
 	$tpllist = array();

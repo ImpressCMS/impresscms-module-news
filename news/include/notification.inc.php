@@ -25,11 +25,16 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+	die("ImpressCMS root path not defined");
 }
+
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 function news_notify_iteminfo($category, $item_id)
 {
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	if ($category=='global') {
 		$item['name'] = '';
 		$item['url'] = '';
@@ -45,7 +50,7 @@ function news_notify_iteminfo($category, $item_id)
 		if($result) {
 			$result_array = $xoopsDB->fetchArray($result);
 			$item['name'] = $result_array['title'];
-			$item['url'] = XOOPS_URL . '/modules/news/article.php?storyid=' . intval($item_id);
+			$item['url'] = XOOPS_URL . '/modules/'.$mydirname.'/article.php?storyid=' . intval($item_id);
 			return $item;
 		} else {
 			return null;
@@ -59,7 +64,7 @@ function news_notify_iteminfo($category, $item_id)
 		if($result) {
 			$result_array = $xoopsDB->fetchArray($result);
 			$item['name'] = $result_array['topic_id'];
-			$item['url'] = XOOPS_URL . '/modules/news/index.php?storytopic=' . intval($item_id);
+			$item['url'] = XOOPS_URL . '/modules/'.$mydirname.'/index.php?storytopic=' . intval($item_id);
 			return $item;
 		} else {
 			return null;

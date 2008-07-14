@@ -25,18 +25,23 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+	die("ImpressCMS root path not defined");
 }
 
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+
 function news_search($queryarray, $andor, $limit, $offset, $userid){
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsDB, $xoopsUser;
-	include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 	$restricted=news_getmoduleoption('restrictindex');
 	$highlight=false;
 	$highlight=news_getmoduleoption('keywordshighlight');	// keywords highlighting
 
 	$module_handler =& xoops_gethandler('module');
-	$module =& $module_handler->getByDirname('news');
+	$module =& $module_handler->getByDirname($mydirname);
     $modid= $module->getVar('mid');
     $searchparam='';
 
@@ -87,7 +92,7 @@ function news_search($queryarray, $andor, $limit, $offset, $userid){
 		$i++;
 	}
 
-	include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
 	$searchincomments = $cfg['config_search_comments'];
 
 	if($searchincomments && (isset($limit) && $i<=$limit)) {

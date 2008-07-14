@@ -24,10 +24,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
 
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
+
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
 
 /**
  * Display archives
@@ -41,14 +44,16 @@ include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
  */
 function b_news_archives_show($options)
 {
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsDB, $xoopsConfig;
-	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-	include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 	include_once XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php';
-	if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php')) {
-		include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
+	if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php')) {
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
 	} else {
-		include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
 	}
 	
     $months_arr = array(1 => _CAL_JANUARY, 2 => _CAL_FEBRUARY, 3 => _CAL_MARCH, 4 => _CAL_APRIL, 5 => _CAL_MAY, 6 => _CAL_JUNE, 7 => _CAL_JULY, 8 => _CAL_AUGUST, 9 => _CAL_SEPTEMBER, 10 => _CAL_OCTOBER, 11 => _CAL_NOVEMBER, 12 => _CAL_DECEMBER);

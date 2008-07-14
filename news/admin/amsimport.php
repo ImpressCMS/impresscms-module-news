@@ -35,12 +35,14 @@
  * @version 1.0
  */
 
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 include_once '../../../include/cp_header.php';
 xoops_cp_header();
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopstree.php';
 
 if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
@@ -71,7 +73,7 @@ if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
 		$use_extlinks 	= (isset($_POST['useextlinks']) && $_POST['useextlinks']==1) ? 1 : 0;
 		// Retreive News module's ID
 		$module_handler =& xoops_gethandler('module');
-   		$newsModule =& $module_handler->getByDirname('news');
+   		$newsModule =& $module_handler->getByDirname($mydirname);
 		$news_mid = $newsModule->getVar('mid');
 		// Retreive AMS module's ID
    		$AmsModule =& $module_handler->getByDirname('AMS');
@@ -243,10 +245,10 @@ if (is_object($xoopsUser) && $xoopsUser->isAdmin($xoopsModule->mid())) {
 			}
 		}
 		unset($notifications);
-		echo "<p><a href='".XOOPS_URL."/modules/news/admin/groupperms.php'>The import is finished, don't forget to verify and set the topics permissions !</a></p>";
+		echo "<p><a href='".XOOPS_URL."/modules/".$mydirname."/admin/groupperms.php'>The import is finished, don't forget to verify and set the topics permissions !</a></p>";
 	}
 } else {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
     exit();
 }
 xoops_cp_footer();

@@ -78,11 +78,13 @@
  * @template_var 	string	lang_sendstory	fixed text : Send this Story to a Friend
  * @template_var 	string	 topic_select	contains the topics selector
 */
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 include_once XOOPS_ROOT_PATH.'/class/tree.php';
 
 $storytopic = 0;
@@ -96,7 +98,7 @@ if ($storytopic > 0) {
     $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler =& xoops_gethandler('groupperm');
     if (!$gperm_handler->checkRight('news_view', $storytopic, $groups, $xoopsModule->getVar('mid'))) {
-        redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+        redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
         exit();
     }
 	$xoopsOption['storytopic'] = $storytopic;
@@ -294,7 +296,7 @@ if($xoopsOption['storytopic']) {
  * Create a link for the RSS feed (if the module's option is activated)
  */
 if($xoopsModuleConfig['topicsrss'] && $xoopsOption['storytopic']) {
-	$link=sprintf("<a href='%s' title='%s'><img src='%s' border='0' alt='%s'></a>",XOOPS_URL.'/modules/news/backendt.php?topicid='.$xoopsOption['storytopic'], _NW_RSSFEED, XOOPS_URL.'/modules/news/images/rss.gif',_NW_RSSFEED);
+	$link=sprintf("<a href='%s' title='%s'><img src='%s' border='0' alt='%s'></a>",XOOPS_URL.'/modules/'.$mydirname.'/backendt.php?topicid='.$xoopsOption['storytopic'], _NW_RSSFEED, XOOPS_URL.'/modules/'.$mydirname.'/images/rss.gif',_NW_RSSFEED);
 	$xoopsTpl->assign('topic_rssfeed_link',$link);
 }
 

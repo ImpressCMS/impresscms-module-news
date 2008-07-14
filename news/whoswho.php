@@ -33,11 +33,13 @@
  * @author Instant Zero
  * @copyright (c) Instant Zero - http://www.instant-zero.com
  */
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
 
 if(!news_getmoduleoption('newsbythisauthor')) {
     redirect_header('index.php',2,_ERRORS);

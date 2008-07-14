@@ -25,8 +25,11 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+	die("ImpressCMS root path not defined");
 }
+
+$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
+$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 if (file_exists(XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php')) {
 	include_once XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php';
@@ -34,9 +37,9 @@ if (file_exists(XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar
 	include_once XOOPS_ROOT_PATH.'/language/english/calendar.php';
 }
 include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/tree.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/tree.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
 
 $sform = new XoopsThemeForm(_NW_SUBMITNEWS, 'storyform', XOOPS_URL.'/modules/'.$xoopsModule->getVar('dirname').'/submit.php');
 $sform->setExtra('enctype="multipart/form-data"');

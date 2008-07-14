@@ -27,16 +27,18 @@
 if (!defined('XOOPS_ROOT_PATH')) {
 	include_once '../../mainfile.php';
 }
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+$mydirname = basename( dirname( __FILE__ ) ) ;
+$mydirpath = dirname( __FILE__ ) ;
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
 include_once XOOPS_ROOT_PATH.'/class/uploader.php';
 include_once XOOPS_ROOT_PATH.'/header.php';
-include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/admin.php')) {
-    include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/admin.php';
+include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/admin.php')) {
+    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/admin.php';
 } else {
-    include_once XOOPS_ROOT_PATH.'/modules/news/language/english/admin.php';
+    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/admin.php';
 }
 $myts =& MyTextSanitizer::getInstance();
 $module_id = $xoopsModule->getVar('mid');
@@ -57,7 +59,7 @@ if (isset($_POST['topic_id'])) {
 }
 //If no access
 if (!$gperm_handler->checkRight('news_submit', $perm_itemid, $groups, $module_id)) {
-    redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
     exit();
 }
 $op = 'form';
@@ -79,12 +81,12 @@ elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
 		if($xoopsModuleConfig['authoredit'] == 1) {
 			$tmpstory = new NewsStory(intval($_GET['storyid']));
 			if(is_object($xoopsUser) && $xoopsUser->getVar('uid') != $tmpstory->uid() && !news_is_admin_group()) {
-			    redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+			    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	    		exit();
 			}
 		} else {	// Users can't edit their articles
 			if(!news_is_admin_group()) {
-		    	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+		    	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
 	    		exit();
 	    	}
 		}
@@ -111,7 +113,7 @@ elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
     			} else {
 	    			unset($tmpstory);
 	    			if(!news_is_admin_group()) {
-    					redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+    					redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
     					exit();
     				} else {
     					$approveprivilege=1;
@@ -121,7 +123,7 @@ elseif ( isset($_GET['op']) && isset($_GET['storyid'])) {
     	} else {
     		if(!news_is_admin_group()) {
     			unset($tmpstory);
-        		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
+        		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
         		exit();
         	} else {
         		$approveprivilege = 1;
@@ -137,7 +139,7 @@ if($op == 'post' && !isset($_POST['topic_id'])) {
 switch ($op) {
     case 'edit':
         if (!$approveprivilege) {
-            redirect_header(XOOPS_URL.'/modules/news/index.php', 0, _NOPERM);
+            redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 0, _NOPERM);
             exit();
             break;
         }
@@ -147,7 +149,7 @@ switch ($op) {
         $story = new NewsStory($storyid);
         foreach($story->topicsIds as $topicId) {
         	if (!$gperm_handler->checkRight('news_view', $topicId, $groups, $module_id)) {
-	            redirect_header(XOOPS_URL.'/modules/news/index.php', 0, _NOPERM);
+	            redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 0, _NOPERM);
             	exit();
             	break;
         	}
@@ -182,7 +184,7 @@ switch ($op) {
 		$type = $story -> type();
         $topicdisplay = $story -> topicdisplay();
         $topicalign = $story -> topicalign( false );
-        include_once XOOPS_ROOT_PATH.'/modules/news/include/storyform.inc.php';
+        include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/storyform.inc.php';
         echo'</td></tr></table>';
         break;
 
@@ -294,7 +296,7 @@ switch ($op) {
 
 		//Display post edit form
 		$returnside=intval($_POST['returnside']);
-		include_once XOOPS_ROOT_PATH.'/modules/news/include/storyform.inc.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/storyform.inc.php';
 		break;
 
 	case 'post':
@@ -311,7 +313,7 @@ switch ($op) {
 		    $uid = 0;
 		}
 		if(!isset($_POST['topic_id'])) {
-		    redirect_header(XOOPS_URL.'/modules/news/index.php', 5, "Please select a topic for your article");
+		    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 5, "Please select a topic for your article");
     		exit();
 		}
 
@@ -520,10 +522,10 @@ switch ($op) {
 		}
 		$returnside = isset($_POST['returnside']) ? intval($_POST['returnside']) : 0;
 		if(!$returnside) {
-			redirect_header(XOOPS_URL.'/modules/news/index.php',2,_NW_THANKS);
+			redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php',2,_NW_THANKS);
 			exit();
 		} else {
-			redirect_header(XOOPS_URL.'/modules/news/admin/index.php?op=newarticle',2,_NW_THANKS);
+			redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php?op=newarticle',2,_NW_THANKS);
 			exit();
 		}
 		break;
@@ -552,7 +554,7 @@ switch ($op) {
 		if($xoopsModuleConfig['autoapprove'] == 1) {
 			$approve=1;
 		}
-		include_once XOOPS_ROOT_PATH.'/modules/news/include/storyform.inc.php';
+		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/storyform.inc.php';
 		break;
 }
 include_once XOOPS_ROOT_PATH.'/footer.php';
