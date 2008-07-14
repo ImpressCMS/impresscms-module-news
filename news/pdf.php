@@ -14,7 +14,7 @@
 * @version		$Id$
 */
 
-error_reporting(1);
+error_reporting(0);
 include_once '../../mainfile.php';
 $myts =& MyTextSanitizer::getInstance();
 include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
