@@ -642,7 +642,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
     xoops_cp_header();
     adminmenu(0);
     $uploadfolder=sprintf(_AM_UPLOAD_WARNING,XOOPS_URL . '/modules/' . $xoopsModule->dirname().'/images/topics');
-    $uploadirectory='/modules/' . $xoopsModule -> dirname().'/images/topics';
+    $uploadirectory='/modules/' . $mydirname.'/images/topics';
     $start = isset($_GET['start']) ? intval($_GET['start']) : 0;
 
 	$xt = new XoopsTree($xoopsDB->prefix('topics'), 'topic_id', 'topic_pid');
@@ -720,7 +720,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$topic_frontpage=1;
 		$topic_description='';
 		$op='addTopic';
-		$topicimage='xoops.gif';
+		$topicimage='icms.gif';
 		$btnlabel=_AM_ADD;
 		$parent=-1;
 		$submenu=0;
