@@ -3,7 +3,7 @@
 What is News Module ?
 ======================
 
-With this Xoops module, you can create an unlimited count of news on your site.
+With this ImpressCMS module, you can create an unlimited count of news on your site.
 
 You can create all articles you want and attach them to topics.
 
@@ -41,7 +41,7 @@ The module can also be used, as it's the case on some sites, to create a blog
 How to install News
 ====================
 
-News is installed as a regular XOOPS module, which means you should copy the
+News is installed as a regular ImpressCMS module, which means you should copy the
 complete /news folder into the /modules directory of your website. Then log in
 to your site as administrator, go to System Admin > Modules, look for the News
 icon in the list of uninstalled modules and click in the install icon. Follow
@@ -55,26 +55,25 @@ article/news, you need to click on Permission Tab to set groups permissions.
 
 
 
-Xoops supported versions
+ImpressCMS supported versions
 ==========================
-You can use this new version on all the recent versions of Xoops 2.0.
-We did not tested the module with Xoops 2.2 but it should run.
+You can use this new version on all the recent versions of ImpressCMS >= 1.1.
 
 PHP/MYSQL supported versions
 =============================
- Mysql >= 3.23, 4.x, 5.x Php 4 & 5
+ Mysql >= 4.1.0, 5.x Php 5
 
 Feedback
 ========
 
 You can get support on the community website of Instant Zero :
-http://xoops.instant-zero.com/modules/newbbex/viewforum.php?forum=1
+http://community.impresscms.org/
 
 
 How to upgrade
 ==============
 
 Copy all the files to your site (and be sure to erase the old files), then
-go in the Xoops modules manager and upgrade the module.
+go in the ImpressCMS modules manager and upgrade the module.
 In case of troubles, consult the file UPGRADE.txt present in the module.
 
