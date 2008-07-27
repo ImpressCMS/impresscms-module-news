@@ -17,6 +17,7 @@ CREATE TABLE stories (
   keywords varchar(255) NOT NULL,
   description varchar(255) NOT NULL,
   counter int(8) unsigned NOT NULL default '0',
+  topicid smallint(4) unsigned NOT NULL default '1',
   ihome tinyint(1) NOT NULL default '0',
   notifypub tinyint(1) NOT NULL default '0',
   story_type varchar(5) NOT NULL default '',
