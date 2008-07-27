@@ -522,20 +522,22 @@ function news_AddField($field, $table)
  */
 function news_is_admin_group()
 {
-	global $xoopsUser, $xoopsModule;
-	if(is_object($xoopsUser)) {
-		if(in_array('1',$xoopsUser->getGroups())) {
-			return true;
-		} else {
-			if($xoopsUser->isAdmin($xoopsModule->mid())) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	} else {
-		return false;
-	}
+    global $xoopsUser;
+    $module_handler =& xoops_gethandler('module');
+    $xoopsModule =& $module_handler->getByDirname('news');
+    if(is_object($xoopsUser)) {
+        if(in_array('1',$xoopsUser->getGroups())) {
+            return true;
+        } else {
+            if($xoopsUser->isAdmin($xoopsModule->mid())) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    } else {
+        return false;
+    }
 }
 
 
