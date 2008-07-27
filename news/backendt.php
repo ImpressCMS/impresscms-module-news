@@ -36,13 +36,11 @@
  * @copyright (c) The Xoops Project - www.xoops.org
  * @param type $nomvariable description
  */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/class/template.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 
 if(!news_getmoduleoption('topicsrss')) {
 	exit();
@@ -100,7 +98,7 @@ if (!$tpl->is_cached('db:news_rss.html', $topicid)) {
 		foreach ($sarray as $story) {
 			$storytitle = htmlspecialchars($story->title(), ENT_QUOTES);
 			$description = htmlspecialchars($story->hometext(), ENT_QUOTES);
-			$tpl->append('items', array('title' => xoops_utf8_encode($storytitle), 'link' => XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$story->storyid(), 'guid' => XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$story->storyid(), 'pubdate' => formatTimestamp($story->published(), 'rss'), 'description' => xoops_utf8_encode($description)));
+			$tpl->append('items', array('title' => xoops_utf8_encode($storytitle), 'link' => XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid(), 'guid' => XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid(), 'pubdate' => formatTimestamp($story->published(), 'rss'), 'description' => xoops_utf8_encode($description)));
 		}
 	}
 }

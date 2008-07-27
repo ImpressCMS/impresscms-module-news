@@ -25,20 +25,16 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('ImpressCMS root path not defined');
+	die('XOOPS root path not defined');
 }
 
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 /**
  * Dispay a block where News moderators can see News that need to be moderated.
  */
 function b_news_topics_moderate() {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 	$block = array();
 	$dateformat=news_getmoduleoption('dateformat');
 	$infotips=news_getmoduleoption('infotips');
@@ -62,15 +58,15 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 			}
 
             if (!isset( $title ) || (xoops_trim($title) == '')) {
-                $linktitle = "<a href='" . XOOPS_URL . "/modules/".$mydirname."/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . _AD_NOSUBJECT . "</a>";
+                $linktitle = "<a href='" . XOOPS_URL . "/modules/news/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . _AD_NOSUBJECT . "</a>";
             } else {
-                $linktitle = "<a href='" . XOOPS_URL . "/modules/".$mydirname."/submit.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . $title . "</a>";
+                $linktitle = "<a href='" . XOOPS_URL . "/modules/news/submit.php?op=edit&amp;storyid=" . $newstory->storyid() . "' target='_blank'".$htmltitle.">" . $title . "</a>";
             }
 			$story=array();
             $story['title'] = $linktitle;
             $story['date'] = formatTimestamp($newstory->created(),$dateformat);
             $story['author'] = "<a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory -> uid() . "'>" . $newstory->uname() . "</a>";
-            $story['action'] = "<a href='" . XOOPS_URL . "/modules/".$mydirname."/admin/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "'>" . _EDIT. "</a> - <a href='" . XOOPS_URL . "/modules/".$mydirname."/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _MB_DELETE . "</a>";
+            $story['action'] = "<a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=edit&amp;storyid=" . $newstory->storyid() . "'>" . _EDIT. "</a> - <a href='" . XOOPS_URL . "/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _MB_DELETE . "</a>";
             $story['topic_title'] = implode(', ', $newstory->topicsTitles);
             $block['stories'][] =& $story;
             unset($story);

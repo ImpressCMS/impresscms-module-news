@@ -25,21 +25,16 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('ImpressCMS root path not defined');
+	die('XOOPS root path not defined');
 }
 
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
-
 function b_news_topics_show() {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $storytopic;	// Don't know why this is used and where it's coming from ....
-    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
-    include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-	include_once XOOPS_ROOT_PATH."/modules/'.$mydirname.'/class/tree.php";
+    include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+    include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+	include_once XOOPS_ROOT_PATH."/modules/news/class/tree.php";
 
-	$jump = XOOPS_URL.'/modules/'.$mydirname.'/index.php?storytopic=';
+	$jump = XOOPS_URL.'/modules/news/index.php?storytopic=';
 	$storytopic = !empty($storytopic) ? intval($storytopic) : 0;
 	$restricted = news_getmoduleoption('restrictindex');
 

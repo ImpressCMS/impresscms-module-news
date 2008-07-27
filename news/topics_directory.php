@@ -33,12 +33,10 @@
  * @author Instant Zero
  * @copyright (c) Instant Zero - http://xoops.instant-zero.com
  */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 
 $xoopsOption['template_main'] = 'news_topics_directory.html';
 include_once XOOPS_ROOT_PATH.'/header.php';
@@ -52,7 +50,7 @@ $restricted = news_getmoduleoption('restrictindex');
 if ($restricted) {
 	global $xoopsUser;
     $module_handler =& xoops_gethandler('module');
-    $newsModule =& $module_handler->getByDirname($mydirname);
+    $newsModule =& $module_handler->getByDirname('news');
     $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
     $gperm_handler =& xoops_gethandler('groupperm');
     $topics = $gperm_handler->getItemIds('news_view', $groups, $newsModule->getVar('mid'));

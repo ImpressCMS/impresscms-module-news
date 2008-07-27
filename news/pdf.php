@@ -15,31 +15,29 @@
 */
 
 error_reporting(0);
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
 $myts =& MyTextSanitizer::getInstance();
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 
 // Verifications on the article
 $storyid = isset($_GET['storyid']) ? intval($_GET['storyid']) : 0;
 
 if (empty($storyid))  {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php',2,_NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php',2,_NW_NOSTORY);
     exit();
 }
 
 $article = new NewsStory($storyid);
 // Not yet published
 if ( $article->published() == 0 || $article->published() > time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
 // Expired
 if ( $article->expired() != 0 && $article->expired() < time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
@@ -52,20 +50,20 @@ if (is_object($xoopsUser)) {
 }
 if(!isset($xoopsModule)) {
 	$module_handler =& xoops_gethandler('module');
-	$xoopsModule =& $module_handler->getByDirname($mydirname);
+	$xoopsModule =& $module_handler->getByDirname('news');
 }
 
 if (!$gperm_handler->checkRight('news_view', $article->topicid(), $groups, $xoopsModule->getVar('mid'))) {
-	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
+	redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
 	exit();
 }
 
 require_once ICMS_PDF_LIB_PATH.'/tcpdf.php';
-$filename = XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
+$filename = XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 if (file_exists( $filename)) {
 	include_once $filename;
 } else {
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 }
 
 $filename = ICMS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/pdf.php';
@@ -77,7 +75,7 @@ if(file_exists($filename)) {
 
 $dateformat = news_getmoduleoption('dateformat');
 $content = '';
-$content .= '<b><i><u><a href="'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$article->storyid().'" title="'.$myts->undoHtmlSpecialChars($article->title()).'">'.$myts->undoHtmlSpecialChars($article->title()).'</a></u></i></b><br />'._POSTEDBY.' : <a href="'.XOOPS_URL.'/userinfo.php?uid='.$article->uid().'" title="'.$myts->undoHtmlSpecialChars($article->uname()).'">'.$myts->undoHtmlSpecialChars($article->uname()).'</a><br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
+$content .= '<b><i><u><a href="'.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid().'" title="'.$myts->undoHtmlSpecialChars($article->title()).'">'.$myts->undoHtmlSpecialChars($article->title()).'</a></u></i></b><br />'._POSTEDBY.' : <a href="'.XOOPS_URL.'/userinfo.php?uid='.$article->uid().'" title="'.$myts->undoHtmlSpecialChars($article->uname()).'">'.$myts->undoHtmlSpecialChars($article->uname()).'</a><br />'._MD_POSTEDON.' '.formatTimestamp($article->published(),$dateformat).'<br /><br /><br />';
 $content .= $myts->undoHtmlSpecialChars($article->hometext()) . '<br />' . $myts->undoHtmlSpecialChars($article->bodytext());
 $content = str_replace('[pagebreak]','<br />',$content);
 

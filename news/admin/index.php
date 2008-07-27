@@ -24,21 +24,19 @@
 // along with this program; if not, write to the Free Software              //
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------ //
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 include_once '../../../include/cp_header.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopstopic.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopslists.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/blacklist.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/registryfile.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/blacklist.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/registryfile.php';
 include_once XOOPS_ROOT_PATH.'/class/uploader.php';
 include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/admin/functions.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/admin/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 include_once XOOPS_ROOT_PATH.'/class/tree.php';
 $dateformat=news_getmoduleoption('dateformat');
 $myts =& MyTextSanitizer::getInstance();
@@ -57,8 +55,6 @@ $topicscount=0;
  */
 function newSubmissions()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $dateformat;
     $start = isset($_GET['startnew']) ? intval($_GET['startnew']) : 0;
     $newsubcount = NewsStory :: getAllStoriesCount(3,false);
@@ -66,7 +62,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
     if ( count($storyarray)> 0) {
     	$pagenav = new XoopsPageNav( $newsubcount, news_getmoduleoption('storycountadmin'), $start, 'startnew', 'op=newarticle');
 		news_collapsableBar('newsub', 'topnewsubicon');
-		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/".$mydirname."/images/close12.gif' alt='' /></a>&nbsp;"._AM_NEWSUB."</h4>";
+		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/news/images/close12.gif' alt='' /></a>&nbsp;"._AM_NEWSUB."</h4>";
 		echo "<div id='newsub'>";
 		echo '<br />';
         echo "<div style='text-align: center;'><table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'><tr class='bg3'><td align='center'>" . _AM_TITLE . "</td><td align='center'>" . _AM_TOPIC . "</td><td align='center'>" . _AM_POSTED . "</td><td align='center'>" . _AM_POSTER . "</td><td align='center'>" . _AM_ACTION . "</td></tr>\n";
@@ -76,11 +72,11 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
             echo "<tr class='".$class."'><td align='left'>\n";
             $title = $newstory->title();
             if (!isset($title) || (xoops_trim($title) == '' )) {
-                echo "<a href='".XOOPS_URL."/modules/".$mydirname."/admin/index.php?op=edit&amp;returnside=1&amp;storyid=" . $newstory -> storyid() . "'>" . _AD_NOSUBJECT . "</a>\n";
+                echo "<a href='".XOOPS_URL."/modules/news/admin/index.php?op=edit&amp;returnside=1&amp;storyid=" . $newstory -> storyid() . "'>" . _AD_NOSUBJECT . "</a>\n";
             } else {
-                echo "&nbsp;<a href='".XOOPS_URL."/modules/".$mydirname."/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $newstory -> storyid() . "'>" . $title . "</a>\n";
+                echo "&nbsp;<a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $newstory -> storyid() . "'>" . $title . "</a>\n";
             }
-            echo "</td><td>" . implode(', ', $newstory->topicsTitles). "</td><td align='center' class='nw'>" . formatTimestamp($newstory->created(),$dateformat) . "</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory->uid() . "'>" . $newstory->uname() . "</a></td><td align='right'><a href='".XOOPS_URL."/modules/".$mydirname."/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _AM_DELETE . "</a></td></tr>\n";
+            echo "</td><td>" . implode(', ', $newstory->topicsTitles). "</td><td align='center' class='nw'>" . formatTimestamp($newstory->created(),$dateformat) . "</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $newstory->uid() . "'>" . $newstory->uname() . "</a></td><td align='right'><a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $newstory->storyid() . "'>" . _AM_DELETE . "</a></td></tr>\n";
         }
         echo '</table></div>';
         echo "<div align='right'>".$pagenav->renderNav().'</div><br />';
@@ -100,8 +96,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function autoStories()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $dateformat;
     $start = isset($_GET['startauto']) ? intval($_GET['startauto']) : 0;
     $storiescount = NewsStory :: getAllStoriesCount(2,false);
@@ -110,7 +104,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
     if(count($storyarray) > 0) {
     	$pagenav = new XoopsPageNav($storiescount, news_getmoduleoption('storycountadmin'), $start, 'startauto', 'op=newarticle');
 		news_collapsableBar('autostories', 'topautostories');
-		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topautostories' name='topautostories' src='" . XOOPS_URL . "/modules/".$mydirname."/images/close12.gif' alt='' /></a>&nbsp;"._AM_AUTOARTICLES."</h4>";
+		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topautostories' name='topautostories' src='" . XOOPS_URL . "/modules/news/images/close12.gif' alt='' /></a>&nbsp;"._AM_AUTOARTICLES."</h4>";
 		echo "<div id='autostories'>";
 		echo '<br />';
         echo "<div style='text-align: center;'>\n";
@@ -120,9 +114,9 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
             $class = ($class == 'even') ? 'odd' : 'even';
             echo "<tr class='".$class."'>";
         	echo "<td align='center'><b>" . $autostory -> storyid() . "</b>
-        		</td><td align='left'><a href='" . XOOPS_URL . "/modules/".$mydirname."/article.php?storyid=" . $autostory->storyid() . "'>" . $autostory->title() . "</a>
+        		</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?storyid=" . $autostory->storyid() . "'>" . $autostory->title() . "</a>
         		</td><td align='center'>" . implode(', ', $autostory->topicsTitles) . "
-        		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $autostory->uid() . "'>" . $autostory->uname() . "</a></td><td align='center' class='nw'>" . formatTimestamp($autostory->published(),$dateformat) . "</td><td align='center'>" . $expire . "</td><td align='center'><a href='".XOOPS_URL."/modules/".$mydirname."/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $autostory->storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/".$mydirname."/admin/index.php?op=delete&amp;storyid=" . $autostory->storyid() . "'>" . _AM_DELETE . "</a>";
+        		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $autostory->uid() . "'>" . $autostory->uname() . "</a></td><td align='center' class='nw'>" . formatTimestamp($autostory->published(),$dateformat) . "</td><td align='center'>" . $expire . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $autostory->storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $autostory->storyid() . "'>" . _AM_DELETE . "</a>";
             echo "</td></tr>\n";
         }
         echo '</table></div>';
@@ -146,11 +140,9 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function lastStories()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $dateformat;
 	news_collapsableBar('laststories', 'toplaststories');
-	echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='toplaststories' name='toplaststories' src='" . XOOPS_URL . "/modules/".$mydirname."/images/close12.gif' alt='' /></a>&nbsp;".sprintf(_AM_LAST10ARTS,news_getmoduleoption('storycountadmin'))."</h4>";
+	echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='toplaststories' name='toplaststories' src='" . XOOPS_URL . "/modules/news/images/close12.gif' alt='' /></a>&nbsp;".sprintf(_AM_LAST10ARTS,news_getmoduleoption('storycountadmin'))."</h4>";
 	echo "<div id='laststories'>";
 	echo '<br />';
     echo "<div style='text-align: center;'>";
@@ -166,9 +158,9 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
         $class = ($class == 'even') ? 'odd' : 'even';
         echo "<tr class='".$class."'>";
         echo "<td align='center'><b>" . $eachstory -> storyid() . "</b>
-        	</td><td align='left'><a href='" . XOOPS_URL . "/modules/".$mydirname."/article.php?storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
+        	</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
         	</td><td align='center'>" . implode(', ', $eachstory->topicsTitles) . "
-        	</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $published . "</td><td align='center'>" . $eachstory -> counter() . "</td><td align='center'><a href='".XOOPS_URL."/modules/".$mydirname."/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/".$mydirname."/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
+        	</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $published . "</td><td align='center'>" . $eachstory -> counter() . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
         echo "</td></tr>\n";
     }
     echo '</table><br />';
@@ -203,8 +195,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function expStories()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $dateformat;
     $start = isset($_GET['startexp']) ? intval($_GET['startexp']) : 0;
 	$expiredcount = NewsStory :: getAllStoriesCount(1,false);
@@ -214,7 +204,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
     if(count($storyarray) > 0) {
     	$class='';
 		news_collapsableBar('expstories', 'topexpstories');
-		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topexpstories' name='topexpstories' src='" . XOOPS_URL . "/modules/".$mydirname."/images/close12.gif' alt='' /></a>&nbsp;"._AM_EXPARTS."</h4>";
+		echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topexpstories' name='topexpstories' src='" . XOOPS_URL . "/modules/news/images/close12.gif' alt='' /></a>&nbsp;"._AM_EXPARTS."</h4>";
 		echo "<div id='expstories'>";
 		echo '<br />';
     	echo "<div style='text-align: center;'>";
@@ -226,9 +216,9 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
         	$class = ($class == 'even') ? 'odd' : 'even';
         	echo "<tr class='".$class."'>";
         	echo "<td align='center'><b>" . $eachstory -> storyid() . "</b>
-	        	</td><td align='left'><a href='" . XOOPS_URL . "/modules/".$mydirname."/article.php?returnside=1&amp;storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
+	        	</td><td align='left'><a href='" . XOOPS_URL . "/modules/news/article.php?returnside=1&amp;storyid=" . $eachstory -> storyid() . "'>" . $eachstory -> title() . "</a>
         		</td><td align='center'>" . implode(', ', $eachstory->topicsTitles) . "
-        		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $created . "</td><td align='center' class='nw'>" . $expired . "</td><td align='center'><a href='".XOOPS_URL."/modules/".$mydirname."/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/".$mydirname."/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
+        		</td><td align='center'><a href='" . XOOPS_URL . "/userinfo.php?uid=" . $eachstory -> uid() . "'>" . $eachstory -> uname() . "</a></td><td align='center' class='nw'>" . $created . "</td><td align='center' class='nw'>" . $expired . "</td><td align='center'><a href='".XOOPS_URL."/modules/news/submit.php?returnside=1&amp;op=edit&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_EDIT . "</a>-<a href='".XOOPS_URL."/modules/news/admin/index.php?op=delete&amp;storyid=" . $eachstory -> storyid() . "'>" . _AM_DELETE . "</a>";
         	echo "</td></tr>\n";
     	}
     	echo '</table><br />';
@@ -264,13 +254,11 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function PruneManager()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
     xoops_cp_header();
     adminmenu(3);
     echo '<br /><br /><br />';
-	$sform = new XoopsThemeForm(_AM_NEWS_PRUNENEWS, 'pruneform', XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php', 'post');
+	$sform = new XoopsThemeForm(_AM_NEWS_PRUNENEWS, 'pruneform', XOOPS_URL.'/modules/news/admin/index.php', 'post');
 	$sform->addElement(new XoopsFormTextDateSelect(_AM_NEWS_PRUNE_BEFORE, 'prune_date',15,time()), true);
 	$onlyexpired=new xoopsFormCheckBox('', 'onlyexpired');
 	$onlyexpired->addOption(1, _AM_NEWS_PRUNE_EXPIREDONLY);
@@ -299,8 +287,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 // A confirmation is asked before to prune stories
 function ConfirmBeforeToPrune()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $dateformat;
 	$story = new NewsStory();
 	xoops_cp_header();
@@ -329,8 +315,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 // Effectively delete stories (published before a date), no more confirmation
 function PruneNews()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	$story = new NewsStory();
 	$timestamp=intval($_POST['prune_date']);
 	$expired= intval($_POST['expired']);
@@ -363,13 +347,11 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 */
 function Newsletter()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
     xoops_cp_header();
     adminmenu(5);
     echo '<br /><br /><br />';
-	$sform = new XoopsThemeForm(_AM_NEWS_NEWSLETTER, 'newsletterform', XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php', 'post');
+	$sform = new XoopsThemeForm(_AM_NEWS_NEWSLETTER, 'newsletterform', XOOPS_URL.'/modules/news/admin/index.php', 'post');
 	$dates_tray = new XoopsFormElementTray(_AM_NEWS_NEWSLETTER_BETWEEN);
 	$date1 = new XoopsFormTextDateSelect('', 'date1',15,time());
 	$date2 = new XoopsFormTextDateSelect(_AM_NEWS_EXPORT_AND, 'date2',15,time());
@@ -408,16 +390,14 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function LaunchNewsletter()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsConfig, $dateformat;
 	xoops_cp_header();
 	adminmenu(5);
 	$newslettertemplate = '';
-	if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/newsletter.php')) {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/newsletter.php';
+	if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/newsletter.php')) {
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/newsletter.php';
 	} else {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/newsletter.php';
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/english/newsletter.php';
 	}
 	echo '<br />';
 	$story = new NewsStory();
@@ -449,7 +429,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 		foreach($exportedstories as $onestory) {
 			$content = $newslettertemplate;
 			$search_pattern = array('%title%','%uname%','%created%','%published%','%expired%','%hometext%','%bodytext%','%description%','%keywords%','%reads%','%topicid%','%topic_title%','%comments%','%rating%','%votes%','%publisher%','%publisher_id%','%link%');
-			$replace_pattern = array($onestory->title(),$onestory->uname(),formatTimestamp($onestory->created(),$dateformat),formatTimestamp($onestory->published(),$dateformat),formatTimestamp($onestory->expired(),$dateformat),$onestory->hometext(),$onestory->bodytext(),$onestory->description(),$onestory->keywords(),$onestory->counter(),implode(', ', $onestory->topicsIds),implode(', ', $onestory->topicsTitles), $onestory->comments(),$onestory->rating(),$onestory->votes(),$onestory->uname(),$onestory->uid(),XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$onestory->storyid());
+			$replace_pattern = array($onestory->title(),$onestory->uname(),formatTimestamp($onestory->created(),$dateformat),formatTimestamp($onestory->published(),$dateformat),formatTimestamp($onestory->expired(),$dateformat),$onestory->hometext(),$onestory->bodytext(),$onestory->description(),$onestory->keywords(),$onestory->counter(),implode(', ', $onestory->topicsIds),implode(', ', $onestory->topicsTitles), $onestory->comments(),$onestory->rating(),$onestory->votes(),$onestory->uname(),$onestory->uid(),XOOPS_URL.'/modules/news/article.php?storyid='.$onestory->storyid());
 			$content = str_replace($search_pattern, $replace_pattern, $content);
 			if($removebr) {
 				$content = str_replace('<br />',"\r\n",$content);
@@ -464,7 +444,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 		}
 		fclose($fp);
 		$newsfile=XOOPS_URL.'/uploads/newsletter.txt';
-		printf(_AM_NEWS_NEWSLETTER_READY,$newsfile,XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php?op=deletefile&amp;type=newsletter');
+		printf(_AM_NEWS_NEWSLETTER_READY,$newsfile,XOOPS_URL.'/modules/news/admin/index.php?op=deletefile&amp;type=newsletter');
 	} else {
 		printf(_AM_NEWS_NOTHING);
 	}
@@ -482,13 +462,11 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 */
 function NewsExport()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
     xoops_cp_header();
     adminmenu(4);
     echo '<br /><br /><br />';
-	$sform = new XoopsThemeForm(_AM_NEWS_EXPORT_NEWS, 'exportform', XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php', 'post');
+	$sform = new XoopsThemeForm(_AM_NEWS_EXPORT_NEWS, 'exportform', XOOPS_URL.'/modules/news/admin/index.php', 'post');
 	$dates_tray = new XoopsFormElementTray(_AM_NEWS_EXPORT_BETWEEN);
 	$date1 = new XoopsFormTextDateSelect('', 'date1',15,time());
 	$date2 = new XoopsFormTextDateSelect(_AM_NEWS_EXPORT_AND, 'date2',15,time());
@@ -527,8 +505,6 @@ function news_utf8_encode($text)
 // Launch stories export (to the xml's format)
 function LaunchExport()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	xoops_cp_header();
 	adminmenu(4);
 	echo '<br />';
@@ -608,7 +584,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 		fwrite($fp,news_utf8_encode("</news_stories>\n"));
 		fclose($fp);
 		$xmlfile=XOOPS_URL.'/uploads/stories.xml';
-		printf(_AM_NEWS_EXPORT_READY,$xmlfile,XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php?op=deletefile&amp;type=xml');
+		printf(_AM_NEWS_EXPORT_READY,$xmlfile,XOOPS_URL.'/modules/news/admin/index.php?op=deletefile&amp;type=xml');
 	} else {
 		printf(_AM_NEWS_EXPORT_NOTHING);
 	}
@@ -635,14 +611,12 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 */
 function topicsmanager()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $xoopsDB, $xoopsConfig, $xoopsModule, $myts;
     include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
     xoops_cp_header();
     adminmenu(0);
     $uploadfolder=sprintf(_AM_UPLOAD_WARNING,XOOPS_URL . '/modules/' . $xoopsModule->dirname().'/images/topics');
-    $uploadirectory='/modules/' . $mydirname.'/images/topics';
+    $uploadirectory='/modules/' . $xoopsModule -> dirname().'/images/topics';
     $start = isset($_GET['start']) ? intval($_GET['start']) : 0;
 
 	$xt = new XoopsTree($xoopsDB->prefix('topics'), 'topic_id', 'topic_pid');
@@ -652,7 +626,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 
     echo '<h4>' . _AM_CONFIG . '</h4>';
 	news_collapsableBar('topicsmanager', 'toptopicsmanager');
-	echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='toptopicsmanager' name='toptopicsmanager' src='" . XOOPS_URL . "/modules/".$mydirname."/images/close12.gif' alt='' /></a>&nbsp;"._AM_TOPICSMNGR . ' (' . $totaltopics . ')'."</h4>";
+	echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='toptopicsmanager' name='toptopicsmanager' src='" . XOOPS_URL . "/modules/news/images/close12.gif' alt='' /></a>&nbsp;"._AM_TOPICSMNGR . ' (' . $totaltopics . ')'."</h4>";
 	echo "<div id='topicsmanager'>";
 	echo '<br />';
     echo "<div style='text-align: center;'>";
@@ -740,7 +714,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 	$sform->addElement(new XoopsFormHidden('op', $op), false);
 	$sform->addElement(new XoopsFormHidden('topic_id', $topic_id), false);
 
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
 	$xt = new NewsTopic();
 	$sform->addElement(new XoopsFormLabel(_AM_PARENTTOPIC, $xt->MakeMyTopicSelBox(1, $parent,'topic_pid','',false)));
 	// Topic's color
@@ -784,7 +758,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 	$imgpath=sprintf(_AM_IMGNAEXLOC, 'modules/' . $xoopsModule -> dirname() . '/images/topics/' );
 	$imageselect= new XoopsFormSelect($imgpath, 'topic_imgurl',$topicimage);
-    $topics_array = XoopsLists :: getImgListAsArray( XOOPS_ROOT_PATH . '/modules/'.$mydirname.'/images/topics/' );
+    $topics_array = XoopsLists :: getImgListAsArray( XOOPS_ROOT_PATH . '/modules/news/images/topics/' );
     foreach( $topics_array as $image ) {
         $imageselect->addOption("$image", $image);
     }
@@ -853,8 +827,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 // Save a topic after it has been modified
 function modTopicS()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
 
     $xt = new NewsTopic(intval($_POST['topic_id']));
@@ -947,8 +919,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 // Delete a topic and its subtopics and its stories and the related stories
 function delTopic()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $xoopsDB, $xoopsModule;
     if (!isset($_POST['ok'])) {
         xoops_cp_header();
@@ -989,8 +959,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 // Add a new topic
 function addTopic()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
     $topicpid = isset($_POST['topic_pid']) ? intval($_POST['topic_pid']) : 0;
     $xt = new NewsTopic();
@@ -1094,15 +1062,13 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function Stats()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
     global $xoopsModule, $xoopsConfig;
     xoops_cp_header();
     $myts =& MyTextSanitizer::getInstance();
-	if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php')) {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
+	if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php')) {
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 	} else {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 	}
     adminmenu(6);
     $news = new NewsStory();
@@ -1239,16 +1205,14 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function Metagen()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
     global $xoopsModule, $xoopsConfig, $xoopsModuleConfig, $cfg;
     xoops_cp_header();
     $myts =& MyTextSanitizer::getInstance();
-	if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php')) {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
+	if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php')) {
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 	} else {
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
+		include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 	}
     adminmenu(8);
     echo "<h1>"._AM_NEWS_METAGEN."</h1>";
@@ -1264,7 +1228,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$keywordscount = $cfg['meta_keywords_count'];
 		$keywordsorder = $cfg['meta_keywords_order'];
 	}
-	$sform = new XoopsThemeForm(_OPTIONS, 'metagenoptions', XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php', 'post');
+	$sform = new XoopsThemeForm(_OPTIONS, 'metagenoptions', XOOPS_URL.'/modules/news/admin/index.php', 'post');
 	$sform->addElement(new XoopsFormHidden('op', 'metagenoptions'), false);
 	$sform->addElement(new XoopsFormText(_AM_NEWS_META_KEYWORDS_CNT, 'keywordscount', 4, 6, $keywordscount), true);
 	$keywordsorder=new XoopsFormRadio(_AM_NEWS_META_KEYWORDS_ORDER, 'keywordsorder', $keywordsorder);
@@ -1279,7 +1243,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 	$sform->display();
 
 	// Blacklist
-	$sform = new XoopsThemeForm(_AM_NEWS_BLACKLIST, 'metagenblacklist', XOOPS_URL.'/modules/'.$mydirname.'/admin/index.php', 'post');
+	$sform = new XoopsThemeForm(_AM_NEWS_BLACKLIST, 'metagenblacklist', XOOPS_URL.'/modules/news/admin/index.php', 'post');
 	$sform->addElement(new XoopsFormHidden('op', 'metagenblacklist'), false);
 
 	// Remove words
@@ -1319,8 +1283,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  */
 function MetagenBlackList()
 {
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	$blacklist = new news_blacklist();
 	$words = $blacklist->getAllKeywords();
 
@@ -1419,17 +1381,17 @@ switch ($op) {
 	    $published = 0;
 	    $description='';
 	    $keywords='';
-        if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php')) {
-            include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
+        if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php')) {
+            include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
         } else {
-            include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
+            include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
         }
 
 		if($xoopsModuleConfig['autoapprove'] == 1) {
 			$approve=1;
 		}
         $approveprivilege = 1;
-        include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/storyform.inc.php';
+        include_once XOOPS_ROOT_PATH.'/modules/news/include/storyform.inc.php';
         break;
 
     case 'delete':
@@ -1490,12 +1452,12 @@ switch ($op) {
         break;
 
     case 'edit':
-		if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php')) {
-			include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/main.php';
+		if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php')) {
+			include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/main.php';
 		} else {
-			include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/main.php';
+			include_once XOOPS_ROOT_PATH.'/modules/news/language/english/main.php';
 		}
-		include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/submit.php';
+		include_once XOOPS_ROOT_PATH.'/modules/news/submit.php';
 		break;
 
     case 'prune':

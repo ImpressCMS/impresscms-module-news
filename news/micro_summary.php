@@ -37,11 +37,9 @@
  * NOTE : If you use this code, please make credit.
  *
  */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 if(!news_getmoduleoption('firefox_microsummaries')) {
 	exit();
 }

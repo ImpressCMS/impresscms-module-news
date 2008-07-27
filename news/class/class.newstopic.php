@@ -25,15 +25,12 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('ImpressCMS root path not defined');
+	die("XOOPS root path not defined");
 }
-
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 include_once XOOPS_ROOT_PATH."/class/xoopsstory.php";
 include_once XOOPS_ROOT_PATH."/class/xoopstree.php";
-include_once XOOPS_ROOT_PATH."/modules/".$mydirname."/include/functions.php";
+include_once XOOPS_ROOT_PATH."/modules/news/include/functions.php";
 
 class NewsTopic extends XoopsTopic
 {
@@ -58,13 +55,11 @@ class NewsTopic extends XoopsTopic
 
 	function MakeMyTopicSelBox($none=0, $seltopic=-1, $selname="", $onchange="", $checkRight = false, $perm_type='news_view')
 	{
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	    $perms='';
 	    if ($checkRight) {
 	        global $xoopsUser;
 	        $module_handler =& xoops_gethandler('module');
-	        $newsModule =& $module_handler->getByDirname($mydirname);
+	        $newsModule =& $module_handler->getByDirname('news');
 	        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 	        $gperm_handler =& xoops_gethandler('groupperm');
 	        $topics = $gperm_handler->getItemIds($perm_type, $groups, $newsModule->getVar('mid'));
@@ -164,13 +159,11 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
  	*/
 	function getAllTopicsCount($checkRight = true)
 	{
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 	    $perms='';
 	    if ($checkRight) {
 	        global $xoopsUser;
 	        $module_handler =& xoops_gethandler('module');
-	        $newsModule =& $module_handler->getByDirname($mydirname);
+	        $newsModule =& $module_handler->getByDirname('news');
 	        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
 	        $gperm_handler =& xoops_gethandler('groupperm');
 	        $topics = $gperm_handler->getItemIds('news_submit', $groups, $newsModule->getVar('mid'));
@@ -466,8 +459,6 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 	function getTopicTitleFromId($topic,&$topicstitles)
 	{
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 		$myts =& MyTextSanitizer::getInstance();
 		$sql="SELECT topic_id, topic_title, topic_imgurl FROM ".$this->table." WHERE ";
 	    if (!is_array($topic)) {
@@ -481,7 +472,7 @@ $mydirpath = dirname( dirname( __FILE__ ) ) ;
 	    }
 	    $result = $this->db->query($sql);
 		while ($row = $this->db->fetchArray($result)) {
-			$topicstitles[$row["topic_id"]]=array("title"=>$myts->displayTarea($row["topic_title"]),"picture"=>XOOPS_URL.'/modules/'.$mydirname.'/images/topics/'.$row["topic_imgurl"]);
+			$topicstitles[$row["topic_id"]]=array("title"=>$myts->displayTarea($row["topic_title"]),"picture"=>XOOPS_URL.'/modules/news/images/topics/'.$row["topic_imgurl"]);
 		}
 		return $topicstitles;
 	}

@@ -42,27 +42,25 @@
  * @template_name		This page does not use any template
  *
 */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 $storyid = isset($_GET['storyid']) ? intval($_GET['storyid']) : 0;
 if ( empty($storyid) ) {
-	redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php',2,_NW_NOSTORY);
+	redirect_header(XOOPS_URL.'/modules/news/index.php',2,_NW_NOSTORY);
 }
 
 // Verify that the article is published
 $story = new NewsStory($storyid);
 // Not yet published
 if ( $story->published() == 0 || $story->published() > time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
 // Expired
 if ( $story->expired() != 0 && $story->expired() < time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
@@ -77,7 +75,7 @@ if (is_object($xoopsUser)) {
 
 foreach($story->topicsIds as $topicId) {
 	if (!$gperm_handler->checkRight('news_view', $topicId, $groups, $xoopsModule->getVar('mid'))) {
-		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
+		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
 		exit();
 	}
 }
@@ -100,8 +98,6 @@ if(xoops_trim($story->description()) != '') {
 
 function PrintPage()
 {
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 	global $xoopsConfig, $xoopsModule, $story, $xoops_meta_keywords,$xoops_meta_description;
 	$myts =& MyTextSanitizer::getInstance();
     $datetime = formatTimestamp($story->published(), news_getmoduleoption('dateformat'));
@@ -282,7 +278,7 @@ $mydirpath = dirname( __FILE__ ) ;
 	printf(_NW_THISCOMESFROM,htmlspecialchars($xoopsConfig['sitename'],ENT_QUOTES));
 	echo '<br /><a href="'.XOOPS_URL.'/">'.XOOPS_URL.'</a><br /><br />
     	'._NW_URLFORSTORY.' <!-- Tag below can be used to display Permalink image --><!--img src="'.XOOPS_URL.'/modules/'.$xoopsModule->dirname().'/images/x.gif" /--><br />
-    	<a class="ignore" href="'.XOOPS_URL.'/modules/'.$xoopsModule->dirname().'/article.php?storyid='.$story->storyid().'">'.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$story->storyid().'</a>
+    	<a class="ignore" href="'.XOOPS_URL.'/modules/'.$xoopsModule->dirname().'/article.php?storyid='.$story->storyid().'">'.XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid().'</a>
     	</td></tr></table></div>
     	</body>
     	</html>

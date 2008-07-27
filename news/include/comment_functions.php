@@ -27,13 +27,10 @@
 
 // comment callback functions
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("ImpressCMS root path not defined");
+	die("XOOPS root path not defined");
 }
 
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
-
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 function news_com_update($story_id, $total_num){
 	$story_id = intval($story_id);
 	$total_num = intval($total_num);

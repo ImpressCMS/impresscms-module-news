@@ -75,14 +75,12 @@
 # [11-may-2001] Kenneth Lee - http://www.nexgear.com/
 ######################################################################
 
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
 $xoopsOption['template_main'] = 'news_archive.html';
 include_once XOOPS_ROOT_PATH.'/header.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 include_once XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 $lastyear = 0;
 $lastmonth = 0;
 
@@ -183,14 +181,14 @@ if ($fromyear != 0 && $frommonth != 0) {
 			}
 			$returns = array();
 			foreach($article->topicsIdsTitles as $topicId => $topicTitle) {
-				$returns[] = "<a href='".XOOPS_URL."/modules/".$mydirname."/index.php?storytopic=".$topicId."'>".$topicTitle."</a>";
+				$returns[] = "<a href='".XOOPS_URL."/modules/news/index.php?storytopic=".$topicId."'>".$topicTitle."</a>";
 			}
 			$ret = implode(', ', $returns);
 
-	    	$story['title'] = $ret.": <a href='".XOOPS_URL."/modules/".$mydirname."/article.php?storyid=".$article->storyid()."'".$htmltitle.">".$article->title()."</a>";
+	    	$story['title'] = $ret.": <a href='".XOOPS_URL."/modules/news/article.php?storyid=".$article->storyid()."'".$htmltitle.">".$article->title()."</a>";
 	    	$story['counter'] = $article->counter();
 	    	$story['date'] = formatTimestamp($article->published(),$dateformat,$useroffset);
-	    	$story['print_link'] = XOOPS_URL.'/modules/'.$mydirname.'/print.php?storyid='.$article->storyid();
+	    	$story['print_link'] = XOOPS_URL.'/modules/news/print.php?storyid='.$article->storyid();
 	    	$story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE, $xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/'.$xoopsModule->dirname().'/article.php?storyid='.$article->storyid();
 	    	$xoopsTpl->append('stories', $story);
 		}

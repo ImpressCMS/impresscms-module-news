@@ -72,19 +72,17 @@
  *															string	published		Date of publication formated (according to user's prefs)
  *															int		rating			Rating for this news
  */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
 global $xoopsUser;
 
-if (file_exists(XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/modinfo.php')) {
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/'.$xoopsConfig['language'].'/modinfo.php';
+if (file_exists(XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/modinfo.php')) {
+	include_once XOOPS_ROOT_PATH.'/modules/news/language/'.$xoopsConfig['language'].'/modinfo.php';
 } else {
-	include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/language/english/modinfo.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/language/english/modinfo.php';
 }
 
 $uid = (isset($_GET['uid'])) ? intval($_GET['uid']) : 0;
@@ -148,7 +146,7 @@ if( $articlescount > 0 ) {
 	foreach ($articlelist as $article) {
 		if($oldtopic != $article['topicid']) {
 			if(count($articlestpl) > 0) {
-				$topic_link=sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/modules/'.$mydirname.'/index.php?storytopic='.$oldtopic,$oldtopictitle);
+				$topic_link=sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/modules/news/index.php?storytopic='.$oldtopic,$oldtopictitle);
 				$xoopsTpl->append('topics',array('topic_id'=>$oldtopic, 'topic_count_articles' => sprintf(_AM_NEWS_TOTAL, $count_articles), 'topic_count_reads' => $count_reads, 'topic_color'=>$oldtopiccolor, 'topic_title'=>$oldtopictitle, 'topic_link'=> $topic_link, 'news'=>$articlestpl));
 			}
 			$oldtopic = $article['topicid'];
@@ -169,12 +167,12 @@ if( $articlescount > 0 ) {
 			'title'=>$article['title'],
 			'hits'=>$article['counter'],
 			'created'=>formatTimestamp($article['created'],$dateformat),
-			'article_link'=>sprintf("<a href='%s'%s>%s</a>",XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$article['storyid'],$htmltitle,$article['title']),
+			'article_link'=>sprintf("<a href='%s'%s>%s</a>",XOOPS_URL.'/modules/news/article.php?storyid='.$article['storyid'],$htmltitle,$article['title']),
 			'published'=>formatTimestamp($article['published'],$dateformat),
 			'rating' => $article['rating']);
 	}
 }
-$topic_link=sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/modules/'.$mydirname.'/index.php?storytopic='.$oldtopic,$oldtopictitle);
+$topic_link=sprintf("<a href='%s'>%s</a>",XOOPS_URL.'/modules/news/index.php?storytopic='.$oldtopic,$oldtopictitle);
 $xoopsTpl->append('topics',array('topic_id'=>$oldtopic, 'topic_title'=>$oldtopictitle, 'topic_link'=> $topic_link, 'news'=>$articlestpl));
 $xoopsTpl->assign('xoops_pagetitle', _MI_NEWSBYTHISAUTHOR . ' - ' .$authname . ' - ' . $myts->htmlSpecialChars($xoopsModule->name()) );
 $xoopsTpl->assign('advertisement', news_getmoduleoption('advertisement'));

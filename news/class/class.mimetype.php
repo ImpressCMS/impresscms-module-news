@@ -67,11 +67,8 @@ SUCH DAMAGE.
    e-mail me.
 **/
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("ImpressCMS root path not defined");
+	die("XOOPS root path not defined");
 }
-
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 
 class cmimetype
 {

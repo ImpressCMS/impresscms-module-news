@@ -117,21 +117,19 @@
  * @template_var	string	votes	"1 vote" or "X votes"
  * @template_var	string	topic_path	A path from the root to the current topic (of the current news)
  */
-$mydirname = basename( dirname( __FILE__ ) ) ;
-$mydirpath = dirname( __FILE__ ) ;
 include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newsstory.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.sfiles.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.sfiles.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopstree.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/functions.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/class.newstopic.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/class/keyhighlighter.class.php';
-include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/config.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/class/keyhighlighter.class.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
 
 $storyid = (isset($_GET['storyid'])) ? intval($_GET['storyid']) : 0;
 
 if ($storyid == 0) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php',2,_NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php',2,_NW_NOSTORY);
     exit();
 }
 
@@ -140,12 +138,12 @@ $myts =& MyTextSanitizer::getInstance();
 // Not yet published
 $article = new NewsStory($storyid);
 if ( $article->published() == 0 || $article->published() > time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOTYETSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOTYETSTORY);
     exit();
 }
 // Expired
 if ( $article->expired() != 0 && $article->expired() < time() ) {
-    redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 2, _NW_NOSTORY);
+    redirect_header(XOOPS_URL.'/modules/news/index.php', 2, _NW_NOSTORY);
     exit();
 }
 
@@ -158,7 +156,7 @@ if (is_object($xoopsUser)) {
 
 foreach($article->topicsIds as $topicId) {
 	if (!$gperm_handler->checkRight('news_view', $topicId, $groups, $xoopsModule->getVar('mid'))) {
-		redirect_header(XOOPS_URL.'/modules/'.$mydirname.'/index.php', 3, _NOPERM);
+		redirect_header(XOOPS_URL.'/modules/news/index.php', 3, _NOPERM);
 		exit();
 	}
 }
@@ -209,7 +207,7 @@ if (xoops_trim($bodytext) != '') {
     $story_pages = count($articletext);
 
     if ($story_pages > 1) {
-        include_once XOOPS_ROOT_PATH.'/modules/'.$mydirname.'/include/pagenav.php';
+        include_once XOOPS_ROOT_PATH.'/modules/news/include/pagenav.php';
         $pagenav = new XoopsPageNav($story_pages, 1, $storypage, 'page', 'storyid='.$storyid);
         if(news_isbot()) { 		// A bot is reading the articles, we are going to show him all the links to the pages
         	$xoopsTpl->assign('pagenav', $pagenav->renderNav($story_pages));
@@ -293,14 +291,14 @@ if ( $article->topicdisplay() ) {
     $story['align'] = $article->topicalign();
 }
 $story['hits'] = $article->counter();
-$story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$article->storyid();
+$story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid();
 $xoopsTpl->assign('lang_printerpage', _NW_PRINTERFRIENDLY);
 $xoopsTpl->assign('lang_sendstory', _NW_SENDSTORY);
 $xoopsTpl->assign('lang_pdfstory', _NW_MAKEPDF);
 $xoopsTpl->assign('lang_on', _ON);
 $xoopsTpl->assign('lang_postedby', _POSTEDBY);
 $xoopsTpl->assign('lang_reads', _READS);
-$xoopsTpl->assign('mail_link', 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$article->storyid());
+$xoopsTpl->assign('mail_link', 'mailto:?subject='.sprintf(_NW_INTARTICLE,$xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/news/article.php?storyid='.$article->storyid());
 
 $xoopsTpl->assign('lang_attached_files',_NW_ATTACHEDFILES);
 $sfiles = new sFiles();
@@ -310,7 +308,7 @@ $filescount = count($filesarr);
 $xoopsTpl->assign('attached_files_count',$filescount);
 if( $filescount > 0 ) {
 	foreach ($filesarr as $onefile)	{
-		$newsfiles[] = array('file_id'=>$onefile->getFileid(), 'visitlink' => XOOPS_URL.'/modules/'.$mydirname.'/visit.php?fileid='.$onefile->getFileid(),'file_realname'=>$onefile->getFileRealName(), 'file_attacheddate'=>formatTimestamp($onefile->getDate(),$dateformat), 'file_mimetype'=>$onefile->getMimetype(), 'file_downloadname'=>XOOPS_UPLOAD_URL.'/'.$onefile->getDownloadname());
+		$newsfiles[] = array('file_id'=>$onefile->getFileid(), 'visitlink' => XOOPS_URL.'/modules/news/visit.php?fileid='.$onefile->getFileid(),'file_realname'=>$onefile->getFileRealName(), 'file_attacheddate'=>formatTimestamp($onefile->getDate(),$dateformat), 'file_mimetype'=>$onefile->getMimetype(), 'file_downloadname'=>XOOPS_UPLOAD_URL.'/'.$onefile->getDownloadname());
 	}
 	$xoopsTpl->assign('attached_files',$newsfiles);
 }
@@ -326,7 +324,7 @@ $topicsTitles = implode(' - ', $article->topicsTitles);
 $xoopsTpl->assign('xoops_pagetitle', $article->title() . $complement. ' - ' . $topicsTitles . ' - ' . $myts->htmlSpecialChars($xoopsModule->name()));
 
 if(news_getmoduleoption('newsbythisauthor')) {
-	$xoopsTpl->assign('news_by_the_same_author_link',sprintf("<a href='%s?uid=%d'>%s</a>",XOOPS_URL.'/modules/'.$mydirname.'/newsbythisauthor.php',$article->uid(),_NW_NEWSSAMEAUTHORLINK));
+	$xoopsTpl->assign('news_by_the_same_author_link',sprintf("<a href='%s?uid=%d'>%s</a>",XOOPS_URL.'/modules/news/newsbythisauthor.php',$article->uid(),_NW_NEWSSAMEAUTHORLINK));
 }
 
 /**
@@ -411,12 +409,12 @@ if (news_getmoduleoption('showprevnextlink')) {
    	$xoopsTpl->assign('next_story_id',$nextId);
    	if($previousId > 0) {
    		$xoopsTpl->assign('previous_story_title',$previousTitle);
-   		$hcontent.=sprintf("<link rel=\"Prev\" title=\"%s\" href=\"%s/\" />\n", $previousTitle,XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$previousId);
+   		$hcontent.=sprintf("<link rel=\"Prev\" title=\"%s\" href=\"%s/\" />\n", $previousTitle,XOOPS_URL.'/modules/news/article.php?storyid='.$previousId);
    	}
 
    	 if($nextId > 0) {
    		 $xoopsTpl->assign('next_story_title',$nextTitle);
-   		$hcontent.=sprintf("<link rel=\"Next\" title=\"%s\" href=\"%s/\" />\n", $nextTitle,XOOPS_URL.'/modules/'.$mydirname.'/article.php?storyid='.$nextId);
+   		$hcontent.=sprintf("<link rel=\"Next\" title=\"%s\" href=\"%s/\" />\n", $nextTitle,XOOPS_URL.'/modules/news/article.php?storyid='.$nextId);
    	}
    	$xoopsTpl->assign('lang_previous_story',_NW_PREVIOUS_ARTICLE);
    	$xoopsTpl->assign('lang_next_story',_NW_NEXT_ARTICLE);

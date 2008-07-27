@@ -25,13 +25,10 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('ImpressCMS root path not defined');
+	die("XOOPS root path not defined");
 }
 
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
-
-include_once XOOPS_ROOT_PATH . "/modules/".$mydirname."/class/class.mimetype.php";
+include_once XOOPS_ROOT_PATH . "/modules/news/class/class.mimetype.php";
 
 class sFiles {
 	var $db;

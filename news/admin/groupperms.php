@@ -24,13 +24,11 @@
 // along with this program; if not, write to the Free Software              //
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------ //
-$mydirname = basename( dirname(  dirname( __FILE__ ) ) ) ;
-$mydirpath = dirname( dirname( __FILE__ ) ) ;
 include_once '../../../include/cp_header.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopstopic.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
 include_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
-include_once XOOPS_ROOT_PATH . '/modules/'.$mydirname.'/admin/functions.php';
+include_once XOOPS_ROOT_PATH . '/modules/news/admin/functions.php';
 
 xoops_cp_header();
 
