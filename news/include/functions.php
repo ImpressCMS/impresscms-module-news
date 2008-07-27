@@ -1,31 +1,18 @@
 <?php
-// $Id: functions.php,v 1.5 2004/09/02 17:04:08 hthouzard Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/**
+* Module functions
+*
+* @copyright	The ImpressCMS Project http://www.impresscms.org/
+* @copyright	Instant-Zero http://www.instant-zero.com/
+* @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+* @package		Modules (news)
+* @since		2.00
+* @author		Sina Asghari (aka stranger) <pesian_stranger@users.sourceforge.net>
+* @author		Herve Thouzard (Instant Zero) <http://xoops.instant-zero.com>
+* @version		$Id$
+*/
 if (!defined('XOOPS_ROOT_PATH')) {
-	die('XOOPS root path not defined');
+	die('ImpressCMS root path not defined');
 }
 
 /**
@@ -278,6 +265,7 @@ function news_CreateMetaDatas($story = null)
 	$content = '';
 	$myts =& MyTextSanitizer::getInstance();
 	include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newstopic.php';
+	include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
 
 	/**
 	 * Firefox and Opera Navigation's Bar
@@ -343,7 +331,11 @@ function news_CreateMetaDatas($story = null)
 		$content .= '<meta name="DC.Identifier" content="'.XOOPS_URL.'/modules/news/article.php?storyid='.$story->storyid()."\" />\n";
 		$content .= '<meta name="DC.Source" content="'.XOOPS_URL."\" />\n";
 		$content .= '<meta name="DC.Language" content="'._LANGCODE."\" />\n";
+	if(!$cfg['use_multi_cat']) {
+		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/news/index.php?storytopic='.$story->topicid()."\" />\n";
+	}else{
 		$content .= '<meta name="DC.Relation.isReferencedBy" content="'.XOOPS_URL.'/modules/news/index.php?storytopic='.implode(', ', $story->topicsIds)."\" />\n";
+	}
 		if(isset($xoopsConfigMetaFooter['meta_copyright'])) {
 			$content .= '<meta name="DC.Rights" content="'.DublinQuotes($xoopsConfigMetaFooter['meta_copyright'])."\" />\n";
 		}

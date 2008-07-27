@@ -1,31 +1,18 @@
 <?php
-// $Id: storyform.inc.php,v 1.14 2004/09/03 17:30:43 hthouzard Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-//  ------------------------------------------------------------------------ //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/**
+* news form
+*
+* @copyright	The ImpressCMS Project http://www.impresscms.org/
+* @copyright	Instant-Zero http://www.instant-zero.com/
+* @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+* @package		Modules (news)
+* @since		2.00
+* @author		Sina Asghari (aka stranger) <pesian_stranger@users.sourceforge.net>
+* @author		Herve Thouzard (Instant Zero) <http://xoops.instant-zero.com>
+* @version		$Id$
+*/
 if (!defined('XOOPS_ROOT_PATH')) {
-	die("XOOPS root path not defined");
+	die('ImpressCMS root path not defined');
 }
 
 if (file_exists(XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php')) {
@@ -53,23 +40,11 @@ if($xt->getAllTopicsCount() == 0) {
 
 
 include_once XOOPS_ROOT_PATH.'/class/tree.php';
-/*
+	if(!$cfg['use_multi_cat']) {
 $allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex'],'news_submit');
 $topic_tree = new XoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
 $topic_select = $topic_tree->makeSelBox('topic_id', 'topic_title', '-- ', $topicid, false);
 $sform->addElement(new XoopsFormLabel(_NW_TOPIC, $topic_select));
-*/
-$allTopics = array();
-$allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex'],'news_submit', true);
-$topic_tree = new MyXoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
-$topicArray = array();
-$topicArray = $topic_tree->giveElements('topic_title');
-$topicSelect = new XoopsFormSelect(_NW_TOPIC, 'topic_id', $topicid, 15, true);
-$topicSelect->addOptionArray($topicArray);
-$sform->addElement($topicSelect, true);
-
-//If admin - show admin form
-//TODO: Change to "If submit privilege"
 if ($approveprivilege) {
     //Show topic image?
     $sform->addElement(new XoopsFormRadioYN(_AM_TOPICDISPLAY, 'topicdisplay', $topicdisplay));
@@ -78,6 +53,23 @@ if ($approveprivilege) {
     $posselect->addOption('R', _AM_RIGHT);
     $posselect->addOption('L', _AM_LEFT);
     $sform->addElement($posselect);
+    //Publish in home?
+    //TODO: Check that pubinhome is 0 = no and 1 = yes (currently vice versa)
+    $sform->addElement(new XoopsFormRadioYN(_AM_PUBINHOME, 'ihome', $ihome, _NO, _YES));
+}
+	}else{
+$allTopics = array();
+$allTopics = $xt->getAllTopics($xoopsModuleConfig['restrictindex'],'news_submit', true);
+$topic_tree = new MyXoopsObjectTree($allTopics, 'topic_id', 'topic_pid');
+$topicArray = array();
+$topicArray = $topic_tree->giveElements('topic_title');
+$topicSelect = new XoopsFormSelect(_NW_TOPIC, 'topic_id', $topicid, 4, true);
+$topicSelect->addOptionArray($topicArray);
+$sform->addElement($topicSelect, true);
+	}
+//If admin - show admin form
+//TODO: Change to "If submit privilege"
+if ($approveprivilege) {
     //Publish in home?
     //TODO: Check that pubinhome is 0 = no and 1 = yes (currently vice versa)
     $sform->addElement(new XoopsFormRadioYN(_AM_PUBINHOME, 'ihome', $ihome, _NO, _YES));

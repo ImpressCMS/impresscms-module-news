@@ -21,7 +21,7 @@ include_once XOOPS_ROOT_PATH.'/class/xoopsuser.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopsstory.php';
 include_once XOOPS_ROOT_PATH.'/include/comment_constants.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
-include XOOPS_ROOT_PATH.'/modules/news/config.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
 
 	if(!$cfg['use_multi_cat']) {
 class NewsStory extends XoopsStory

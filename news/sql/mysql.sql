@@ -27,6 +27,7 @@ CREATE TABLE stories (
   rating double(6,4) NOT NULL default '0.0000',
   votes int(11) unsigned NOT NULL default '0',
   PRIMARY KEY  (storyid),
+  KEY idxstoriestopic (topicid),
   KEY ihome (ihome),
   KEY uid (uid),
   KEY published_ihome (published,ihome),

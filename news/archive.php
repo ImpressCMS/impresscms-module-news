@@ -1,29 +1,16 @@
 <?php
-// $Id: archive.php,v 1.5 2004/07/09 13:49:50 hthouzard Exp $
-//  ------------------------------------------------------------------------ //
-//                XOOPS - PHP Content Management System                      //
-//                    Copyright (c) 2000 XOOPS.org                           //
-//                       <http://www.xoops.org/>                             //
-// ------------------------------------------------------------------------- //
-//  This program is free software; you can redistribute it and/or modify     //
-//  it under the terms of the GNU General Public License as published by     //
-//  the Free Software Foundation; either version 2 of the License, or        //
-//  (at your option) any later version.                                      //
-//                                                                           //
-//  You may not change or alter any portion of this comment or credits       //
-//  of supporting developers from this source code or any supporting         //
-//  source code which is considered copyrighted (c) material of the          //
-//  original comment or credit authors.                                      //
-//                                                                           //
-//  This program is distributed in the hope that it will be useful,          //
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of           //
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the            //
-//  GNU General Public License for more details.                             //
-//                                                                           //
-//  You should have received a copy of the GNU General Public License        //
-//  along with this program; if not, write to the Free Software              //
-//  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
-//  ------------------------------------------------------------------------ //
+/**
+* archive
+*
+* @copyright	The ImpressCMS Project http://www.impresscms.org/
+* @copyright	Instant-Zero http://www.instant-zero.com/
+* @license		http://www.gnu.org/licenses/old-licenses/gpl-2.0.html GNU General Public License (GPL)
+* @package		Modules (news)
+* @since		2.00
+* @author		Sina Asghari (aka stranger) <pesian_stranger@users.sourceforge.net>
+* @author		Herve Thouzard (Instant Zero) <http://xoops.instant-zero.com>
+* @version		$Id$
+*/
 /*
  * Display a list of all the published articles by month
  *
@@ -81,6 +68,7 @@ include_once XOOPS_ROOT_PATH.'/header.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/class/class.newsstory.php';
 include_once XOOPS_ROOT_PATH.'/language/'.$xoopsConfig['language'].'/calendar.php';
 include_once XOOPS_ROOT_PATH.'/modules/news/include/functions.php';
+include_once XOOPS_ROOT_PATH.'/modules/news/config.php';
 $lastyear = 0;
 $lastmonth = 0;
 
@@ -90,7 +78,112 @@ $fromyear = (isset($_GET['year'])) ? intval ($_GET['year']): 0;
 $frommonth = (isset($_GET['month'])) ? intval($_GET['month']) : 0;
 
 $pgtitle='';
+	if(!$cfg['use_multi_cat']) {
 if($fromyear && $frommonth) {
+	$pgtitle=sprintf(" - %d - %d",$fromyear,$frommonth);
+}
+$infotips=news_getmoduleoption('infotips');
+$restricted=news_getmoduleoption('restrictindex');
+$dateformat=news_getmoduleoption('dateformat');
+if($dateformat == '') {
+	$dateformat='m';
+}
+$myts =& MyTextSanitizer::getInstance();
+$xoopsTpl->assign('xoops_pagetitle', $myts->htmlSpecialChars(_NW_NEWSARCHIVES) . $pgtitle . ' - ' . $myts->htmlSpecialChars($xoopsModule->name()));
+
+$useroffset = '';
+if(is_object($xoopsUser)) {
+	$timezone = $xoopsUser->timezone();
+	if(isset($timezone)){
+		$useroffset = $xoopsUser->timezone();
+	} else {
+		$useroffset = $xoopsConfig['default_TZ'];
+	}
+}
+$result = $xoopsDB->query('SELECT published FROM '.$xoopsDB->prefix('stories').' WHERE (published>0 AND published<='.time().') AND (expired = 0 OR expired <= '.time().') ORDER BY published DESC');
+if (!$result) {
+	echo _ERRORS;
+	exit();
+} else {
+	$years = array();
+	$months = array();
+	$i = 0;
+	while (list($time) = $xoopsDB->fetchRow($result)) {
+		$time = formatTimestamp($time, 'mysql', $useroffset);
+			if (preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $time, $datetime)) {
+				$this_year  = intval($datetime[1]);
+				$this_month = intval($datetime[2]);
+			if (empty($lastyear)) {
+				$lastyear = $this_year;
+			}
+			if ($lastmonth == 0) {
+				$lastmonth = $this_month;
+				$months[$lastmonth]['string'] = $months_arr[$lastmonth];
+				$months[$lastmonth]['number'] = $lastmonth;
+			}
+			if ($lastyear != $this_year) {
+				$years[$i]['number'] = $lastyear;
+				$years[$i]['months'] = $months;
+				$months = array();
+				$lastmonth = 0;
+				$lastyear = $this_year;
+				$i++;
+			}
+			if ($lastmonth != $this_month) {
+				$lastmonth = $this_month;
+				$months[$lastmonth]['string'] = $months_arr[$lastmonth];
+				$months[$lastmonth]['number'] = $lastmonth;
+			}
+		}
+	}
+	$years[$i]['number'] = $this_year;
+	$years[$i]['months'] = $months;
+	$xoopsTpl->assign('years', $years);
+}
+
+if ($fromyear != 0 && $frommonth != 0) {
+	$xoopsTpl->assign('show_articles', true);
+	$xoopsTpl->assign('lang_articles', _NW_ARTICLES);
+	$xoopsTpl->assign('currentmonth', $months_arr[$frommonth]);
+	$xoopsTpl->assign('currentyear', $fromyear);
+	$xoopsTpl->assign('lang_actions', _NW_ACTIONS);
+	$xoopsTpl->assign('lang_date', _NW_DATE);
+	$xoopsTpl->assign('lang_views', _NW_VIEWS);
+
+	// must adjust the selected time to server timestamp
+	$timeoffset = $useroffset - $xoopsConfig['server_TZ'];
+	$monthstart = mktime(0 - $timeoffset, 0, 0, $frommonth, 1, $fromyear);
+	$monthend = mktime(23 - $timeoffset, 59, 59, $frommonth + 1, 0, $fromyear);
+	$monthend = ($monthend > time()) ? time() : $monthend;
+
+	$count=0;
+	$news = new NewsStory();
+	$storyarray = $news->getArchive($monthstart, $monthend, $restricted);
+	$count=count($storyarray);
+	if(is_array($storyarray) && $count>0) {
+		foreach ($storyarray as $article) {
+	    	$story = array();
+			$htmltitle='';
+			if($infotips>0) {
+				$story['infotips'] = news_make_infotips($article->hometext());
+				$htmltitle=' title="'.$story['infotips'].'"';
+			}
+	    	$story['title'] = "<a href='".XOOPS_URL.'/modules/news/index.php?storytopic='.$article->topicid()."'>".$article->topic_title()."</a>: <a href='".XOOPS_URL."/modules/news/article.php?storyid=".$article->storyid()."'".$htmltitle.">".$article->title()."</a>";
+	    	$story['counter'] = $article->counter();
+	    	$story['date'] = formatTimestamp($article->published(),$dateformat,$useroffset);
+	    	$story['print_link'] = XOOPS_URL.'/modules/news/print.php?storyid='.$article->storyid();
+	    	$story['mail_link'] = 'mailto:?subject='.sprintf(_NW_INTARTICLE, $xoopsConfig['sitename']).'&amp;body='.sprintf(_NW_INTARTFOUND, $xoopsConfig['sitename']).':  '.XOOPS_URL.'/modules/'.$xoopsModule->dirname().'/article.php?storyid='.$article->storyid();
+	    	$xoopsTpl->append('stories', $story);
+		}
+	}
+	$xoopsTpl->assign('lang_printer', _NW_PRINTERFRIENDLY);
+	$xoopsTpl->assign('lang_sendstory', _NW_SENDSTORY);
+	$xoopsTpl->assign('lang_storytotal', sprintf(_NW_THEREAREINTOTAL, $count));
+} else {
+    $xoopsTpl->assign('show_articles', false);
+}
+	}else{
+	if($fromyear && $frommonth) {
 	$pgtitle = sprintf(" - %d - %d",$fromyear,$frommonth);
 }
 $infotips = news_getmoduleoption('infotips');
@@ -199,7 +292,7 @@ if ($fromyear != 0 && $frommonth != 0) {
 } else {
     $xoopsTpl->assign('show_articles', false);
 }
-
+	}
 $xoopsTpl->assign('lang_newsarchives', _NW_NEWSARCHIVES);
 
 /**
